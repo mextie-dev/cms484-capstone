@@ -40,6 +40,11 @@ func deactivate() -> void:
 ## input and logic for zooming in and out, should work for both mouse and brackets
 ## because mac and web users can't really use scroll wheels like that
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		var captured := Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if captured else Input.MOUSE_MODE_CAPTURED)
+	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		return
 	if event is InputEventMouseMotion:
 		_rotation_degrees.x -= event.relative.y * mouse_sensitivity
 		_rotation_degrees.x = clampf(_rotation_degrees.x, min_pitch, max_pitch)
@@ -50,9 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_spring_length(clampf(get_spring_length() - zoom_speed, min_spring_length, max_spring_length))
 	elif event.is_action_pressed("zoom_out"):
 		set_spring_length(clampf(get_spring_length() + zoom_speed, min_spring_length, max_spring_length))
-	elif event.is_action_pressed("ui_cancel"):
-		var captured := Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if captured else Input.MOUSE_MODE_CAPTURED)
+	
 
 
 ## yaw-only basis, so WASD moves relative to where the camera is

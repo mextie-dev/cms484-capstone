@@ -35,17 +35,18 @@ mesh = SubResource("CapsuleMesh_x55pu")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4206612, 0.597183)
 mesh = SubResource("BoxMesh_x55pu")
 
-[node name="Label" type="Label" parent="VisualRoot" unique_id=2133008057]
+[node name="DebugInfoLabel" type="Label" parent="VisualRoot" unique_id=2133008057]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 31
 text = "CMS 484 Capstone
 unbuilt prealpha
 wasd to move, mouse to look
-brackets [] to zoom i/o
+brackets to zoom i/o
 e to interact
 space to jump
-shift to sprint"
+shift to sprint
+esc to show mouse"
 
 [node name="CameraTarget" type="Marker3D" parent="." unique_id=176766320]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
