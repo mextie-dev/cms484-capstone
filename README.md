@@ -10,3 +10,5 @@ Discords for comms:
 PJ: americanoboot
 
 Mackenzie: xxmack_daddyxx
+
+max: @glasskiwi
