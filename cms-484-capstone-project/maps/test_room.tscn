@@ -1,0 +1,64 @@
+[gd_scene format=4 uid="uid://btdaag2p8cpwt"]
+
+[ext_resource type="PackedScene" uid="uid://cl1pauwtyujd4" path="res://characters/player/player.tscn" id="1_ocmsi"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="2_jil4q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jil4q"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_u7cgb"]
+sky_material = SubResource("ProceduralSkyMaterial_jil4q")
+
+[sub_resource type="Environment" id="Environment_2us1a"]
+background_mode = 2
+sky = SubResource("Sky_u7cgb")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_6mvsw"]
+_surfaces = [{
+"aabb": AABB(-5, -0.5, -5, 10, 1, 10),
+"attribute_data": PackedByteArray("AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAgD8AAIA/"),
+"format": 34359738391,
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 36,
+"vertex_data": PackedByteArray("AACgwAAAAL8AAKBAAACgwAAAAL8AAKDAAACgwAAAAD8AAKDAAACgQAAAAL8AAKDAAACgwAAAAL8AAKDAAACgwAAAAL8AAKBAAACgwAAAAD8AAKDAAACgwAAAAL8AAKDAAACgQAAAAL8AAKDAAACgwAAAAD8AAKDAAACgwAAAAD8AAKBAAACgwAAAAL8AAKBAAACgwAAAAL8AAKBAAACgwAAAAD8AAKBAAACgQAAAAD8AAKBAAACgQAAAAD8AAKBAAACgwAAAAD8AAKBAAACgwAAAAD8AAKDAAACgwAAAAL8AAKBAAACgQAAAAL8AAKBAAACgQAAAAL8AAKDAAACgQAAAAD8AAKBAAACgQAAAAL8AAKBAAACgwAAAAL8AAKBAAACgQAAAAL8AAKDAAACgQAAAAL8AAKBAAACgQAAAAD8AAKBAAACgQAAAAL8AAKDAAACgQAAAAD8AAKDAAACgwAAAAD8AAKDAAACgwAAAAD8AAKDAAACgQAAAAD8AAKDAAACgQAAAAD8AAKBAAACgQAAAAD8AAKBAAACgQAAAAD8AAKDAAACgQAAAAL8AAKDAAAD/f/9//n8AAP9//3/+fwAA/3//f/5//38AAP//AAD/fwAA//8AAP9/AAD//wAA/////wAA/z//////AAD/P/////8AAP8/AAD/f/9//n8AAP9//3/+fwAA/3//f/5//3//fwAA/z//f/9/AAD/P/9//38AAP8//3//////AAD/f/////8AAP9//////wAA/38AAP//AAD/fwAA//8AAP9/AAD//wAA/3//fwAA/z//f/9/AAD/P/9//38AAP8/////f/9//n////9//3/+f////3//f/5//////wAA/z//////AAD/P/////8AAP8//3//////AAD/f/////8AAP9//////wAA////f/9//n////9//3/+f////3//f/5/")
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tktuh"]
+size = Vector3(10, 1, 10)
+
+[node name="TestRoom" type="Node3D" unique_id=2096257186]
+
+[node name="Environment" type="Node3D" parent="." unique_id=163760154]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1773466858]
+environment = SubResource("Environment_2us1a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment" unique_id=800304608]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment" unique_id=105492413]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5000886, 0)
+visible = false
+size = Vector3(10, 1, 10)
+
+[node name="CSGBakedMeshInstance3D" type="MeshInstance3D" parent="Environment" unique_id=907129921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5000886, 0)
+mesh = SubResource("ArrayMesh_6mvsw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/CSGBakedMeshInstance3D" unique_id=647860259]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBakedMeshInstance3D/StaticBody3D" unique_id=1029120577]
+shape = SubResource("BoxShape3D_tktuh")
+
+[node name="Player" parent="." unique_id=1624817247 instance=ExtResource("1_ocmsi")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1482271557]
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=881803012]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("2_jil4q")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"

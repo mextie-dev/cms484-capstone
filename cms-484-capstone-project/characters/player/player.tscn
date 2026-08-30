@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://cl1pauwtyujd4"]
+
+[ext_resource type="Script" uid="uid://db611kr1533e3" path="res://characters/player/player.gd" id="1_508ok"]
+[ext_resource type="Script" uid="uid://c0bhcn175qcus" path="res://characters/player/player_camera.gd" id="2_exd8k"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_5dc8e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x55pu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x55pu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x55pu"]
+size = Vector3(0.21, 0.39, 1)
+
+[sub_resource type="Resource" id="Resource_ixbpm"]
+script = ExtResource("3_5dc8e")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c6leb"]
+
+[node name="Player" type="CharacterBody3D" unique_id=1624817247]
+script = ExtResource("1_508ok")
+visual_root_path = NodePath("VisualRoot")
+pcam_path = NodePath("PhantomCamera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=601953935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_x55pu")
+
+[node name="VisualRoot" type="Node3D" parent="." unique_id=1976726476]
+
+[node name="DebugVis" type="MeshInstance3D" parent="VisualRoot" unique_id=1761180780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_x55pu")
+
+[node name="ForwardPointer" type="MeshInstance3D" parent="VisualRoot/DebugVis" unique_id=1710020786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4206612, 0.597183)
+mesh = SubResource("BoxMesh_x55pu")
+
+[node name="Label" type="Label" parent="VisualRoot" unique_id=2133008057]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 31
+text = "CMS 484 Capstone
+unbuilt prealpha
+wasd to move, mouse to look
+brackets [] to zoom i/o
+e to interact
+space to jump
+shift to sprint"
+
+[node name="CameraTarget" type="Marker3D" parent="." unique_id=176766320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=294808135 node_paths=PackedStringArray("follow_target")]
+script = ExtResource("2_exd8k")
+follow_mode = 6
+follow_target = NodePath("../CameraTarget")
+tween_resource = SubResource("Resource_ixbpm")
+spring_length = 4.0
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=570114306]
+replication_config = SubResource("SceneReplicationConfig_c6leb")
