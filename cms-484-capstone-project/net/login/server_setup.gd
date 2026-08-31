@@ -3,10 +3,28 @@ extends Control
 @onready var item_list: ItemList = $ItemList
 
 var selected_server
+var _refresh_timer: Timer
 
 ###############################
 ### UI SETUP AND FUNCTION #####
 ###############################
+
+func _ready() -> void:
+	_refresh_timer = Timer.new()
+	add_child(_refresh_timer)
+	_refresh_timer.wait_time = 4.0
+	_refresh_timer.timeout.connect(_refresh_lobby_list)
+
+	# Login.gd (our parent) is still running its own _ready() at this point -
+	# EOS isn't set up yet, so don't touch lobbies until login actually finishes.
+	if HAuth.product_user_id != "":
+		_start_refreshing()
+	else:
+		HAuth.logged_in.connect(_start_refreshing, CONNECT_ONE_SHOT)
+
+func _start_refreshing() -> void:
+	_refresh_timer.start()
+	_refresh_lobby_list()  # do one immediately, don't wait for the first tick
 
 func _on_join_button_pressed() -> void:
 	if selected_server:
@@ -27,8 +45,25 @@ func _on_host_button_pressed() -> void:
 		host_lobby(server_name)
 
 func _on_item_list_item_selected(index: int) -> void:
-	selected_server = item_list.get_item_metadata(0)
+	selected_server = item_list.get_item_metadata(index)
 
+
+###############################
+### LOBBY LIST (polling) ######
+###############################
+
+func _refresh_lobby_list() -> void:
+	var lobbies = await HLobbies.search_by_bucket_id_async("main_lobby")
+	if lobbies == null:
+		return
+
+	item_list.clear()
+	for lobby in lobbies:
+		var name_attr = lobby.get_attribute("server_name")
+		print("Lobby ", lobby.lobby_id, " attribute: ", name_attr)
+		var server_name = name_attr.value if name_attr else "Unnamed server"
+		var idx = item_list.add_item(server_name)
+		item_list.set_item_metadata(idx, lobby)
 
 
 ###############################
@@ -46,8 +81,11 @@ func host_lobby(server_name: String) -> void:
 		printerr("Failed to create lobby")
 		return
 
+	print("Before update, pending attrs: ", lobby._attributes_to_add)
 	lobby.add_attribute("server_name", server_name)
-	await lobby.update_async()
+	print("After add_attribute, pending attrs: ", lobby._attributes_to_add)
+	var update_success = await lobby.update_async()
+	print("update_async returned: ", update_success, " | lobby.attributes now: ", lobby.attributes)
 
 	# we ARE the hoste
 	# HOSTE PARTY
@@ -57,8 +95,8 @@ func host_lobby(server_name: String) -> void:
 	multiplayer.multiplayer_peer = peer
 
 	print("Hosting lobby: ", lobby.lobby_id, " : ", server_name)
-	item_list.add_item(server_name, null, true)
-	item_list.set_item_metadata(0, lobby)
+	# no manual item_list.add_item here anymore - the next _refresh_lobby_list
+	# poll will pick this lobby up the same way it does for everyone else
 
 func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var lobby = await HLobbies.join_async(chosen_lobby)
