@@ -59,16 +59,7 @@ func _refresh_lobby_list() -> void:
 
 	item_list.clear()
 	for lobby in lobbies:
-		var name_attr = lobby.get_attribute("server_name")
-		print("Lobby ", lobby.lobby_id, " attribute: ", name_attr)
-
-		var direct_lookup = await HLobbies.search_by_lobby_id_async(lobby.lobby_id)
-		if direct_lookup and direct_lookup.size() > 0:
-			print("Direct lookup attribute: ", direct_lookup[0].get_attribute("server_name"))
-		else:
-			print("Direct lookup returned nothing for ", lobby.lobby_id)
-
-		var server_name = name_attr.value if name_attr else "Unnamed server"
+		var server_name = "Lobby (%d/%d)" % [lobby.members.size(), lobby.max_members]
 		var idx = item_list.add_item(server_name)
 		item_list.set_item_metadata(idx, lobby)
 
@@ -89,14 +80,12 @@ func host_lobby(server_name: String) -> void:
 		printerr("Failed to create lobby")
 		return
 
-	print("Before update, pending attrs: ", lobby._attributes_to_add)
+	# Kept in case Epic's search ever starts returning custom attributes for
+	# anonymous accounts - harmless either way, just not currently relied on
+	# for display. See _refresh_lobby_list for the actual workaround in use.
 	lobby.add_attribute("server_name", server_name)
-	print("After add_attribute, pending attrs: ", lobby._attributes_to_add)
-	var update_success = await lobby.update_async()
-	print("update_async returned: ", update_success, " | lobby.attributes now: ", lobby.attributes)
+	await lobby.update_async()
 
-	# we ARE the hoste
-	# HOSTE PARTY
 	var peer = EOSGMultiplayerPeer.new()
 	peer.create_server("game")
 	peer.set_auto_accept_connection_requests(true)
