@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c8lbpvj6xpa0r"]
+
+[ext_resource type="PackedScene" uid="uid://bknqn33eqhe86" path="res://maps/raw_map_models/rollins_map.glb" id="1_g8m1y"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g8m1y"]
+size = Vector3(5, 0.001, 3.235294)
+
+[node name="rollins_map" unique_id=1872796310 instance=ExtResource("1_g8m1y")]
+
+[node name="Cylinder" parent="." index="2" unique_id=65467340]
+visible = false
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" parent_id_path=PackedInt32Array(1429692293) index="0" unique_id=1752527015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60715246, 5.476837e-06, 0.5297674)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" index="0" unique_id=522814387]
+shape = SubResource("BoxShape3D_g8m1y")
