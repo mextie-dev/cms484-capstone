@@ -30,6 +30,8 @@ func _on_join_button_pressed() -> void:
 	if selected_server:
 		print("join button pressed")
 		join_selected_lobby(selected_server)
+	else:
+		print("no server selected")
 
 func _on_host_button_pressed() -> void:
 	var player_name = $"../PlayerName".text
@@ -109,3 +111,4 @@ func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var peer = EOSGMultiplayerPeer.new()
 	peer.create_client(host_id, "game")
 	multiplayer.multiplayer_peer = peer
+	$ConnectedLabel.text = ("CONNECTED TO SERVER: " + str(host_id))

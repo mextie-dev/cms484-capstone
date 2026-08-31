@@ -37,6 +37,7 @@ func login_persistent_anonymous_async(user_display_name: String) -> bool:
 
 func _ready():
 	HPlatform.log_msg.connect(_on_eos_log_msg)
+	HLobbies.presence_enabled = false
 
 	# creates an object of HCredentials that takes all our data from EOSCredentials
 	var credentials = HCredentials.new()

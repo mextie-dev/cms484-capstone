@@ -37,6 +37,15 @@ layout_mode = 1
 anchors_preset = 0
 script = ExtResource("2_qvytj")
 
+[node name="ConnectedLabel" type="Label" parent="ServerSetup" unique_id=2110338119]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 691.0
+offset_right = 884.0
+offset_bottom = 779.0
+theme_override_font_sizes/font_size = 64
+text = "CONNECTED TO SERVER: NO"
+
 [node name="JoinButton" type="Button" parent="ServerSetup" unique_id=1979198371]
 layout_mode = 0
 offset_left = 1338.0
