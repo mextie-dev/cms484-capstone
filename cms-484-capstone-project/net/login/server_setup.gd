@@ -30,8 +30,6 @@ func _on_join_button_pressed() -> void:
 	if selected_server:
 		print("join button pressed")
 		join_selected_lobby(selected_server)
-	else:
-		print("no server selected")
 
 func _on_host_button_pressed() -> void:
 	var player_name = $"../PlayerName".text
@@ -63,6 +61,13 @@ func _refresh_lobby_list() -> void:
 	for lobby in lobbies:
 		var name_attr = lobby.get_attribute("server_name")
 		print("Lobby ", lobby.lobby_id, " attribute: ", name_attr)
+
+		var direct_lookup = await HLobbies.search_by_lobby_id_async(lobby.lobby_id)
+		if direct_lookup and direct_lookup.size() > 0:
+			print("Direct lookup attribute: ", direct_lookup[0].get_attribute("server_name"))
+		else:
+			print("Direct lookup returned nothing for ", lobby.lobby_id)
+
 		var server_name = name_attr.value if name_attr else "Unnamed server"
 		var idx = item_list.add_item(server_name)
 		item_list.set_item_metadata(idx, lobby)
@@ -77,6 +82,7 @@ func host_lobby(server_name: String) -> void:
 	opts.max_lobby_members = 20
 	opts.permission_level = EOS.Lobby.LobbyPermissionLevel.PublicAdvertised
 	opts.bucket_id = "main_lobby"
+	opts.presence_enabled = false
 
 	var lobby = await HLobbies.create_lobby_async(opts)
 	if not lobby:
@@ -111,4 +117,3 @@ func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var peer = EOSGMultiplayerPeer.new()
 	peer.create_client(host_id, "game")
 	multiplayer.multiplayer_peer = peer
-	$ConnectedLabel.text = ("CONNECTED TO SERVER: " + str(host_id))

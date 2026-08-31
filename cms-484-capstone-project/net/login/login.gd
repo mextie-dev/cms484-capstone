@@ -37,7 +37,6 @@ func login_persistent_anonymous_async(user_display_name: String) -> bool:
 
 func _ready():
 	HPlatform.log_msg.connect(_on_eos_log_msg)
-	HLobbies.presence_enabled = false
 
 	# creates an object of HCredentials that takes all our data from EOSCredentials
 	var credentials = HCredentials.new()
@@ -51,7 +50,7 @@ func _ready():
 	credentials.encryption_key = EOSCredentials.ENCRYPTION_KEY
 
 	# if the server spins up, then we win
-	var setup_success := await HPlatform.setup_eos_async(credentials)
+	var setup_success = await HPlatform.setup_eos_async(credentials)
 	if not setup_success:
 		printerr("Failed to setup EOS")
 		return
@@ -59,7 +58,7 @@ func _ready():
 	# these both talk to the native platform/P2P interface, so they can only
 	# run AFTER setup_eos_async has actually finished creating it
 	HP2P.set_relay_control(EOS.P2P.RelayControl.AllowRelays)
-	#HPlatform.set_eos_log_level(EOS.Logging.LogCategory.AllCategories, EOS.Logging.LogLevel.VeryVerbose)
+	HPlatform.set_eos_log_level(EOS.Logging.LogCategory.AllCategories, EOS.Logging.LogLevel.VeryVerbose)
 
 	# if we establish a connection as this individual client to the server, then we win again
 	var logged_in := await login_persistent_anonymous_async("name_id")
@@ -69,3 +68,30 @@ func _ready():
 		$DeviceLabel.text = "DEVICE ID: " + HAuth.product_user_id
 	else:
 		print("Failed to log in")
+
+func save_text_to_file(content: String, file_path: String = "user://save_game.txt"):
+	# Open the file in WRITE mode (creates the file if it does not exist)
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+
+	if file:
+		file.store_string(content) # Write the text
+		file.close()               # Close the file to free up system resources
+		print("File saved successfully!")
+	else:
+		print("Failed to open file. Error code: ", FileAccess.get_open_error())
+
+func read_text_from_file(file_path: String) -> String:
+	# Open the file in READ mode
+	var file = FileAccess.open(file_path, FileAccess.READ)
+
+	# Verify that the file successfully opened
+	if file == null:
+		var error = FileAccess.get_open_error()
+		printerr("Failed to open file. Error code: ", error)
+		return "" # Return empty string on failure
+
+	# Read the entire file content as text
+	var content = file.get_as_text()
+
+	# Return the contents (Godot closes the file automatically when the variable goes out of scope)
+	return content
