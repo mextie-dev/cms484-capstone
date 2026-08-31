@@ -29,3 +29,21 @@ If we were releasing on steam, this would be done for us. We basically have a fe
 3. Epic Online Services, a free-to-us service implemented by Epic Games (fortnite people) that works very similar to Steam's multiplayer handling, but can be very heavy for a smaller game like this and also relies on a per-device account system. there's an existing addon that pairs this in with godot, and I already have establisment as an "Epic Developer" giving us access to the system.
 
 I'm fond of option 3, but before we really start work on it I wanted to give the team time to analyze and discuss.
+
+
+Summet's comments	8/37/2026
+"why the gamification with ingame currency. What are we trying to do there"
+	Same reason why duolingo is gamified. 
+"so metaverse but for rollins"
+	Kinda
+"Muliplayer aspect may be more intriguing aspect. "
+	Online chatroom
+		"idea of identities, privacy, and all those sorts of things.
+		Once you start doing multiplayer online networks, you start
+		entering the realm of personal identity & privacy"
+			way you used to connect to IRC back in the day.
+			Player progression stored locally. Not networked as 			to maintain info across lobbies.
+Currently passable; core crunch is good;
+"I encourage you to talk about scope; What is the minimal piece of this that needs working. What are the sketch goals? If we have to punt entirely onto the Multiplayer, what does that look like? Which of those are your priorities? Which are your sketch goals? What pieces does our project fail if we have to punt things? Defining those things more concretely is a good use of time."
+We have proof of concept, but we are encouraged on Project planning for sprint 1. Grand vision is the biggest point of contempt for many students. Key to success is starting with core technologies & use cases, & then building out from there.
+
