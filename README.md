@@ -26,6 +26,6 @@ If we were releasing on steam, this would be done for us. We basically have a fe
 
 1. Roll the server system ourselves. Costs money, but not a lot given we're estimating, what, 50 concurrent players at most?
 2. Godot's integrated server system, which obv is easiest and tightest integrated but does not allow for browsing lobbies, only direct connection via a code or IP.
-3. Epic Online Services, a free-to-us service implemented by Epic Games (fortnite people) that works very similar to Steam's multiplayer handling, but can be very heavy for a smaller game like this and also relies on an account system.
+3. Epic Online Services, a free-to-us service implemented by Epic Games (fortnite people) that works very similar to Steam's multiplayer handling, but can be very heavy for a smaller game like this and also relies on a per-device account system. there's an existing addon that pairs this in with godot, and I already have establisment as an "Epic Developer" giving us access to the system.
 
-I'm fond of option 1, but before we really start work on it I wanted to give the team time to analyze and discuss.
+I'm fond of option 3, but before we really start work on it I wanted to give the team time to analyze and discuss.
