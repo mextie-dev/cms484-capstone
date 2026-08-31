@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cnrms1p860xym"]
 
 [ext_resource type="Script" uid="uid://cs6jsfxw0clui" path="res://net/login/login.gd" id="1_fy8mk"]
+[ext_resource type="Script" uid="uid://b70g1ewvuq8ev" path="res://net/login/server_setup.gd" id="2_qvytj"]
 
 [node name="Login" type="Control" unique_id=1241531983]
 layout_mode = 3
@@ -13,18 +14,75 @@ script = ExtResource("1_fy8mk")
 
 [node name="PDeviceLabel" type="Label" parent="." unique_id=757753013]
 layout_mode = 0
-offset_left = 12.0
-offset_top = 286.0
-offset_right = 331.0
-offset_bottom = 374.0
+offset_left = 18.0
+offset_top = 799.0
+offset_right = 856.0
+offset_bottom = 1069.0
 theme_override_font_sizes/font_size = 64
-text = "PDEVICE ID:"
+text = "enter playername at top,
+then server name before
+clicking host to start server"
 
 [node name="DeviceLabel" type="Label" parent="." unique_id=1538716848]
 layout_mode = 0
-offset_left = 32.0
-offset_top = 400.0
-offset_right = 351.0
-offset_bottom = 488.0
+offset_left = 7.0
+offset_top = -10.0
+offset_right = 326.0
+offset_bottom = 78.0
 theme_override_font_sizes/font_size = 64
 text = "DEVICE ID:"
+
+[node name="ServerSetup" type="Control" parent="." unique_id=655387942]
+layout_mode = 1
+anchors_preset = 0
+script = ExtResource("2_qvytj")
+
+[node name="JoinButton" type="Button" parent="ServerSetup" unique_id=1979198371]
+layout_mode = 0
+offset_left = 1338.0
+offset_top = 119.0
+offset_right = 1631.0
+offset_bottom = 229.0
+text = "Join"
+
+[node name="HostButton" type="Button" parent="ServerSetup" unique_id=2144859279]
+layout_mode = 0
+offset_left = 1328.0
+offset_top = 369.0
+offset_right = 1655.0
+offset_bottom = 476.0
+text = "Host"
+
+[node name="ServerName" type="LineEdit" parent="ServerSetup/HostButton" unique_id=523599124]
+layout_mode = 0
+offset_left = -9.0
+offset_top = 131.0
+offset_right = 331.0
+offset_bottom = 196.0
+
+[node name="ServerList" type="Control" parent="ServerSetup" unique_id=1879584890]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="ServerSetup" unique_id=1918498546]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 327.0
+offset_right = 639.0
+offset_bottom = 572.0
+
+[node name="PlayerName" type="LineEdit" parent="." unique_id=1481659518]
+layout_mode = 0
+offset_left = 729.0
+offset_top = 100.0
+offset_right = 1069.0
+offset_bottom = 165.0
+
+[connection signal="pressed" from="ServerSetup/JoinButton" to="ServerSetup" method="_on_join_button_pressed"]
+[connection signal="pressed" from="ServerSetup/HostButton" to="ServerSetup" method="_on_host_button_pressed"]
+[connection signal="item_selected" from="ServerSetup/ItemList" to="ServerSetup" method="_on_item_list_item_selected"]
