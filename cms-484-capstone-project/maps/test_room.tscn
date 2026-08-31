@@ -19,6 +19,8 @@ sky = SubResource("Sky_u7cgb")
 
 [node name="Environment" type="Node3D" parent="." unique_id=163760154]
 
+[node name="rollins_map" parent="Environment" unique_id=1872796310 instance=ExtResource("3_u7cgb")]
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=1773466858]
 environment = SubResource("Environment_2us1a")
 
@@ -40,5 +42,3 @@ process_priority = 300
 process_physics_priority = 300
 script = ExtResource("2_jil4q")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
-
-[node name="rollins_map" parent="." unique_id=1872796310 instance=ExtResource("3_u7cgb")]
