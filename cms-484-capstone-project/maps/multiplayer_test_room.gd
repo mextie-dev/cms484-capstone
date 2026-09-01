@@ -10,6 +10,8 @@ func _ready():
 		multiplayer.peer_disconnected.connect(_despawn_player)
 		_spawn_player(multiplayer.get_unique_id())  # the host's own player
 	else:
+		multiplayer.connected_to_server.connect(func(): print("[client] connected_to_server fired"))
+		multiplayer.connection_failed.connect(func(): print("[client] connection_failed fired"))
 		multiplayer.peer_connected.connect(func(id): print("[client] peer_connected fired for: ", id))
 
 func _spawn_player(id: int):
