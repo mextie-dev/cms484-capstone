@@ -98,5 +98,5 @@ func read_text_from_file(file_path: String) -> String:
 	return content
 
 
-func _on_server_setup_hosted_lobby() -> void:
+func _on_connection_established() -> void:
 	server_started.emit()

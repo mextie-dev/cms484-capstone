@@ -10,6 +10,7 @@ var _refresh_timer: Timer
 ###############################
 
 signal hosted_lobby
+signal joined_lobby
 
 func _ready() -> void:
 	_refresh_timer = Timer.new()
@@ -111,3 +112,6 @@ func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var peer = EOSGMultiplayerPeer.new()
 	peer.create_client(host_id, "game")
 	multiplayer.multiplayer_peer = peer
+	$ConnectedLabel.text = "CONNECTED TO: " + host_id
+	joined_lobby.emit()
+	self.hide()
