@@ -58,12 +58,15 @@ func _ready():
 
 	# these both talk to the native platform/P2P interface, so they can only
 	# run AFTER setup_eos_async has actually finished creating it
-	HP2P.set_relay_control(EOS.P2P.RelayControl.ForceRelays)
-	#HP2P.set_relay_control(EOS.P2P.RelayControl.AllowRelays)
+	HP2P.set_relay_control(EOS.P2P.RelayControl.AllowRelays)
 	HPlatform.set_eos_log_level(EOS.Logging.LogCategory.AllCategories, EOS.Logging.LogLevel.VeryVerbose)
 
 	# if we establish a connection as this individual client to the server, then we win again
-	var logged_in := await login_persistent_anonymous_async("name_id")
+	# TEMPORARY TEST: swapped from login_persistent_anonymous_async to test
+	# whether P2P actually requires a real Epic Account. Requires the Dev Auth
+	# Tool running locally - see notes below.
+	var logged_in := await HAuth.login_devtool_async("localhost:8081", "test")
+	# var logged_in := await login_persistent_anonymous_async("name_id")
 	if logged_in:
 		print("User data dir: ", OS.get_user_data_dir())
 		print("Logged in: ", HAuth.product_user_id)
