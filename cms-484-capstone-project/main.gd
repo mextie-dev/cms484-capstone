@@ -19,4 +19,4 @@ func _process(delta: float) -> void:
 func _on_login_server_started() -> void:
 	var map = MULTIPLAYER_TEST_ROOM.instantiate()
 	add_child(map)
-	$Login.queue_free()
+	#$Login.queue_free()
