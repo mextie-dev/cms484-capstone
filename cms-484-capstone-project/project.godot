@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="cms484-capstone-project"
-run/main_scene="uid://cnrms1p860xym"
+run/main_scene="uid://blcxqa5f0uk4u"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 

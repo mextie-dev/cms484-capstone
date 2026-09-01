@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://blcxqa5f0uk4u"]
+
+[ext_resource type="Script" uid="uid://rs8wlnui5oie" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="1_ig7tw"]
+
+[node name="Main" type="Node" unique_id=260151164]
+script = ExtResource("1_0xm2m")
+
+[node name="Login" parent="." unique_id=1241531983 instance=ExtResource("1_ig7tw")]
+
+[connection signal="server_started" from="Login" to="." method="_on_login_server_started"]

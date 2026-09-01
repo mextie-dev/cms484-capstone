@@ -9,6 +9,8 @@ var _refresh_timer: Timer
 ### UI SETUP AND FUNCTION #####
 ###############################
 
+signal hosted_lobby
+
 func _ready() -> void:
 	_refresh_timer = Timer.new()
 	add_child(_refresh_timer)
@@ -43,6 +45,9 @@ func _on_host_button_pressed() -> void:
 	else:
 		print("host button pressed")
 		host_lobby(server_name)
+		hosted_lobby.emit()
+		self.hide()
+		
 
 func _on_item_list_item_selected(index: int) -> void:
 	selected_server = item_list.get_item_metadata(index)

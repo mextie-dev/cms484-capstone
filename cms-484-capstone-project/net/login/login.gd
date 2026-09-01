@@ -2,6 +2,7 @@ extends Control
 
 ## Basic login functionality for the client
 
+signal server_started
 
 func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
 	print("SDK %s | %s" % [msg.category, msg.message])
@@ -95,3 +96,7 @@ func read_text_from_file(file_path: String) -> String:
 
 	# Return the contents (Godot closes the file automatically when the variable goes out of scope)
 	return content
+
+
+func _on_server_setup_hosted_lobby() -> void:
+	server_started.emit()

@@ -48,6 +48,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	
 	if is_multiplayer_authority():
 		pcam.activate()
 	else:
