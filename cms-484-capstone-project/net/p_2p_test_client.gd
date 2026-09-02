@@ -1,77 +1,31 @@
 extends Node
 
-
-# =====================================================
-# PUT THE HOST'S PUID HERE
-# =====================================================
+## Minimal EOSG P2P client test - no lobbies involved.
+## Paste the PUID printed by p2p_test_host.gd into HOST_PUID below.
 
 const HOST_PUID := "00020e8d529c4dcbbcfd686243ddf05d"
+const P2P_SOCKET := "game"
+const CONNECT_TIMEOUT := 20.0
 
-
-func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
-	print("SDK %s | %s" % [msg.category, msg.message])
-
-
-func login_persistent_anonymous_async(user_display_name: String) -> bool:
-	print("Beginning anonymous Device ID authentication...")
-
-	# Create a persistent Device ID.
-	var create_opts = EOS.Connect.CreateDeviceIdOptions.new()
-	create_opts.device_model = " ".join(
-		PackedStringArray([
-			OS.get_name(),
-			OS.get_model_name()
-		])
-	)
-
-	EOS.Connect.ConnectInterface.create_device_id(create_opts)
-
-	var create_ret = await IEOS.connect_interface_create_device_id_callback
-
-	if not EOS.is_success(create_ret) and \
-		create_ret.result_code != EOS.Result.DuplicateNotAllowed:
-		printerr(
-			"Failed to create device id: ",
-			EOS.result_str(create_ret)
-		)
-		return false
-
-	# Log into EOS Connect using the Device ID.
-	var login_opts = EOS.Connect.LoginOptions.new()
-
-	login_opts.credentials = EOS.Connect.Credentials.new()
-	login_opts.credentials.type = EOS.ExternalCredentialType.DeviceidAccessToken
-	login_opts.credentials.token = null
-
-	login_opts.user_login_info = EOS.Connect.UserLoginInfo.new()
-	login_opts.user_login_info.display_name = user_display_name
-
-	HAuth.display_name = user_display_name
-	HAuth.display_name_changed.emit()
-
-	return await HAuth.login_game_services_async(login_opts)
+var peer: EOSGMultiplayerPeer
+var _connected := false
+var _finished := false
 
 
 func _ready() -> void:
 	print("========================================")
 	print("EOS P2P CLIENT TEST")
 	print("========================================")
-
-	# Make sure the host PUID has been entered.
-	if HOST_PUID == "" or HOST_PUID == "PUT_HOST_PUID_HERE":
-		printerr("ERROR: You have not entered the host PUID.")
-		printerr("Open p2p_test_client.gd and set HOST_PUID.")
-		return
-
 	print("Target host PUID: ", HOST_PUID)
 
-	# EOS logging.
-	HPlatform.log_msg.connect(_on_eos_log_msg)
+	if HOST_PUID == "PUT_HOST_PUID_HERE" or HOST_PUID.length() != 32:
+		printerr("HOST_PUID is not set to a real 32-character PUID. Aborting.")
+		return
 
-	# Build EOS credentials using the same credentials
-	# as the existing login.gd.
+	HPlatform.log_msg.connect(func(msg): print("SDK %s | %s" % [msg.category, msg.message]))
+
+	print("Initializing EOS...")
 	var credentials = HCredentials.new()
-
 	credentials.product_name = EOSCredentials.PRODUCT_NAME
 	credentials.product_version = EOSCredentials.PRODUCT_VERSION
 	credentials.product_id = EOSCredentials.PRODUCT_ID
@@ -81,30 +35,17 @@ func _ready() -> void:
 	credentials.client_secret = EOSCredentials.CLIENT_SECRET
 	credentials.encryption_key = EOSCredentials.ENCRYPTION_KEY
 
-	print("Initializing EOS...")
-
-	var setup_success = await HPlatform.setup_eos_async(credentials)
-
-	if not setup_success:
-		printerr("FAILED TO INITIALIZE EOS")
+	if not await HPlatform.setup_eos_async(credentials):
+		printerr("Failed to setup EOS")
 		return
 
 	print("EOS platform initialized successfully.")
 
-	# Allow EOS to use relays.
 	HP2P.set_relay_control(EOS.P2P.RelayControl.AllowRelays)
+	HPlatform.set_eos_log_level(EOS.Logging.LogCategory.AllCategories, EOS.Logging.LogLevel.VeryVerbose)
 
-	# Very verbose logging is useful for this diagnostic.
-	HPlatform.set_eos_log_level(
-		EOS.Logging.LogCategory.AllCategories,
-		EOS.Logging.LogLevel.VeryVerbose
-	)
-
-	# Log in with Device ID.
-	var logged_in = await login_persistent_anonymous_async("P2P_TEST_CLIENT")
-
-	if not logged_in:
-		printerr("FAILED TO LOG INTO EOS")
+	if not await _login_async("client"):
+		printerr("Device ID login failed")
 		return
 
 	print("========================================")
@@ -112,79 +53,112 @@ func _ready() -> void:
 	print("Client PUID: ", HAuth.product_user_id)
 	print("========================================")
 
-	# Don't connect to ourselves by accident.
-	if HAuth.product_user_id == HOST_PUID:
-		printerr("ERROR: Client PUID is the same as the host PUID.")
-		printerr("The host and client must be different EOS users/devices.")
+	_start_client()
+
+
+func _login_async(display_name: String) -> bool:
+	print("Beginning anonymous Device ID authentication...")
+
+	var create_opts = EOS.Connect.CreateDeviceIdOptions.new()
+	create_opts.device_model = " ".join(PackedStringArray([OS.get_name(), OS.get_model_name()]))
+	EOS.Connect.ConnectInterface.create_device_id(create_opts)
+
+	var create_ret = await IEOS.connect_interface_create_device_id_callback
+	if not EOS.is_success(create_ret) and create_ret.result_code != EOS.Result.DuplicateNotAllowed:
+		printerr("Failed to create device id: ", EOS.result_str(create_ret))
+		return false
+
+	var login_opts = EOS.Connect.LoginOptions.new()
+	login_opts.credentials = EOS.Connect.Credentials.new()
+	login_opts.credentials.type = EOS.ExternalCredentialType.DeviceidAccessToken
+	login_opts.credentials.token = null
+	login_opts.user_login_info = EOS.Connect.UserLoginInfo.new()
+	login_opts.user_login_info.display_name = display_name
+
+	HAuth.display_name = display_name
+	HAuth.display_name_changed.emit()
+
+	return await HAuth.login_game_services_async(login_opts)
+
+
+func _start_client() -> void:
+	print("========================================")
+	print("CREATING EOSG P2P CLIENT")
+	print("Local PUID:  ", HAuth.product_user_id)
+	print("Target PUID: ", HOST_PUID)
+	print("Socket name: ", P2P_SOCKET)
+	print("========================================")
+
+	peer = EOSGMultiplayerPeer.new()
+
+	# ---------------------------------------------------------------------
+	# THE FIX: create_client(socket_id, remote_user_id)
+	#
+	# Socket name FIRST, host PUID SECOND.
+	#
+	# Confirmed against the plugin source (src/eosg_multiplayer_peer.cpp):
+	#   bind_method(D_METHOD("create_client", "socket_id", "remote_user_id"), ...)
+	#
+	# With the arguments reversed, the SDK logs show:
+	#   RemoteUserId=[g...e]   <- the literal string "game"
+	#   SocketId=[<host puid>] <- the PUID used as a socket name
+	# Both are structurally valid so no error is raised, but the connection
+	# request is addressed to nobody and dies at SentTimes=[8/8].
+	# ---------------------------------------------------------------------
+	var result: int = peer.create_client(P2P_SOCKET, HOST_PUID)
+
+	# Returns a Godot Error (OK == 0), NOT an EOS result code.
+	# The old check `if not EOS.is_success(result)` only worked by coincidence.
+	print("create_client returned: ", result)
+	if result != OK:
+		printerr("!!! FAILED TO CREATE EOSG P2P CLIENT. Error: ", result)
 		return
 
-	# Listen for Godot networking events BEFORE creating the client.
+	# Connect signals BEFORE installing the peer so nothing is missed.
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	multiplayer.peer_connected.connect(_on_peer_connected)
 
-	# -------------------------------------------------
-	# CREATE EOS P2P CLIENT
-	# -------------------------------------------------
-
-	print("")
-	print("========================================")
-	print("CREATING EOSG P2P CLIENT")
-	print("========================================")
-	print("Local PUID: ", HAuth.product_user_id)
-	print("Target PUID: ", HOST_PUID)
-	print("Socket name: game")
-	print("")
-
-	var peer = EOSGMultiplayerPeer.new()
-
-	var result = peer.create_client(HOST_PUID, "game")
-
-	print("EOSG create_client result: ", result)
-
-	if not EOS.is_success(result):
-		printerr("FAILED TO CREATE EOSG P2P CLIENT")
-		return
-
-	print("EOSG P2P client created successfully.")
-
-	# Install the EOS peer into Godot.
 	multiplayer.multiplayer_peer = peer
 
-	print("Godot MultiplayerPeer installed.")
-
-	print("")
+	print("EOSG P2P client created. Godot MultiplayerPeer installed.")
 	print("========================================")
 	print("WAITING FOR HOST CONNECTION...")
 	print("========================================")
-	print("")
+
+	_watch_for_timeout()
+
+
+func _watch_for_timeout() -> void:
+	await get_tree().create_timer(CONNECT_TIMEOUT).timeout
+	if _finished:
+		return
+	_finished = true
+	printerr("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	printerr("  EOS P2P CONNECTION FAILED (timeout)")
+	printerr("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+	printerr("Check the SDK log lines for RemoteUserId and SocketId.")
+	printerr("RemoteUserId should be the host PUID, SocketId should be '%s'." % P2P_SOCKET)
+	multiplayer.multiplayer_peer = null
 
 
 func _on_connected_to_server() -> void:
-	print("")
+	_connected = true
+	_finished = true
 	print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	print("       CONNECTED TO EOS P2P HOST")
+	print("       CONNECTED TO HOST")
+	print("Godot peer ID: ", multiplayer.get_unique_id())
 	print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	print("")
 
 
 func _on_connection_failed() -> void:
-	print("")
+	_finished = true
 	printerr("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 	printerr("       EOS P2P CONNECTION FAILED")
 	printerr("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-	print("")
+	multiplayer.multiplayer_peer = null
 
 
 func _on_server_disconnected() -> void:
-	print("")
-	print("EOS P2P SERVER DISCONNECTED")
-	print("")
-
-
-func _on_peer_connected(peer_id: int) -> void:
-	print("")
-	print("GODOT PEER CONNECTED")
-	print("Peer ID: ", peer_id)
-	print("")
+	print("Server disconnected.")
+	multiplayer.multiplayer_peer = null

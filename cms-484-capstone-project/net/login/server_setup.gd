@@ -1,448 +1,218 @@
-
 extends Control
 
 @onready var item_list: ItemList = $ItemList
 
-signal hosted_lobby
-signal joined_lobby
+## Socket name must match on host and client. Alphanumeric, max 32 chars.
+const P2P_SOCKET := "game"
 
-var selected_server: HLobby = null
+## How long to wait for the P2P handshake before giving up.
+const CONNECT_TIMEOUT := 15.0
+
+var selected_server
 var _refresh_timer: Timer
 
-var _network_starting := false
-var _in_game := false
+###############################
+### UI SETUP AND FUNCTION #####
+###############################
 
+signal hosted_lobby
+signal joined_lobby
 
 func _ready() -> void:
 	_refresh_timer = Timer.new()
 	add_child(_refresh_timer)
-
 	_refresh_timer.wait_time = 4.0
 	_refresh_timer.timeout.connect(_refresh_lobby_list)
 
-	# Login.gd initializes EOS asynchronously.
-	# Do not touch the lobby system until authentication has completed.
+	# Login.gd (our parent) is still running its own _ready() at this point -
+	# EOS isn't set up yet, so don't touch lobbies until login actually finishes.
 	if HAuth.product_user_id != "":
 		_start_refreshing()
 	else:
-		HAuth.logged_in.connect(
-			_start_refreshing,
-			CONNECT_ONE_SHOT
-		)
-
+		HAuth.logged_in.connect(_start_refreshing, CONNECT_ONE_SHOT)
 
 func _start_refreshing() -> void:
-	if _in_game:
-		return
-
 	_refresh_timer.start()
-	_refresh_lobby_list()
-
-
-# ============================================================
-# UI
-# ============================================================
+	_refresh_lobby_list()  # do one immediately, don't wait for the first tick
 
 func _on_join_button_pressed() -> void:
-	if _network_starting:
-		print("Network operation already in progress.")
-		return
-
-	if selected_server == null:
-		print("No lobby selected.")
-		return
-
-	print("Join button pressed.")
-
-	_network_starting = true
-
-	var success := await join_selected_lobby(selected_server)
-
-	if success:
-		print("Client connection established.")
-	else:
-		printerr("Failed to connect to selected lobby.")
-
-	_network_starting = false
-
+	if selected_server:
+		print("join button pressed")
+		join_selected_lobby(selected_server)
 
 func _on_host_button_pressed() -> void:
-	if _network_starting:
-		print("Network operation already in progress.")
+	var player_name = $"../PlayerName".text
+	var server_name = $HostButton/ServerName.text
+	if player_name == "":
+		print("ERR need player name")
 		return
-
-	var player_name = $"../PlayerName".text.strip_edges()
-	var server_name = $HostButton/ServerName.text.strip_edges()
-
-	if player_name.is_empty():
-		print("ERROR: Need player name.")
+	elif server_name == "":
+		print("err need server name")
 		return
-
-	if server_name.is_empty():
-		print("ERROR: Need server name.")
-		return
-
-	if HAuth.product_user_id == "":
-		printerr("Cannot host: EOS authentication has not completed.")
-		return
-
-	print("Host button pressed.")
-
-	_network_starting = true
-
-	var success := await host_lobby(server_name)
-
-	if success:
-		print("========================================")
-		print("HOST IS READY")
-		print("========================================")
-
-		_in_game = true
-		hosted_lobby.emit()
-		hide()
 	else:
-		printerr("Failed to start host.")
-
-	_network_starting = false
-
+		print("host button pressed")
+		# Don't hide the UI or announce hosting until host_lobby() has actually
+		# succeeded - it's async, so firing the signal here was a lie.
+		host_lobby(server_name)
 
 func _on_item_list_item_selected(index: int) -> void:
-	selected_server = item_list.get_item_metadata(index) as HLobby
-
-	if selected_server:
-		print(
-			"Selected lobby: ",
-			selected_server.lobby_id,
-			" owner=",
-			selected_server.owner_product_user_id
-		)
+	selected_server = item_list.get_item_metadata(index)
 
 
-# ============================================================
-# LOBBY SEARCH
-# ============================================================
+###############################
+### LOBBY LIST (polling) ######
+###############################
 
 func _refresh_lobby_list() -> void:
-	if _in_game:
-		return
-
-	if HAuth.product_user_id == "":
-		return
-
 	var lobbies = await HLobbies.search_by_bucket_id_async("main_lobby")
-
 	if lobbies == null:
-		print("Lobby search returned null.")
 		return
 
 	item_list.clear()
-	selected_server = null
-
 	for lobby in lobbies:
-		var server_name := "Lobby (%d/%d)" % [
-			lobby.members.size(),
-			lobby.max_members
-		]
-
-		var idx := item_list.add_item(server_name)
+		var server_name = "Lobby (%d/%d)" % [lobby.members.size(), lobby.max_members]
+		var idx = item_list.add_item(server_name)
 		item_list.set_item_metadata(idx, lobby)
 
-	print("Lobby search found ", lobbies.size(), " lobby/lobbies.")
 
+###############################
+### ACTUAL SERVER SETUP #######
+###############################
 
-# ============================================================
-# HOST
-# ============================================================
-
-func host_lobby(server_name: String) -> bool:
-	print("========================================")
-	print("STARTING EOS HOST")
-	print("PUID: ", HAuth.product_user_id)
-	print("Server name: ", server_name)
-	print("========================================")
-
-	# --------------------------------------------------------
-	# Create EOS lobby
-	# --------------------------------------------------------
-
-	var opts := EOS.Lobby.CreateLobbyOptions.new()
-
+func host_lobby(server_name: String) -> void:
+	var opts = EOS.Lobby.CreateLobbyOptions.new()
 	opts.max_lobby_members = 20
 	opts.permission_level = EOS.Lobby.LobbyPermissionLevel.PublicAdvertised
 	opts.bucket_id = "main_lobby"
-
-	# Do NOT attempt to use Epic Account Presence.
 	opts.presence_enabled = false
 
-	print("Creating EOS lobby...")
+	var lobby = await HLobbies.create_lobby_async(opts)
+	if not lobby:
+		printerr("Failed to create lobby")
+		return
 
-	var lobby := await HLobbies.create_lobby_async(opts)
-
-	if lobby == null:
-		printerr("EOS lobby creation failed.")
-		return false
-
-	print("EOS lobby created.")
-	print("Lobby ID: ", lobby.lobby_id)
-	print("Lobby owner PUID: ", lobby.owner_product_user_id)
-
-	# --------------------------------------------------------
-	# Add lobby metadata
-	# --------------------------------------------------------
-
+	# Kept in case Epic's search ever starts returning custom attributes for
+	# anonymous accounts - harmless either way, just not currently relied on
+	# for display. See _refresh_lobby_list for the actual workaround in use.
 	lobby.add_attribute("server_name", server_name)
+	await lobby.update_async()
 
-	var update_result = await lobby.update_async()
+	var peer = EOSGMultiplayerPeer.new()
 
-	print("Lobby metadata update result: ", update_result)
-
-	# --------------------------------------------------------
-	# Create EOS P2P server
-	# --------------------------------------------------------
-
-	print("Creating EOSG P2P server...")
-
-	var peer := EOSGMultiplayerPeer.new()
-
-	var create_result = peer.create_server("game")
-
-	print("EOSG create_server result: ", create_result)
-
-	if create_result != OK:
-		printerr(
-			"EOSG P2P server creation FAILED. Error: ",
-			create_result
-		)
-
-		# Do not leave a lobby advertised if its P2P endpoint failed.
-		await lobby.leave_async()
-
-		return false
-
-	print("EOSG P2P server created successfully.")
+	# create_server(socket_id) - one argument only.
+	# NOTE: this returns a Godot Error, not an EOS result code. Compare
+	# against OK, not with EOS.is_success().
+	var result: int = peer.create_server(P2P_SOCKET)
+	if result != OK:
+		printerr("Failed to create EOSG P2P server. Error: ", result)
+		return
 
 	peer.set_auto_accept_connection_requests(true)
-
-	# --------------------------------------------------------
-	# Install Godot multiplayer peer
-	# --------------------------------------------------------
-
-	# Install diagnostics BEFORE assigning the peer.
-	# This lets us see when a client actually reaches this host.
-	multiplayer.peer_connected.connect(
-		_on_host_peer_connected
-	)
-
-	multiplayer.peer_disconnected.connect(
-		_on_host_peer_disconnected
-	)
-
-	multiplayer.server_disconnected.connect(
-		_on_server_disconnected
-	)
-
-	multiplayer.connection_failed.connect(
-		_on_connection_failed
-	)
-
 	multiplayer.multiplayer_peer = peer
 
-	print("Godot MultiplayerPeer installed.")
-	print("multiplayer.is_server(): ", multiplayer.is_server())
-	print("Godot host peer ID: ", multiplayer.get_unique_id())
-	print("EOS host PUID: ", HAuth.product_user_id)
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 
 	print("========================================")
-	print("EOS HOST READY")
-	print("Lobby: ", lobby.lobby_id)
-	print("PUID: ", HAuth.product_user_id)
+	print("HOSTING")
+	print("Lobby ID:   ", lobby.lobby_id)
+	print("Host PUID:  ", HAuth.product_user_id)
+	print("Socket:     ", P2P_SOCKET)
+	print("Godot peer: ", multiplayer.get_unique_id())
 	print("========================================")
 
-	return true
+	hosted_lobby.emit()
+	self.hide()
+	# no manual item_list.add_item here anymore - the next _refresh_lobby_list
+	# poll will pick this lobby up the same way it does for everyone else
 
 
-# ============================================================
-# CLIENT
-# ============================================================
-
-func join_selected_lobby(chosen_lobby: HLobby) -> bool:
-	if chosen_lobby == null:
-		printerr("Cannot join null lobby.")
-		return false
-
-	if HAuth.product_user_id == "":
-		printerr("Cannot join: EOS authentication has not completed.")
-		return false
-
-	print("========================================")
-	print("JOINING EOS LOBBY")
-	print("Client PUID: ", HAuth.product_user_id)
-	print("Lobby ID: ", chosen_lobby.lobby_id)
-	print("========================================")
-
-	# --------------------------------------------------------
-	# Join EOS lobby
-	# --------------------------------------------------------
-
-	print("Calling HLobbies.join_async()...")
-
+func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var lobby = await HLobbies.join_async(chosen_lobby)
+	if not lobby:
+		printerr("Failed to join lobby")
+		return
 
-	if lobby == null:
-		printerr("EOS lobby join FAILED.")
-		return false
+	var host_id: String = lobby.owner_product_user_id
 
-	print("EOS lobby join succeeded.")
-	print("Lobby ID: ", lobby.lobby_id)
+	print("========================================")
+	print("JOINING")
+	print("Lobby ID:    ", lobby.lobby_id)
+	print("Host PUID:   ", host_id)
+	print("Local PUID:  ", HAuth.product_user_id)
+	print("Socket:      ", P2P_SOCKET)
+	print("========================================")
 
-	# --------------------------------------------------------
-	# Determine P2P destination
-	# --------------------------------------------------------
+	var peer = EOSGMultiplayerPeer.new()
 
-	var host_id = lobby.owner_product_user_id
+	# ---------------------------------------------------------------------
+	# THE FIX: create_client(socket_id, remote_user_id)
+	#
+	# Socket name FIRST, host PUID SECOND. The arguments used to be the other
+	# way round, which made the SDK send connection requests to a "user" named
+	# "game" over a socket named after the host's PUID. Nothing was listening
+	# there, so every request timed out after 8 retries.
+	#
+	# Confirmed against the plugin source (src/eosg_multiplayer_peer.cpp):
+	#   bind_method(D_METHOD("create_client", "socket_id", "remote_user_id"), ...)
+	# The online docs showing create_client(user_id, socket) are wrong.
+	# ---------------------------------------------------------------------
+	var result: int = peer.create_client(P2P_SOCKET, host_id)
 
-	print("Lobby owner PUID: ", host_id)
-	print("Local PUID: ", HAuth.product_user_id)
-
-	if host_id == "":
-		printerr("Lobby has no owner Product User ID.")
-		return false
-
-	if host_id == HAuth.product_user_id:
-		printerr(
-			"ERROR: Lobby owner PUID is identical to local PUID."
-		)
-		return false
-
-	# --------------------------------------------------------
-	# Prepare connection callbacks BEFORE create_client
-	# --------------------------------------------------------
-
-	var connected := false
-	var failed := false
-
-	var connected_callable := func() -> void:
-		connected = true
-		print("========================================")
-		print("CLIENT CONNECTED TO EOS HOST")
-		print("Local Godot peer ID: ", multiplayer.get_unique_id())
-		print("Host PUID: ", host_id)
-		print("========================================")
-
-		$ConnectedLabel.text = "CONNECTED TO: " + host_id
-
-	var failed_callable := func() -> void:
-		failed = true
-
-		printerr("========================================")
-		printerr("CLIENT EOS/GODOT CONNECTION FAILED")
-		printerr("Host PUID: ", host_id)
-		printerr("Local PUID: ", HAuth.product_user_id)
-		printerr("========================================")
-
-		$ConnectedLabel.text = "CONNECTION FAILED"
-
-	multiplayer.connected_to_server.connect(
-		connected_callable,
-		CONNECT_ONE_SHOT
-	)
-
-	multiplayer.connection_failed.connect(
-		failed_callable,
-		CONNECT_ONE_SHOT
-	)
-
-	# --------------------------------------------------------
-	# Create EOS P2P client
-	# --------------------------------------------------------
-
-	print("Creating EOSG P2P client...")
-	print("Target PUID: ", host_id)
-	print("Socket name: game")
-
-	var peer := EOSGMultiplayerPeer.new()
-
-	var create_result = peer.create_client(host_id, "game")
-
-	print("EOSG create_client result: ", create_result)
-
-	if create_result != OK:
-		printerr(
-			"EOSG P2P client creation FAILED. Error: ",
-			create_result
-		)
-
-		# Clean up lobby membership.
-		await lobby.leave_async()
-
-		return false
-
-	print("EOSG P2P client created successfully.")
-
-	# --------------------------------------------------------
-	# Install peer
-	# --------------------------------------------------------
+	# Returns a Godot Error, not an EOS result code.
+	if result != OK:
+		printerr("Failed to create EOSG P2P client. Error: ", result)
+		return
 
 	multiplayer.multiplayer_peer = peer
 
-	print("Godot MultiplayerPeer installed.")
-	print("Waiting for connected_to_server...")
+	# Wait for the actual handshake. create_client() returning OK only means
+	# the request was queued, not that we're connected to anything.
+	var connected := await _await_connection(CONNECT_TIMEOUT)
 
-	$ConnectedLabel.text = "CONNECTING TO: " + host_id
+	if not connected:
+		printerr("Lobby join succeeded but P2P connection did not establish.")
+		multiplayer.multiplayer_peer = null
+		await HLobbies.leave_async(lobby)
+		return
 
-	# --------------------------------------------------------
-	# Wait for actual Godot connection
-	# --------------------------------------------------------
+	print("Connected to host. Godot peer ID: ", multiplayer.get_unique_id())
 
-	var timeout := get_tree().create_timer(15.0)
+	$ConnectedLabel.text = "CONNECTED TO: " + host_id
+	joined_lobby.emit()
+	self.hide()
 
-	while not connected and not failed and timeout.time_left > 0.0:
+
+## Resolves true on connected_to_server, false on connection_failed or timeout.
+func _await_connection(timeout: float) -> bool:
+	var result := [false]
+	var done := false
+
+	var on_ok := func():
+		result[0] = true
+		done = true
+	var on_fail := func():
+		result[0] = false
+		done = true
+
+	multiplayer.connected_to_server.connect(on_ok, CONNECT_ONE_SHOT)
+	multiplayer.connection_failed.connect(on_fail, CONNECT_ONE_SHOT)
+
+	var elapsed := 0.0
+	while not done and elapsed < timeout:
 		await get_tree().process_frame
+		elapsed += get_process_delta_time()
 
-	if connected:
-		print("Actual network connection established.")
-		_in_game = true
-		joined_lobby.emit()
-		hide()
-		return true
+	if multiplayer.connected_to_server.is_connected(on_ok):
+		multiplayer.connected_to_server.disconnect(on_ok)
+	if multiplayer.connection_failed.is_connected(on_fail):
+		multiplayer.connection_failed.disconnect(on_fail)
 
-	if failed:
-		printerr("Godot reported connection_failed.")
-	else:
-		printerr(
-			"Timed out waiting for connected_to_server."
-		)
-
-	printerr("The EOS lobby join succeeded, but the P2P connection did not.")
-
-	return false
+	return result[0]
 
 
-# ============================================================
-# NETWORK DIAGNOSTICS
-# ============================================================
+func _on_peer_connected(peer_id: int) -> void:
+	print("Peer connected: ", peer_id)
 
-func _on_host_peer_connected(id: int) -> void:
-	print("========================================")
-	print("CLIENT REACHED HOST")
-	print("Godot peer ID: ", id)
-	print("========================================")
-
-
-func _on_host_peer_disconnected(id: int) -> void:
-	print("========================================")
-	print("CLIENT DISCONNECTED FROM HOST")
-	print("Godot peer ID: ", id)
-	print("========================================")
-
-
-func _on_server_disconnected() -> void:
-	print("========================================")
-	print("SERVER DISCONNECTED")
-	print("========================================")
-
-
-func _on_connection_failed() -> void:
-	printerr("========================================")
-	printerr("GODOT CONNECTION FAILED")
-	printerr("========================================")
+func _on_peer_disconnected(peer_id: int) -> void:
+	print("Peer disconnected: ", peer_id)
