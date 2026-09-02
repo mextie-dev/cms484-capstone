@@ -1,7 +1,12 @@
-
 class_name Player
 extends CharacterBody3D
-
+## third person control
+##
+## disclaimer: a lot of this is AI-reviewed (netcode is hard) and not implemented
+## in C# because PhantomCamera is written in GDScript, so i didn't want
+## to mix paradigms. 
+## designed to be spawned by a MultiplayerSpawner where the node's
+## name is the owning peer id see SETUP.md
 
 @export_group("Movement")
 @export var walk_speed: float = 3.2
@@ -9,71 +14,86 @@ extends CharacterBody3D
 @export var acceleration: float = 12.0
 @export var friction: float = 14.0
 @export var air_control: float = 0.35
-@export var turn_speed: float = 10.0
+@export var turn_speed: float = 10.0 
 @export var jump_velocity: float = 4.2
 @export var gravity_multiplier: float = 1.0
 
+@export_group("Network smoothing")
+## Higher = proxies catch up to the network target faster, but jitter shows
+## through more. Lower = smoother but laggier. 12-25 is a sane range.
+@export var position_smoothing: float = 18.0
+## Max seconds we'll keep extrapolating along the last known velocity before
+## giving up. Stops a proxy from flying off into space if a peer stalls.
+@export var extrapolation_limit: float = 0.25
+## If the proxy is further than this from where it should be, snap instead of
+## sliding. Covers spawns, teleports, and recovery after a long packet gap.
+@export var teleport_distance: float = 3.0
 
 @export_group("Nodes")
 @export var visual_root_path: NodePath
-@export var pcam_path: NodePath
-
+@export var pcam_path: NodePath            
 
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var pcam: PlayerCamera = get_node(pcam_path)
+@onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
+var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-var _gravity: float = ProjectSettings.get_setting(
-	"physics/3d/default_gravity"
-)
-
-## Replicated through MultiplayerSynchronizer.
+## Replicated by MultiplayerSynchronizer so remote peers can smoothly
+## orient the model without needing their own input.
 var synced_yaw: float = 0.0
+
+## Replicated position. Deliberately NOT the node's own `position` - if the
+## synchronizer wrote straight into the transform, every packet would land as
+## a visible snap. Remote peers steer toward this instead.
+## `velocity` (built into CharacterBody3D) is replicated as-is and used purely
+## for extrapolation on proxies, which never call move_and_slide().
+var synced_position: Vector3 = Vector3.ZERO
+
+## Seconds since the last sync packet, used to extrapolate forward.
+var _packet_age: float = 0.0
+## The position the last packet reported, held separately so extrapolation
+## always builds off a known-good sample rather than compounding itself.
+var _net_target: Vector3 = Vector3.ZERO
 
 
 func _enter_tree() -> void:
-	# Every multiplayer-spawned Player is named after its owning
-	# Godot peer ID:
-	#
-	#   "1"
-	#   "2"
-	#   "3"
-	#
-	# Do NOT silently fall back to peer 1. A fallback can cause an
-	# incorrectly spawned player to accidentally gain authority.
-
+	# long fucking story short, this detects if the currently controlled character
+	# is actually a multiplayer agent, or if it is spawned by the multiplayer
+	# spawner. we prob want this game to be peer2peer so this is relevant for
+	# testing so we don't have to spin up a new instance every time we want to
+	# test if the map is working
 	var peer_id := str(name).to_int()
-
-	if peer_id <= 0:
-		printerr(
-			"Player entered tree with invalid peer ID. Name = ",
-			name
-		)
-		return
-
+	if peer_id == 0:
+		# Not spawned by a MultiplayerSpawner (e.g. dropped into a test
+		# scene by hand) - fall back to the local/offline default so the
+		# camera still activates instead of treating itself as remote.
+		peer_id = 1
 	set_multiplayer_authority(peer_id)
-
-	print(
-		"Player ",
-		name,
-		" authority assigned to peer ",
-		peer_id
-	)
 
 
 func _ready() -> void:
 	if is_multiplayer_authority():
-		print(
-			"Player ",
-			name,
-			" is locally authoritative."
-		)
-
 		pcam.activate()
+		synced_position = global_position
 	else:
 		pcam.deactivate()
 
+		# Seed from the spawn-replicated value so a joining player doesn't
+		# see everyone slide in from the world origin.
+		_net_target = synced_position
+		global_position = synced_position
 
+		sync.synchronized.connect(_on_synchronized)
+
+
+## Fires on this peer every time a sync packet for this player lands.
+func _on_synchronized() -> void:
+	_net_target = synced_position
+	_packet_age = 0.0
+
+
+## if this IS the peer, treat it like god and handle phyics throguh it
 func _physics_process(delta: float) -> void:
 	if is_multiplayer_authority():
 		_simulate_local(delta)
@@ -81,108 +101,61 @@ func _physics_process(delta: float) -> void:
 		_smooth_remote(delta)
 
 
-# ============================================================
-# LOCAL PLAYER
-# ============================================================
-
+## actual movement and input stuff
 func _simulate_local(delta: float) -> void:
-	# Gravity.
 	if not is_on_floor():
-		velocity.y -= (
-			_gravity
-			* gravity_multiplier
-			* delta
-		)
+		velocity.y -= _gravity * gravity_multiplier * delta
 	elif velocity.y < 0.0:
 		velocity.y = 0.0
 
-	# Jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
-	# Movement input.
-	var raw_input := Input.get_vector(
-		"move_left",
-		"move_right",
-		"move_forward",
-		"move_back"
-	)
-
+	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var move_dir := Vector3.ZERO
-
 	if raw_input.length() > 0.0:
 		var cam_basis := pcam.get_flat_basis()
-
-		move_dir = (
-			cam_basis
-			* Vector3(
-				raw_input.x,
-				0.0,
-				raw_input.y
-			)
-		).normalized()
+		move_dir = (cam_basis * Vector3(raw_input.x, 0.0, raw_input.y)).normalized()
 
 	var moving := move_dir.length() > 0.01
-
-	var target_speed := (
-		run_speed
-		if Input.is_action_pressed("run")
-		else walk_speed
-	)
-
+	var target_speed := run_speed if Input.is_action_pressed("run") else walk_speed
 	var target_velocity := move_dir * target_speed
-
-	var rate := (
-		acceleration
-		if moving
-		else friction
-	)
-
+	var rate := acceleration if moving else friction
 	if not is_on_floor():
 		rate *= air_control
 
-	velocity.x = move_toward(
-		velocity.x,
-		target_velocity.x,
-		rate * delta
-	)
+	velocity.x = move_toward(velocity.x, target_velocity.x, rate * delta)
+	velocity.z = move_toward(velocity.z, target_velocity.z, rate * delta)
 
-	velocity.z = move_toward(
-		velocity.z,
-		target_velocity.z,
-		rate * delta
-	)
-
-	# Turn the visual model toward movement direction.
 	if moving:
-		var target_yaw := atan2(
-			move_dir.x,
-			move_dir.z
-		)
-
-		synced_yaw = lerp_angle(
-			synced_yaw,
-			target_yaw,
-			turn_speed * delta
-		)
+		var target_yaw := atan2(move_dir.x, move_dir.z)
+		synced_yaw = lerp_angle(synced_yaw, target_yaw, turn_speed * delta)
 
 	visual_root.rotation.y = synced_yaw
 
 	move_and_slide()
 
+	# Publish AFTER move_and_slide so we're sending where we actually ended up,
+	# not where we intended to go before collision resolution.
+	synced_position = global_position
 
-# ============================================================
-# REMOTE PLAYER
-# ============================================================
 
 func _smooth_remote(delta: float) -> void:
-	# Position/velocity/etc. should eventually be supplied through
-	# MultiplayerSynchronizer.
-	#
-	# For now, only smooth the replicated visual rotation.
+	# Predict forward from the last packet. Capped so a peer that stops sending
+	# leaves its proxy parked instead of drifting away forever.
+	_packet_age = min(_packet_age + delta, extrapolation_limit)
+	var predicted := _net_target + velocity * _packet_age
 
-	visual_root.rotation.y = lerp_angle(
-		visual_root.rotation.y,
-		synced_yaw,
-		turn_speed * delta
-	)
+	if global_position.distance_to(predicted) > teleport_distance:
+		# Too far to smooth plausibly - spawn, teleport, or a long dropout.
+		global_position = predicted
+	else:
+		# Framerate-independent exponential smoothing. Using a raw
+		# `smoothing * delta` factor would make the catch-up rate depend on
+		# framerate, so a 144Hz client and a 60Hz client would disagree.
+		var t := 1.0 - exp(-position_smoothing * delta)
+		global_position = global_position.lerp(predicted, t)
+
+	# Same idea for facing: steer toward the replicated yaw rather than
+	# assigning it, so turns read as turns instead of jumps.
+	visual_root.rotation.y = lerp_angle(visual_root.rotation.y, synced_yaw, turn_speed * delta)
