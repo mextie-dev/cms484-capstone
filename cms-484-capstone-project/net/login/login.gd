@@ -5,8 +5,8 @@ extends Control
 signal server_started
 
 
-func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
-	print("EOS SDK [%s] | %s" % [msg.category, msg.message])
+#func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
+	#print("EOS SDK [%s] | %s" % [msg.category, msg.message])
 
 
 ## EOSG's convenience anonymous-login helper deletes/recreates the Device ID.
@@ -62,7 +62,7 @@ func login_persistent_anonymous_async(user_display_name: String) -> bool:
 
 
 func _ready() -> void:
-	HPlatform.log_msg.connect(_on_eos_log_msg)
+	#HPlatform.log_msg.connect(_on_eos_log_msg)
 
 	# Build EOS credentials.
 	var credentials := HCredentials.new()
