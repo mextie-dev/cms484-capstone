@@ -6,7 +6,7 @@ extends Control
 const P2P_SOCKET := "game"
 
 ## How long to wait for the P2P handshake before giving up.
-const CONNECT_TIMEOUT := 15.0
+const CONNECT_TIMEOUT := 20.0
 
 var selected_server
 var _refresh_timer: Timer
@@ -37,7 +37,7 @@ func _start_refreshing() -> void:
 
 func _on_join_button_pressed() -> void:
 	if selected_server:
-		print("join button pressed")
+		print("[net] join button pressed")
 		join_selected_lobby(selected_server)
 
 func _on_host_button_pressed() -> void:
@@ -50,7 +50,7 @@ func _on_host_button_pressed() -> void:
 		print("err need server name")
 		return
 	else:
-		print("host button pressed")
+		print("[net] host button pressed")
 		# Don't hide the UI or announce hosting until host_lobby() has actually
 		# succeeded - it's async, so firing the signal here was a lie.
 		host_lobby(server_name)
@@ -80,15 +80,15 @@ func _refresh_lobby_list() -> void:
 ###############################
 
 func host_lobby(server_name: String) -> void:
-	var opts = EOS.Lobby.CreateLobbyOptions.new()
-	opts.max_lobby_members = 20
-	opts.permission_level = EOS.Lobby.LobbyPermissionLevel.PublicAdvertised
-	opts.bucket_id = "main_lobby"
-	opts.presence_enabled = false
+	var lobby_opts = EOS.Lobby.CreateLobbyOptions.new()
+	lobby_opts.max_lobby_members = 20
+	lobby_opts.permission_level = EOS.Lobby.LobbyPermissionLevel.PublicAdvertised
+	lobby_opts.bucket_id = "main_lobby"
+	lobby_opts.presence_enabled = false
 
-	var lobby = await HLobbies.create_lobby_async(opts)
+	var lobby = await HLobbies.create_lobby_async(lobby_opts)
 	if not lobby:
-		printerr("Failed to create lobby")
+		printerr("[net] Failed to create lobby")
 		return
 
 	# Kept in case Epic's search ever starts returning custom attributes for
@@ -100,11 +100,10 @@ func host_lobby(server_name: String) -> void:
 	var peer = EOSGMultiplayerPeer.new()
 
 	# create_server(socket_id) - one argument only.
-	# NOTE: this returns a Godot Error, not an EOS result code. Compare
-	# against OK, not with EOS.is_success().
+	# NOTE: returns a Godot Error, not an EOS result code. Compare to OK.
 	var result: int = peer.create_server(P2P_SOCKET)
 	if result != OK:
-		printerr("Failed to create EOSG P2P server. Error: ", result)
+		printerr("[net] Failed to create EOSG P2P server. Error: ", result)
 		return
 
 	peer.set_auto_accept_connection_requests(true)
@@ -123,14 +122,12 @@ func host_lobby(server_name: String) -> void:
 
 	hosted_lobby.emit()
 	self.hide()
-	# no manual item_list.add_item here anymore - the next _refresh_lobby_list
-	# poll will pick this lobby up the same way it does for everyone else
 
 
 func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var lobby = await HLobbies.join_async(chosen_lobby)
 	if not lobby:
-		printerr("Failed to join lobby")
+		printerr("[net] Failed to join lobby")
 		return
 
 	var host_id: String = lobby.owner_product_user_id
@@ -146,37 +143,41 @@ func join_selected_lobby(chosen_lobby: HLobby) -> void:
 	var peer = EOSGMultiplayerPeer.new()
 
 	# ---------------------------------------------------------------------
-	# THE FIX: create_client(socket_id, remote_user_id)
+	# create_client(socket_id, remote_user_id)
 	#
-	# Socket name FIRST, host PUID SECOND. The arguments used to be the other
-	# way round, which made the SDK send connection requests to a "user" named
-	# "game" over a socket named after the host's PUID. Nothing was listening
-	# there, so every request timed out after 8 retries.
+	# Socket name FIRST, host PUID SECOND. Reversed, the SDK addresses the
+	# connection request to a "user" named "game" over a socket named after
+	# the host's PUID - both structurally valid, so no error is raised, but
+	# nobody is listening and it dies at SentTimes=[8/8].
 	#
-	# Confirmed against the plugin source (src/eosg_multiplayer_peer.cpp):
+	# Confirmed against src/eosg_multiplayer_peer.cpp:
 	#   bind_method(D_METHOD("create_client", "socket_id", "remote_user_id"), ...)
-	# The online docs showing create_client(user_id, socket) are wrong.
 	# ---------------------------------------------------------------------
 	var result: int = peer.create_client(P2P_SOCKET, host_id)
 
-	# Returns a Godot Error, not an EOS result code.
+	print("[net] create_client returned: ", result)
 	if result != OK:
-		printerr("Failed to create EOSG P2P client. Error: ", result)
+		printerr("[net] Failed to create EOSG P2P client. Error: ", result)
 		return
+
+	# Wire diagnostics BEFORE installing the peer so nothing is missed.
+	multiplayer.peer_connected.connect(_on_peer_connected)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 	multiplayer.multiplayer_peer = peer
 
-	# Wait for the actual handshake. create_client() returning OK only means
-	# the request was queued, not that we're connected to anything.
+	# create_client() returning OK only means the request was queued. Wait for
+	# the actual handshake before telling the rest of the game we're in.
 	var connected := await _await_connection(CONNECT_TIMEOUT)
 
 	if not connected:
-		printerr("Lobby join succeeded but P2P connection did not establish.")
+		printerr("[net] Lobby join succeeded but P2P connection did not establish.")
 		multiplayer.multiplayer_peer = null
 		await HLobbies.leave_async(lobby)
 		return
 
-	print("Connected to host. Godot peer ID: ", multiplayer.get_unique_id())
+	print("[net] Connected to host. Godot peer ID: ", multiplayer.get_unique_id())
 
 	$ConnectedLabel.text = "CONNECTED TO: " + host_id
 	joined_lobby.emit()
@@ -184,35 +185,68 @@ func join_selected_lobby(chosen_lobby: HLobby) -> void:
 
 
 ## Resolves true on connected_to_server, false on connection_failed or timeout.
+## Also polls get_connection_status() directly, so if the signal is missed for
+## any reason the status itself is treated as authoritative.
 func _await_connection(timeout: float) -> bool:
-	var result := [false]
-	var done := false
+	var peer := multiplayer.multiplayer_peer
+	if peer and peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+		print("[net] already connected before wait started")
+		return true
+
+	var outcome := [false]
+	var done := [false]
 
 	var on_ok := func():
-		result[0] = true
-		done = true
+		print("[net] connected_to_server fired")
+		outcome[0] = true
+		done[0] = true
 	var on_fail := func():
-		result[0] = false
-		done = true
+		printerr("[net] connection_failed fired")
+		outcome[0] = false
+		done[0] = true
 
 	multiplayer.connected_to_server.connect(on_ok, CONNECT_ONE_SHOT)
 	multiplayer.connection_failed.connect(on_fail, CONNECT_ONE_SHOT)
 
 	var elapsed := 0.0
-	while not done and elapsed < timeout:
+	var last_status := -1
+
+	while not done[0] and elapsed < timeout:
 		await get_tree().process_frame
 		elapsed += get_process_delta_time()
+
+		var p := multiplayer.multiplayer_peer
+		if p == null:
+			printerr("[net] multiplayer_peer went null at t=%.1fs" % elapsed)
+			break
+
+		var status := p.get_connection_status()
+		if status != last_status:
+			print("[net] connection_status -> %d (0=disconnected 1=connecting 2=connected) at t=%.1fs" % [status, elapsed])
+			last_status = status
+			if status == MultiplayerPeer.CONNECTION_CONNECTED:
+				outcome[0] = true
+				done[0] = true
+			elif status == MultiplayerPeer.CONNECTION_DISCONNECTED:
+				outcome[0] = false
+				done[0] = true
 
 	if multiplayer.connected_to_server.is_connected(on_ok):
 		multiplayer.connected_to_server.disconnect(on_ok)
 	if multiplayer.connection_failed.is_connected(on_fail):
 		multiplayer.connection_failed.disconnect(on_fail)
 
-	return result[0]
+	if not done[0]:
+		printerr("[net] timed out after %.1fs waiting for connection" % elapsed)
+
+	return outcome[0]
 
 
 func _on_peer_connected(peer_id: int) -> void:
-	print("Peer connected: ", peer_id)
+	print("[net] peer_connected: ", peer_id)
 
 func _on_peer_disconnected(peer_id: int) -> void:
-	print("Peer disconnected: ", peer_id)
+	print("[net] peer_disconnected: ", peer_id)
+
+func _on_server_disconnected() -> void:
+	printerr("[net] server_disconnected")

@@ -1,156 +1,70 @@
-
 extends Node3D
 
+## Game world. Spawning is driven by an explicit client-ready handshake rather
+## than by peer_connected, because the client builds this scene AFTER it
+## connects - so on peer_connected the client has no Players node and no
+## MultiplayerSpawner yet, and any spawn the server replicates at that moment
+## is addressed to a path the client can't resolve. It gets silently dropped,
+## which is why the host used to see everyone and the client saw nothing.
+
+@onready var players: Node3D = $Players
 
 const PLAYER_SCENE := preload("res://characters/player/player.tscn")
 
-@onready var players: Node3D = $Players
-@onready var player_spawner: MultiplayerSpawner = $MultiplayerSpawner
-
 
 func _ready() -> void:
-	print("========================================")
-	print("MULTIPLAYER TEST ROOM READY")
-	print("is_server: ", multiplayer.is_server())
-	print("unique_id: ", multiplayer.get_unique_id())
-	print("multiplayer_peer: ", multiplayer.multiplayer_peer)
-	print("========================================")
-
-	# Configure MultiplayerSpawner before spawning anything.
-	player_spawner.spawn_function = _spawn_player
+	print("[world] ready. is_server=", multiplayer.is_server(),
+		" unique_id=", multiplayer.get_unique_id())
 
 	if multiplayer.is_server():
-		_setup_server()
+		# Only despawn is event-driven now. Spawning waits for the client to
+		# tell us its world exists.
+		multiplayer.peer_disconnected.connect(_despawn_player)
+
+		# The host's own player. Safe to do immediately - our tree is right here.
+		_spawn_player(multiplayer.get_unique_id())
+
+		# Any client that connected before this scene existed (shouldn't happen
+		# in the normal flow, but harmless to cover) still gets picked up when
+		# it sends its ready RPC.
 	else:
-		_setup_client()
+		# Our Players node and MultiplayerSpawner are now in the tree, so it is
+		# finally safe for the server to replicate spawns to us.
+		print("[world] client world built, notifying server")
+		_client_world_ready.rpc_id(1)
 
 
-# ============================================================
-# SERVER
-# ============================================================
-
-func _setup_server() -> void:
-	print("Setting up multiplayer server.")
-
-	multiplayer.peer_connected.connect(
-		_on_peer_connected
-	)
-
-	multiplayer.peer_disconnected.connect(
-		_on_peer_disconnected
-	)
-
-	# Spawn the host's own player.
-	_spawn_player_for_peer(multiplayer.get_unique_id())
-
-
-func _on_peer_connected(id: int) -> void:
-	print("========================================")
-	print("PEER CONNECTED TO GAME")
-	print("Peer ID: ", id)
-	print("========================================")
-
-	_spawn_player_for_peer(id)
-
-
-func _on_peer_disconnected(id: int) -> void:
-	print("========================================")
-	print("PEER DISCONNECTED FROM GAME")
-	print("Peer ID: ", id)
-	print("========================================")
-
-	var player := players.get_node_or_null(str(id))
-
-	if player:
-		player.queue_free()
-
-
-func _spawn_player_for_peer(id: int) -> void:
-	if players.has_node(str(id)):
-		print(
-			"Player already exists for peer ",
-			id,
-			", not spawning another."
-		)
+## Called BY the client, ON the server. This is the replacement for
+## multiplayer.peer_connected.connect(_spawn_player).
+@rpc("any_peer", "call_remote", "reliable")
+func _client_world_ready() -> void:
+	if not multiplayer.is_server():
 		return
 
-	print("Spawning player for peer ", id)
+	var id := multiplayer.get_remote_sender_id()
+	print("[world] client ", id, " reports world ready")
 
-	player_spawner.spawn({
-		"peer_id": id
-	})
+	if players.has_node(str(id)):
+		print("[world] player ", id, " already exists, skipping spawn")
+		return
 
-
-# ============================================================
-# CLIENT
-# ============================================================
-
-func _setup_client() -> void:
-	print("Setting up multiplayer client.")
-
-	multiplayer.connected_to_server.connect(
-		_on_connected_to_server
-	)
-
-	multiplayer.connection_failed.connect(
-		_on_connection_failed
-	)
-
-	multiplayer.server_disconnected.connect(
-		_on_server_disconnected
-	)
+	_spawn_player(id)
 
 
-func _on_connected_to_server() -> void:
-	print("========================================")
-	print("MULTIPLAYER TEST ROOM: CONNECTED")
-	print("My peer ID: ", multiplayer.get_unique_id())
-	print("========================================")
-
-
-func _on_connection_failed() -> void:
-	printerr("========================================")
-	printerr("MULTIPLAYER TEST ROOM: CONNECTION FAILED")
-	printerr("========================================")
-
-
-func _on_server_disconnected() -> void:
-	printerr("========================================")
-	printerr("MULTIPLAYER TEST ROOM: SERVER DISCONNECTED")
-	printerr("========================================")
-
-
-# ============================================================
-# MULTIPLAYER SPAWNER
-# ============================================================
-
-## Called by MultiplayerSpawner on both server and clients.
-##
-## The server calls:
-##
-##     player_spawner.spawn({"peer_id": id})
-##
-## Godot replicates that spawn request to the other peers, which then
-## execute this function locally with the same data.
-func _spawn_player(data: Variant) -> Node:
-	var peer_id: int = int(data["peer_id"])
-
-	print(
-		"MultiplayerSpawner creating player for peer ",
-		peer_id
-	)
+func _spawn_player(id: int) -> void:
+	print("[world] spawning player for id: ", id)
 
 	var player := PLAYER_SCENE.instantiate()
+	# Name must be set BEFORE add_child. player.gd reads it in _enter_tree to
+	# decide multiplayer authority, and the name is what keeps the node paths
+	# identical on every peer.
+	player.name = str(id)
+	players.add_child(player, true)
 
-	# The name is deliberately the Godot peer ID.
-	#
-	# This gives us:
-	#
-	#   Player/1
-	#   Player/2
-	#   Player/3
-	#
-	# and lets Player.gd assign authority consistently.
-	player.name = str(peer_id)
+	print("[world] Players children now: ", players.get_children())
 
-	return player
+
+func _despawn_player(id: int) -> void:
+	print("[world] despawning player for id: ", id)
+	if players.has_node(str(id)):
+		players.get_node(str(id)).queue_free()
