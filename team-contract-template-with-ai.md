@@ -7,7 +7,7 @@
 1) Max Royer
 2) Benton Stalcup
 
-3) son 😭
+3) PJ Gonzales
 4) Mackenzie Yates
 
 
@@ -52,7 +52,7 @@
     * Group document in README.md, updated by all users
 
 7.  Who "owns" code? Under what circumstances can a "non-owner" modify code? what sort of notification, documentation and/or justification is necessary by the "non-owner"?
-    * Each file will have a comment with anyone who's worked on it, if disagreements arise, it falls to those people to figure it out.
+    * Each file will have a comment at the top with anyone who's worked on it, if disagreements arise, it falls to those people to figure it out.
 
   -----------------------------------------------------------------------
   **Team Expectations**
@@ -73,7 +73,7 @@
 2.  How much time per week (outside of class time) are you willing to 
     commit to in order to achieve the grade above?
 
-    * We will work around (fill this in) to achieve this grade.
+    * We will work around 10-12 hours a week to achieve this grade.
     
 3.  What happens if people have different opinions on the quality of the work?
    
@@ -84,7 +84,7 @@
     > as possible; others like to work under the pressure of a
     > deadline)?
     
-    * We will use the scrum chart and regular meetings to keep each other accountable for when certain parts of our project should be completed.
+    * We will use the game design document and regular meetings to keep each other accountable for when certain parts of our project should be completed.
 
 5.  What happens if most people on the team want to get an "A" on the
     assignment, but another person decides that a "B" will be
@@ -104,7 +104,7 @@
 1.  Expected individual attendance, punctuality, and participation at
     all team meetings:
     
-    * Every member of the team should attend the meeting; however, if someone can't make it, they should inform the group so we can let them know what was discussed in the meeting.
+    * Every member of the team should attend the meeting; however, if someone can't make it, they should inform the group so we can let them know what was discussed in the meeting. (or attend virtually)
    
 2.  Expected level of responsibility for fulfilling team assignments,
     timelines, and deadlines:
@@ -114,7 +114,7 @@
     > (When can a team member make an "executive decision" 
     > and when should he/she consult other teammates?):
     
-    * Should anyone need help throughout the duration of this project, they should feel free to reach out to the group and ask for help.
+    * Should anyone need help throughout the duration of this project, they should feel free to reach out to the group and ask for help. The members of the group know their own limits and should exercise executive judgement when needed.
 
 4.  Expected level of participation in team decisions and tasks.
    
@@ -127,7 +127,7 @@
     > concepts, generating code, writing documentation, creating tests,
     > debugging, preparing reports and presentation
     
-    * 
+    * Most of us are not big AI users regardless, and an AI disclosure is **required** for every file of code that uses AI, and the manner it was used in. This way, we can quickly gather an overview of how AI is being used on the project. We don't use generative AI for user-facing elements, like art, music, UI, or things of that nature.
 
 2.  Within the team, what level of disclosure is required when AI has
    been used? 
@@ -135,7 +135,7 @@
     > apply to all teams. This question is more about your internal team
     > transparency expectations.
     
-    * 
+    * Notes in code files.
 
 3.  What responsibility does a team member have for understanding or
     validating AI-generated work before incorporating it into the
@@ -143,7 +143,7 @@
     > How will the team decide when/how to "accept" the
     > AI-generated work?
     
-    * 
+    * Regular AI reviews will happen at meetings.
 
 4.  How will the team handle AI-related concerns such as code quality,
     security, licensing, intellectual property, or misinformation
@@ -151,12 +151,12 @@
     > What process should be followed if a team
     > member believes AI-generated content introduces risk in some way?
     
-    * 
+    * At the end of the day, we are all capable developers. If difficult discussions arise regarding AI code, it falls to us to take the hit and write the code ourselves fully, to completely bypass the disagreement.
 
 5.  What project activities, if any, should be completed without AI
     assistance?
    
-    * 
+    * All user-facing content/
 
   -----------------------------------------------------------------------
   **Consequences for Failing to Follow Procedures and Fulfill
