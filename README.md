@@ -18,19 +18,15 @@ Benton: dr.pepper2109
 
 ## Current project structure
 
-There is a test_room scene under /maps and a player scene under /characters/player. open the test_scene.tscn file (NOT multiplayer_test_scene.tscn) and run.
+Simply load project and run from main scene. Needs an EOSCredentials.gd file
+in the parent folder (a template has been provided, devs you have this in
+discord).
 
 ## Future development
 
-Since we want this to be a listen-server type of game (one player is the host of a lobby where other players can join), we need a system to process this multiplayer
-info. We want this to be as seamless as possible for the end user, so we need to hook in some kind of system for lobby and player management.
-If we were releasing on steam, this would be done for us. We basically have a few options:
+We have functioning multiplayer at this point, so now it becomes time to talk about game design. [I have this game design doc here for us to work on.](https://docs.google.com/document/d/1R5u7YnfbMLKQW2UEPfHWqgGvsyxPT813BETdy8usGPk/edit?usp=sharing)
 
-1. Roll the server system ourselves. Costs money, but not a lot given we're estimating, what, 50 concurrent players at most?
-2. Godot's integrated server system, which obv is easiest and tightest integrated but does not allow for browsing lobbies, only direct connection via a code or IP.
-3. Epic Online Services, a free-to-us service implemented by Epic Games (fortnite people) that works very similar to Steam's multiplayer handling, but can be very heavy for a smaller game like this and also relies on a per-device account system. there's an existing addon that pairs this in with godot, and I already have establisment as an "Epic Developer" giving us access to the system.
-
-I'm fond of option 3, but before we really start work on it I wanted to give the team time to analyze and discuss.
+---
 
 
 Summet's comments	8/37/2026
