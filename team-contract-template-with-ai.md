@@ -19,25 +19,27 @@
 
 1.  Do you want to have a standard meeting time outside of class? 
     > If yes, what day, time, and place? In-person or virtual?
+
     * Yes, tbd
+
     > If no, how will meetings be scheduled?
 
-2.  Preferred method of communication used to inform each other of team
+3.  Preferred method of communication used to inform each other of team
     meetings, announcement, updates, reminders, problems:
     * Discord
 
-3.  Decision-making policy (by consensus? by majority vote?):
+4.  Decision-making policy (by consensus? by majority vote?):
     * Consensus
 
-4.  How will you decide what tasks are assigned to each group member and
+5.  How will you decide what tasks are assigned to each group member and
     on what deadline? How will this be recorded?
     * Scrum chart
 
-5.  How and when should a teammate ask for help when they are struggling?
+6.  How and when should a teammate ask for help when they are struggling?
     > If a teammate has a particularly heavy workload during a given time period should the team accommodate him/her? If so, how?
     * Yes, by re-evaluating workload and distributing
 
-6.  Method for setting and following meeting agendas
+7.  Method for setting and following meeting agendas
     > Who will set each agenda? When? How will team members be notified/reminded?
     * The team as a group at the start of meetings
     > How will the scrum friend keep the team following the agenda during a team meeting?
@@ -45,11 +47,11 @@
     > What will be done to keep the team on track during a meeting?
     * Brute force
 
-7.  Method of record keeping 
+8.  Method of record keeping 
     > Who will be responsible for documenting & disseminating group decisions? How & when will they disseminated? Where will all notes be kept?:
     * Group document in README.md, updated by all users
 
-8.  Who "owns" code? Under what circumstances can a "non-owner" modify code? what sort of notification, documentation and/or justification is necessary by the "non-owner"?
+9.  Who "owns" code? Under what circumstances can a "non-owner" modify code? what sort of notification, documentation and/or justification is necessary by the "non-owner"?
     * Each file will have a comment with anyone who's worked on it, if disagreements arise, it falls to those people to figure it out.
 
   -----------------------------------------------------------------------
