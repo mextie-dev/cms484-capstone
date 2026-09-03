@@ -11,19 +11,35 @@ config_version=5
 [application]
 
 config/name="cms484-capstone-project"
-run/main_scene="uid://btdaag2p8cpwt"
-config/features=PackedStringArray("4.7", "GL Compatibility")
+run/main_scene="uid://blcxqa5f0uk4u"
+config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 PhantomCameraManager="*uid://duq6jhf6unyis"
 Debug="*uid://c7bflagj2bqku"
+EOSGRuntime="*uid://7saywdx0ipep"
+HPlatform="*uid://yl2muvqrdiud"
+HAuth="*uid://786t1jiowvvg"
+HAchievements="*uid://bis404dty5u5c"
+HFriends="*uid://uumqbey8ji5t"
+HStats="*uid://dbckdip83oone"
+HLeaderboards="*uid://b06khhf20mplm"
+HLobbies="*uid://6iqvm33q0tb1"
+HP2P="*uid://u6ae5fpm6l8q"
+HSessions="*uid://bieh2rxxahuu2"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -33,7 +49,7 @@ project/assembly_name="cms484-capstone-project"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/epic-online-services-godot/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
 [input]
 
@@ -89,3 +105,4 @@ zoom_out={
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

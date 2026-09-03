@@ -1,5 +1,9 @@
+# Authored by:
+# Max Royer
+
 class_name Player
 extends CharacterBody3D
+
 ## third person control
 ##
 ## disclaimer: a lot of this is AI-reviewed (netcode is hard) and not implemented
@@ -18,18 +22,32 @@ extends CharacterBody3D
 @export var jump_velocity: float = 4.2
 @export var gravity_multiplier: float = 1.0
 
+@export_group("Network smoothing")
+@export var position_smoothing: float = 18.0
+@export var extrapolation_limit: float = 0.25
+@export var teleport_distance: float = 3.0
+
 @export_group("Nodes")
 @export var visual_root_path: NodePath
 @export var pcam_path: NodePath            
 
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var pcam: PlayerCamera = get_node(pcam_path)
+@onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-## Replicated by MultiplayerSynchronizer so remote peers can smoothly
-## orient the model without needing their own input.
+## smooth interpolation for rotation
 var synced_yaw: float = 0.0
+
+## interpolated between position vectors to smooth appearing movement
+var synced_position: Vector3 = Vector3.ZERO
+
+## seconds since the last sync packet, used to extrapolate forward.
+var _packet_age: float = 0.0
+## the position the last packet reported, held separately so extrapolation
+## always builds off a known-good sample rather than compounding itself.
+var _net_target: Vector3 = Vector3.ZERO
 
 
 func _enter_tree() -> void:
@@ -50,8 +68,23 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if is_multiplayer_authority():
 		pcam.activate()
+		synced_position = global_position
 	else:
 		pcam.deactivate()
+
+		# Seed from the spawn-replicated value so a joining player doesn't
+		# see everyone slide in from the world origin.
+		_net_target = synced_position
+		global_position = synced_position
+
+		sync.synchronized.connect(_on_synchronized)
+
+
+## fires on this peer every time a sync packet for this player is accepted
+func _on_synchronized() -> void:
+	_net_target = synced_position
+	_packet_age = 0.0
+
 
 ## if this IS the peer, treat it like god and handle phyics throguh it
 func _physics_process(delta: float) -> void:
@@ -59,6 +92,7 @@ func _physics_process(delta: float) -> void:
 		_simulate_local(delta)
 	else:
 		_smooth_remote(delta)
+
 
 ## actual movement and input stuff
 func _simulate_local(delta: float) -> void:
@@ -94,8 +128,27 @@ func _simulate_local(delta: float) -> void:
 
 	move_and_slide()
 
+	# Publish AFTER move_and_slide so we're sending where we actually ended up,
+	# not where we intended to go before collision resolution.
+	synced_position = global_position
+
 
 func _smooth_remote(delta: float) -> void:
-	# Position comes from the MultiplayerSynchronizer; here we just make
-	# the model's turning look smooth between the ticks it receives.
+	# Predict forward from the last packet. Capped so a peer that stops sending
+	# leaves its proxy parked instead of drifting away forever.
+	_packet_age = min(_packet_age + delta, extrapolation_limit)
+	var predicted := _net_target + velocity * _packet_age
+
+	if global_position.distance_to(predicted) > teleport_distance:
+		# Too far to smooth plausibly - spawn, teleport, or a long dropout.
+		global_position = predicted
+	else:
+		# Framerate-independent exponential smoothing. Using a raw
+		# `smoothing * delta` factor would make the catch-up rate depend on
+		# framerate, so a 144Hz client and a 60Hz client would disagree.
+		var t := 1.0 - exp(-position_smoothing * delta)
+		global_position = global_position.lerp(predicted, t)
+
+	# Same idea for facing: steer toward the replicated yaw rather than
+	# assigning it, so turns read as turns instead of jumps.
 	visual_root.rotation.y = lerp_angle(visual_root.rotation.y, synced_yaw, turn_speed * delta)

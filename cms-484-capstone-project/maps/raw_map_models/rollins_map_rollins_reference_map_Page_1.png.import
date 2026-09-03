@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0glw40gw0hr3"
 path.s3tc="res://.godot/imported/rollins_map_rollins_reference_map_Page_1.png-82d42248c9bf029bedb2f8f3cda91bb2.s3tc.ctex"
+path.etc2="res://.godot/imported/rollins_map_rollins_reference_map_Page_1.png-82d42248c9bf029bedb2f8f3cda91bb2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://maps/raw_map_models/rollins_map_rollins_reference_map_Page_1.png"
-dest_files=["res://.godot/imported/rollins_map_rollins_reference_map_Page_1.png-82d42248c9bf029bedb2f8f3cda91bb2.s3tc.ctex"]
+dest_files=["res://.godot/imported/rollins_map_rollins_reference_map_Page_1.png-82d42248c9bf029bedb2f8f3cda91bb2.s3tc.ctex", "res://.godot/imported/rollins_map_rollins_reference_map_Page_1.png-82d42248c9bf029bedb2f8f3cda91bb2.etc2.ctex"]
 
 [params]
 

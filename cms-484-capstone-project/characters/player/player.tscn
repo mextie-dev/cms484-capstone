@@ -15,6 +15,12 @@ size = Vector3(0.21, 0.39, 1)
 script = ExtResource("3_5dc8e")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c6leb"]
+properties/0/path = NodePath(".:synced_yaw")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:synced_position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=1624817247]
 script = ExtResource("1_508ok")
