@@ -1,3 +1,6 @@
+# Authored by:
+# Max Royer, using outlines provided by Anthropic's Opus 5
+
 extends Control
 
 @onready var item_list: ItemList = $ItemList
@@ -51,8 +54,6 @@ func _on_host_button_pressed() -> void:
 		return
 	else:
 		print("[net] host button pressed")
-		# Don't hide the UI or announce hosting until host_lobby() has actually
-		# succeeded - it's async, so firing the signal here was a lie.
 		host_lobby(server_name)
 
 func _on_item_list_item_selected(index: int) -> void:
@@ -91,16 +92,15 @@ func host_lobby(server_name: String) -> void:
 		printerr("[net] Failed to create lobby")
 		return
 
-	# Kept in case Epic's search ever starts returning custom attributes for
-	# anonymous accounts - harmless either way, just not currently relied on
-	# for display. See _refresh_lobby_list for the actual workaround in use.
+	# epic's lobby system doesn't seem to relay lobby attributes
+	# for lobbies, so for now we go to see _refresh_lobby_list for the actual workaround in use
 	lobby.add_attribute("server_name", server_name)
 	await lobby.update_async()
 
 	var peer = EOSGMultiplayerPeer.new()
 
-	# create_server(socket_id) - one argument only.
-	# NOTE: returns a Godot Error, not an EOS result code. Compare to OK.
+	# create_server(socket_id)
+	# returns a Godot Error, not an EOS result code. Compare to OK.
 	var result: int = peer.create_server(P2P_SOCKET)
 	if result != OK:
 		printerr("[net] Failed to create EOSG P2P server. Error: ", result)

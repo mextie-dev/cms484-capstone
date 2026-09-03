@@ -1,3 +1,6 @@
+# Authored by:
+# Max Royer
+
 class_name PlayerCamera
 extends PhantomCamera3D
 
@@ -9,7 +12,7 @@ extends PhantomCamera3D
 ## the camera moves to frame the subject, and phantomcam makes this real easy
 
 @export var mouse_sensitivity: float = 0.08
-@export var min_pitch: float = -40.0
+@export var min_pitch: float = -70.0
 @export var max_pitch: float = 60.0
 @export var zoom_speed: float = 0.6
 @export var min_spring_length: float = 1.5

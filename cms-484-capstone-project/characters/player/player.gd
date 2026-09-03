@@ -1,5 +1,9 @@
+# Authored by:
+# Max Royer
+
 class_name Player
 extends CharacterBody3D
+
 ## third person control
 ##
 ## disclaimer: a lot of this is AI-reviewed (netcode is hard) and not implemented
@@ -19,14 +23,8 @@ extends CharacterBody3D
 @export var gravity_multiplier: float = 1.0
 
 @export_group("Network smoothing")
-## Higher = proxies catch up to the network target faster, but jitter shows
-## through more. Lower = smoother but laggier. 12-25 is a sane range.
 @export var position_smoothing: float = 18.0
-## Max seconds we'll keep extrapolating along the last known velocity before
-## giving up. Stops a proxy from flying off into space if a peer stalls.
 @export var extrapolation_limit: float = 0.25
-## If the proxy is further than this from where it should be, snap instead of
-## sliding. Covers spawns, teleports, and recovery after a long packet gap.
 @export var teleport_distance: float = 3.0
 
 @export_group("Nodes")
@@ -39,20 +37,15 @@ extends CharacterBody3D
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
-## Replicated by MultiplayerSynchronizer so remote peers can smoothly
-## orient the model without needing their own input.
+## smooth interpolation for rotation
 var synced_yaw: float = 0.0
 
-## Replicated position. Deliberately NOT the node's own `position` - if the
-## synchronizer wrote straight into the transform, every packet would land as
-## a visible snap. Remote peers steer toward this instead.
-## `velocity` (built into CharacterBody3D) is replicated as-is and used purely
-## for extrapolation on proxies, which never call move_and_slide().
+## interpolated between position vectors to smooth appearing movement
 var synced_position: Vector3 = Vector3.ZERO
 
-## Seconds since the last sync packet, used to extrapolate forward.
+## seconds since the last sync packet, used to extrapolate forward.
 var _packet_age: float = 0.0
-## The position the last packet reported, held separately so extrapolation
+## the position the last packet reported, held separately so extrapolation
 ## always builds off a known-good sample rather than compounding itself.
 var _net_target: Vector3 = Vector3.ZERO
 
@@ -87,7 +80,7 @@ func _ready() -> void:
 		sync.synchronized.connect(_on_synchronized)
 
 
-## Fires on this peer every time a sync packet for this player lands.
+## fires on this peer every time a sync packet for this player is accepted
 func _on_synchronized() -> void:
 	_net_target = synced_position
 	_packet_age = 0.0

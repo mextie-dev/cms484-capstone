@@ -1,6 +1,9 @@
+# Authored by:
+# Max Royer, using outlines provided by Anthropic's Opus 5
+
 extends Control
 
-## Handles EOS initialization and anonymous Device ID authentication.
+## handles EOS initialization and anonymous Device ID (PUID) authentication
 
 signal server_started
 
@@ -26,7 +29,8 @@ func login_persistent_anonymous_async(user_display_name: String) -> bool:
 	var create_ret = await IEOS.connect_interface_create_device_id_callback
 
 	# DuplicateNotAllowed means a Device ID already exists on this machine.
-	# That is expected after the first launch.
+	# That is expected after the first launch, so dont do anything, but just lets us know
+	# for debug purposes
 	if not EOS.is_success(create_ret):
 		if create_ret.result_code != EOS.Result.DuplicateNotAllowed:
 			printerr(
@@ -64,7 +68,8 @@ func login_persistent_anonymous_async(user_display_name: String) -> bool:
 func _ready() -> void:
 	#HPlatform.log_msg.connect(_on_eos_log_msg)
 
-	# Build EOS credentials.
+	# pass our defined EOS credentials in EOSCredentials.gd to the actual EOS service
+	# DONT PUSH EOSCREDENTIALS.GD TO GIT
 	var credentials := HCredentials.new()
 
 	credentials.product_name = EOSCredentials.PRODUCT_NAME
@@ -86,17 +91,17 @@ func _ready() -> void:
 
 	print("EOS platform initialized successfully.")
 
-	# These interfaces are only safe to use after EOS initialization.
+	# we have to put this here because if we set this before we've confirmed that
+	# EOS hears us, undefined behavior happens
 	HP2P.set_relay_control(EOS.P2P.RelayControl.AllowRelays)
 
-	# Extremely verbose logging while debugging networking.
+	# API call to EOS that sets the log level to very, very verbose, so all
+	# log messages we get are extremely detailed
 	HPlatform.set_eos_log_level(
 		EOS.Logging.LogCategory.AllCategories,
 		EOS.Logging.LogLevel.VeryVerbose
 	)
 
-	# IMPORTANT:
-	#
 	# HLobbies' high-level Presence behavior is independent of the
 	# presence_enabled value passed to an individual CreateLobbyOptions.
 	#
@@ -120,38 +125,38 @@ func _ready() -> void:
 
 	$DeviceLabel.text = "PUID: " + HAuth.product_user_id
 
+## util functions for logging, ignore
+#func save_text_to_file(
+	#content: String,
+	#file_path: String = "user://save_game.txt"
+#) -> void:
+	#var file := FileAccess.open(file_path, FileAccess.WRITE)
+#
+	#if file:
+		#file.store_string(content)
+		#file.close()
+		#print("File saved successfully.")
+	#else:
+		#printerr(
+			#"Failed to open file. Error code: ",
+			#FileAccess.get_open_error()
+		#)
+#
+#
+#func read_text_from_file(
+	#file_path: String
+#) -> String:
+	#var file := FileAccess.open(file_path, FileAccess.READ)
+#
+	#if file == null:
+		#printerr(
+			#"Failed to open file. Error code: ",
+			#FileAccess.get_open_error()
+		#)
+		#return ""
+#
+	#return file.get_as_text()
 
-func save_text_to_file(
-	content: String,
-	file_path: String = "user://save_game.txt"
-) -> void:
-	var file := FileAccess.open(file_path, FileAccess.WRITE)
-
-	if file:
-		file.store_string(content)
-		file.close()
-		print("File saved successfully.")
-	else:
-		printerr(
-			"Failed to open file. Error code: ",
-			FileAccess.get_open_error()
-		)
-
-
-func read_text_from_file(
-	file_path: String
-) -> String:
-	var file := FileAccess.open(file_path, FileAccess.READ)
-
-	if file == null:
-		printerr(
-			"Failed to open file. Error code: ",
-			FileAccess.get_open_error()
-		)
-		return ""
-
-	return file.get_as_text()
-
-
+# if everything is successful, call out that we got a server spun up, server_setup.gd takes it from here
 func _on_connection_established() -> void:
 	server_started.emit()
