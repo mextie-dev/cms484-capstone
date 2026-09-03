@@ -68,57 +68,57 @@
     > of deliverables, documentation, etc.?
     > What grade would your team like to achieve on the project?
     
-    * 
+    * The desired grade on this project is an A, and we will work to achieve the best grade we can get on this project.
 
 2.  How much time per week (outside of class time) are you willing to 
     commit to in order to achieve the grade above?
 
-    *
+    * We will work around (fill this in) to achieve this grade.
     
 3.  What happens if people have different opinions on the quality of the work?
    
-    *
+    * Check each other's work to make sure it's up to standard.
    
 4.  How will you deal with the different work habits of individual team members?
     > (e.g., some people like to get assignments done as early
     > as possible; others like to work under the pressure of a
     > deadline)?
     
-    * 
+    * We will use the scrum chart and regular meetings to keep each other accountable for when certain parts of our project should be completed.
 
 5.  What happens if most people on the team want to get an "A" on the
     assignment, but another person decides that a "B" will be
     acceptable?
     > Will this be reflected on the "B" teammate's evaluation?
     
-    * 
+    * Yes, the work of others will be reflected in their evaluations. 
 
 6.  Is it acceptable for two or three team members to do more work on
     the assignment in order to get an "A"? 
     > Will this be reflected on teammates' evaluations? How?
      
-    *
+    *  We will spread the work out evenly among all members of the group. 
 
 **[Personal Accountability]{.underline}**
 
 1.  Expected individual attendance, punctuality, and participation at
     all team meetings:
     
-    *
+    * Every member of the team should attend the meeting; however, if someone can't make it, they should inform the group so we can let them know what was discussed in the meeting.
    
 2.  Expected level of responsibility for fulfilling team assignments,
     timelines, and deadlines:
     
-    * 
+    * Everyone is expected to do the work they were assigned.
 3.  Expected level of communication with other team members 
     > (When can a team member make an "executive decision" 
     > and when should he/she consult other teammates?):
     
-    * 
+    * Should anyone need help throughout the duration of this project, they should feel free to reach out to the group and ask for help.
 
 4.  Expected level of participation in team decisions and tasks.
    
-    * 
+    * All members of the team should give their input when it comes to team decisions so everyone gets a say in team decisions. 
 **[Generative AI Usage]{.underline}**
 
 1.  Under what circumstances may team members use generative AI tools
@@ -170,14 +170,14 @@
     doesn't follow through on a commitment (e.g., misses a deadline,
     doesn't show up to a meeting)?
    
-    * 
+    * We will discuss what caused them to do so, then see if we can resolve this issue.
 2.  Describe what your team will do if the infractions continue:
    
-    * 
+    * Should these infractions continue, it will reflect in their evaluation.
 3.  Describe under what circumstances you would request a team member be
     removed from your team and/or suffer serious grade penalties.
    
-    * 
+    * Should any member of the team completely ignore this contract, ignore their work, and not communicate with the group, they will receive the penalties listed above. 
   -----------------------------------------------------------------------
   **Team specific agreements and notes:**
   -----------------------------------------------------------------------
@@ -199,16 +199,16 @@ c)  *I understand that if I do not abide by these terms and conditions,
     I will suffer the consequences as stated in this contract.*
 
 1\)
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_date\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Max Royer date 09/03/2026
 
 2\)
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_date\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Benton Stalcup date 09/03/2026
 
 3\)
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_date\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+PJ Gonzalez date 09/03/2026
 
 4\)
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_date\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Mackenzie Yates date 09/03/2026
 
 [^1]: Based on: UTexas College of Natural Sciences, Math 115B, Teamwork
     Contract and "Management Communications for Undergraduates"
