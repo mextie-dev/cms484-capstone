@@ -20,7 +20,7 @@
 1.  Do you want to have a standard meeting time outside of class? 
     > If yes, what day, time, and place? In-person or virtual?
 
-    * Yes, tbd
+    * Yes, Mondays or Wednesdays at 3
 
     > If no, how will meetings be scheduled?
 
