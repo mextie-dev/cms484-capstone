@@ -103,6 +103,14 @@ chat={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="environment"
+3d_physics/layer_2="physobject"
+3d_physics/layer_3="item"
+3d_physics/layer_4="player"
+3d_physics/layer_5="zone"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
