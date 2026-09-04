@@ -35,6 +35,9 @@ extends CharacterBody3D
 @onready var pcam: PlayerCamera = get_node(pcam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
+var display_name : String
+
+
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 ## smooth interpolation for rotation
@@ -48,6 +51,7 @@ var _packet_age: float = 0.0
 ## the position the last packet reported, held separately so extrapolation
 ## always builds off a known-good sample rather than compounding itself.
 var _net_target: Vector3 = Vector3.ZERO
+
 
 
 func _enter_tree() -> void:

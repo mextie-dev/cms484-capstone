@@ -67,3 +67,16 @@ metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=570114306]
 replication_config = SubResource("SceneReplicationConfig_c6leb")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1127743039]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1557519246]
+own_world_3d = true
+transparent_bg = true
+
+[node name="NameLabel" type="Label3D" parent="SubViewportContainer/SubViewport" unique_id=1387211746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.209208, 0)
+billboard = 1
+text = "NAME"
