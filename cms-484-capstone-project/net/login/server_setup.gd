@@ -41,6 +41,8 @@ func _start_refreshing() -> void:
 func _on_join_button_pressed() -> void:
 	if selected_server:
 		print("[net] join button pressed")
+		var player_name = $"../PlayerName".text
+		PlayerData.player_name = player_name
 		join_selected_lobby(selected_server)
 
 func _on_host_button_pressed() -> void:
@@ -54,6 +56,7 @@ func _on_host_button_pressed() -> void:
 		return
 	else:
 		print("[net] host button pressed")
+		PlayerData.player_name = player_name
 		host_lobby(server_name)
 
 func _on_item_list_item_selected(index: int) -> void:

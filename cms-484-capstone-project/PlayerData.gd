@@ -1,11 +1,14 @@
 extends Node
 
+## base player info, needs
+var player_name : String
+var player_display_level : String
+var player_tag : String
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+## player unlocks
+var player_unlocked_cosmetics := []
+var player_unlocked_tags := []
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+## player levelling
+var player_level : float
+var xp_since_level : float

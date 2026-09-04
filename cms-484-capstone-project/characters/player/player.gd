@@ -29,8 +29,12 @@ extends CharacterBody3D
 
 @export_group("Nodes")
 @export var visual_root_path: NodePath
-@export var pcam_path: NodePath            
+@export var pcam_path: NodePath  
 
+
+@onready var name_label: Label3D = $VisualRoot/Labels/NameLabel
+@onready var tag_label: Label3D = $VisualRoot/Labels/TagLabel
+@onready var level_label: Label3D = $VisualRoot/Labels/LevelLabel
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var pcam: PlayerCamera = get_node(pcam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
@@ -73,6 +77,9 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		pcam.activate()
 		synced_position = global_position
+		
+		name_label.text = PlayerData.player_name
+		
 	else:
 		pcam.deactivate()
 

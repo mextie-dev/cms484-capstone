@@ -21,6 +21,9 @@ properties/0/replication_mode = 1
 properties/1/path = NodePath(".:synced_position")
 properties/1/spawn = true
 properties/1/replication_mode = 1
+properties/2/path = NodePath("VisualRoot/NameLabel:text")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=1624817247]
 script = ExtResource("1_508ok")
@@ -32,6 +35,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_x55pu")
 
 [node name="VisualRoot" type="Node3D" parent="." unique_id=1976726476]
+
+[node name="Labels" type="Node3D" parent="VisualRoot" unique_id=1232030490]
+
+[node name="NameLabel" type="Label3D" parent="VisualRoot/Labels" unique_id=1387211746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4911785, 0)
+billboard = 1
+no_depth_test = true
+text = "NAME"
+
+[node name="TagLabel" type="Label3D" parent="VisualRoot/Labels" unique_id=1616015163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.299301, 0)
+billboard = 1
+no_depth_test = true
+text = "TAG"
+font_size = 25
+
+[node name="LevelLabel" type="Label3D" parent="VisualRoot/Labels" unique_id=2061646671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1360543, 0)
+billboard = 1
+no_depth_test = true
+text = "LEVEL"
+font_size = 20
 
 [node name="DebugVis" type="MeshInstance3D" parent="VisualRoot" unique_id=1761180780]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -67,16 +92,3 @@ metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=570114306]
 replication_config = SubResource("SceneReplicationConfig_c6leb")
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1127743039]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1557519246]
-own_world_3d = true
-transparent_bg = true
-
-[node name="NameLabel" type="Label3D" parent="SubViewportContainer/SubViewport" unique_id=1387211746]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.209208, 0)
-billboard = 1
-text = "NAME"
