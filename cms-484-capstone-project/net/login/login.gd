@@ -7,6 +7,10 @@ extends Control
 
 signal server_started
 
+## Forwarded up from ServerSetup when the host disappears, so Main can unload
+## the world and put the menu back.
+signal server_stopped
+
 
 #func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
 	#print("EOS SDK [%s] | %s" % [msg.category, msg.message])
@@ -160,3 +164,8 @@ func _ready() -> void:
 # if everything is successful, call out that we got a server spun up, server_setup.gd takes it from here
 func _on_connection_established() -> void:
 	server_started.emit()
+
+
+# fired by ServerSetup.lost_connection when the host goes away
+func _on_server_setup_lost_connection() -> void:
+	server_stopped.emit()

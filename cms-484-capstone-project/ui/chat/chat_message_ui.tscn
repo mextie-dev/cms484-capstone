@@ -5,6 +5,7 @@
 [node name="ChatMessageUI" type="RichTextLabel" unique_id=1384014006]
 custom_minimum_size = Vector2(415, 0)
 clip_contents = false
+theme_override_font_sizes/normal_font_size = 23
 bbcode_enabled = true
 text = "[color=red]name[/color]: hopefully this works, pleaaaaase wrap the line now YES okay i need an longer word such as indubitably"
 fit_content = true

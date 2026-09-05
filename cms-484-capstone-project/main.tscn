@@ -2,10 +2,26 @@
 
 [ext_resource type="Script" uid="uid://rs8wlnui5oie" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node" unique_id=260151164]
 script = ExtResource("1_0xm2m")
 
-[node name="Login" parent="." unique_id=1241531983 instance=ExtResource("1_ig7tw")]
+[node name="LoginLayer" type="CanvasLayer" parent="." unique_id=1183182588]
 
-[connection signal="server_started" from="Login" to="." method="_on_login_server_started"]
+[node name="ColorRect" type="ColorRect" parent="LoginLayer" unique_id=384951660]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2053298, 0.1905733, 0.30956337, 1)
+
+[node name="Login" parent="LoginLayer" unique_id=1241531983 instance=ExtResource("1_ig7tw")]
+
+[node name="MultiplayerTestRoom" parent="." unique_id=2096257186 instance=ExtResource("3_h2yge")]
+process_mode = 4
+visible = false
+
+[connection signal="server_started" from="LoginLayer/Login" to="." method="_on_login_server_started"]
+[connection signal="server_stopped" from="LoginLayer/Login" to="." method="_on_login_server_stopped"]

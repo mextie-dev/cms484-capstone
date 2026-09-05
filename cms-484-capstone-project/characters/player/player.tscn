@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://db611kr1533e3" path="res://characters/player/player.gd" id="1_508ok"]
 [ext_resource type="Script" uid="uid://c0bhcn175qcus" path="res://characters/player/player_camera.gd" id="2_exd8k"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_5dc8e"]
-[ext_resource type="PackedScene" uid="uid://beywjhirqdn3r" path="res://ui/chat/chat_ui.tscn" id="4_5dc8e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_x55pu"]
 
@@ -95,9 +94,6 @@ follow_target = NodePath("../CameraTarget")
 tween_resource = SubResource("Resource_ixbpm")
 spring_length = 4.0
 metadata/_custom_type_script = "uid://csjccrhj5wnx7"
-
-[node name="ChatUI" parent="." unique_id=749851849 instance=ExtResource("4_5dc8e")]
-mouse_filter = 2
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=570114306]
 replication_config = SubResource("SceneReplicationConfig_c6leb")

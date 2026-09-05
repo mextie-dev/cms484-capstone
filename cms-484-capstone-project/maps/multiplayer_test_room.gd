@@ -11,11 +11,16 @@ const PLAYER_SCENE := preload("res://characters/player/player.tscn")
 
 
 func _ready() -> void:
+	#initialize()
+	pass
+
+
+func initialize():
 	print("[world] ready. is_server=", multiplayer.is_server(),
-		" unique_id=", multiplayer.get_unique_id())
+	" unique_id=", multiplayer.get_unique_id())
 
 	if multiplayer.is_server():
-		multiplayer.peer_disconnected.connect(_despawn_player)
+		#multiplayer.peer_disconnected.connect(_despawn_player)
 
 		# configure the host
 		_spawn_player(multiplayer.get_unique_id())
