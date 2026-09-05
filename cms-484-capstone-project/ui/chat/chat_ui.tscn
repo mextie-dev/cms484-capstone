@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://beywjhirqdn3r"]
+
+[ext_resource type="Script" uid="uid://bsmypqh5jgy04" path="res://ui/chat/chat_ui.gd" id="1_58prp"]
+[ext_resource type="Script" uid="uid://mfcaolux52m7" path="res://ui/chat/chat_box_scroll_container.gd" id="2_fu7if"]
+
+[node name="ChatUI" type="Control" unique_id=749851849]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_58prp")
+
+[node name="ChatField" type="LineEdit" parent="." unique_id=1966476800]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 409.0
+offset_right = 463.0
+offset_bottom = 468.0
+placeholder_text = "Press / to type..."
+max_length = 150
+caret_blink = true
+
+[node name="ChatBoxScrollContainer" type="ScrollContainer" parent="." unique_id=15386786]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 29.0
+offset_right = 463.0
+offset_bottom = 399.0
+script = ExtResource("2_fu7if")
+
+[node name="ChatMessageContainer" type="VBoxContainer" parent="ChatBoxScrollContainer" unique_id=712805640]
+layout_mode = 2
+
+[node name="TestMessage" type="Button" parent="." unique_id=359135177]
+layout_mode = 0
+offset_left = 626.0
+offset_top = 12.0
+offset_right = 847.0
+offset_bottom = 65.0
+text = "click to test message"
+
+[connection signal="text_submitted" from="ChatField" to="." method="_on_chat_field_text_submitted"]
+[connection signal="pressed" from="TestMessage" to="." method="_on_test_message_pressed"]

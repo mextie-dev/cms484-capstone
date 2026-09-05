@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dbgfsac2pfpto"]
+
+[ext_resource type="Script" uid="uid://dm4vv0f3yyuow" path="res://ui/chat/chat_message_ui.gd" id="1_c8vl1"]
+
+[node name="ChatMessageUI" type="RichTextLabel" unique_id=1384014006]
+custom_minimum_size = Vector2(415, 0)
+clip_contents = false
+theme_override_font_sizes/normal_font_size = 23
+bbcode_enabled = true
+text = "[color=red]name[/color]: hopefully this works, pleaaaaase wrap the line now YES okay i need an longer word such as indubitably"
+fit_content = true
+scroll_active = false
+script = ExtResource("1_c8vl1")

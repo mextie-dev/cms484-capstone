@@ -29,11 +29,19 @@ extends CharacterBody3D
 
 @export_group("Nodes")
 @export var visual_root_path: NodePath
-@export var pcam_path: NodePath            
+@export var pcam_path: NodePath  
+
+
+@onready var name_label: Label3D = $VisualRoot/Labels/NameLabel
+@onready var level_label: Label3D = $VisualRoot/Labels/LevelLabel
+@onready var tag_label: Label3D = $VisualRoot/Labels/TagLabel
 
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var pcam: PlayerCamera = get_node(pcam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
+
+var display_name : String
+
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -48,6 +56,7 @@ var _packet_age: float = 0.0
 ## the position the last packet reported, held separately so extrapolation
 ## always builds off a known-good sample rather than compounding itself.
 var _net_target: Vector3 = Vector3.ZERO
+
 
 
 func _enter_tree() -> void:
@@ -69,6 +78,9 @@ func _ready() -> void:
 	if is_multiplayer_authority():
 		pcam.activate()
 		synced_position = global_position
+		
+		name_label.text = PlayerData.player_name
+		
 	else:
 		pcam.deactivate()
 
