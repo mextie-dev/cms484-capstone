@@ -33,8 +33,9 @@ extends CharacterBody3D
 
 
 @onready var name_label: Label3D = $VisualRoot/Labels/NameLabel
-@onready var tag_label: Label3D = $VisualRoot/Labels/TagLabel
 @onready var level_label: Label3D = $VisualRoot/Labels/LevelLabel
+@onready var tag_label: Label3D = $VisualRoot/Labels/TagLabel
+
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var pcam: PlayerCamera = get_node(pcam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
