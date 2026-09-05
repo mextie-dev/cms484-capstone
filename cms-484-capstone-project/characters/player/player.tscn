@@ -24,6 +24,9 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("VisualRoot/Labels/NameLabel:text")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("VisualRoot/Labels/NameLabel:modulate")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=1624817247]
 collision_layer = 8

@@ -2,10 +2,11 @@ extends Node
 
 ## base player info, needs
 var player_name := "default"
+#var player_name_color := player_message_color
 var player_display_level : String
 var player_tag : String
 
-var player_message_color := Color(randf(), randf(), randf())
+var player_color := Color(randf(), randf(), randf())
 
 ## player unlocks
 var player_unlocked_cosmetics := []

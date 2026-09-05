@@ -15,10 +15,10 @@ func send_message(message: String) -> void:
 
 	# if in singleplayer, just show local
 	if multiplayer.multiplayer_peer == null:
-		message_recieved.emit(PlayerData.player_name, PlayerData.player_message_color, message)
+		message_recieved.emit(PlayerData.player_name, PlayerData.player_color, message)
 		return
 
-	submit_message.rpc_id(1, PlayerData.player_name, PlayerData.player_message_color, message)
+	submit_message.rpc_id(1, PlayerData.player_name, PlayerData.player_color, message)
 
 
 ## this only runs to the server

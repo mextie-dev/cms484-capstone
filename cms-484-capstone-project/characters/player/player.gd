@@ -80,6 +80,8 @@ func _ready() -> void:
 		synced_position = global_position
 		
 		name_label.text = PlayerData.player_name
+		name_label.modulate = Color(PlayerData.player_color.lightened(.3))
+		print(name_label.modulate)
 		
 	else:
 		pcam.deactivate()
