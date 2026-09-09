@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://32kfv8lywdu1"]
+
+[ext_resource type="Texture2D" uid="uid://bxmkmpiylc354" path="res://assets/ui/chat/ui_chatbox_bottom.png" id="1_t62xo"]
+[ext_resource type="Script" uid="uid://b74id8a1y1xye" path="res://ui/chat/chat_bubble.gd" id="2_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tt234"]
+bg_color = Color(0.9647059, 0.93333334, 0.8980392, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.14117648, 0.13725491, 0.09803922, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ChatBubble" type="Control" unique_id=418914703]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-102, -156.34)
+script = ExtResource("2_script")
+
+[node name="DeleteTimer" type="Timer" parent="." unique_id=1488203116]
+wait_time = 1.2999999999999998
+one_shot = true
+
+[node name="BubbleVbox" type="VBoxContainer" parent="." unique_id=1483829485]
+custom_maximum_size = Vector2(500, -1)
+layout_mode = 0
+offset_right = 204.0
+offset_bottom = 173.0
+
+[node name="Bubble" type="PanelContainer" parent="BubbleVbox" unique_id=461843738]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tt234")
+
+[node name="BubbleText" type="Label" parent="BubbleVbox/Bubble" unique_id=824146321]
+custom_maximum_size = Vector2(200, -1)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14117648, 0.13725491, 0.09803922, 1)
+theme_override_font_sizes/font_size = 25
+text = "example test message. this is a pretty long one i know"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+visible_characters_behavior = 1
+
+[node name="BubbleSpot" type="TextureRect" parent="BubbleVbox" unique_id=1822162945]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -4.07)
+texture = ExtResource("1_t62xo")
+stretch_mode = 3
+
+[node name="Button" type="Button" parent="." unique_id=1138543053]
+layout_mode = 0
+offset_left = 252.0
+offset_right = 371.0
+offset_bottom = 31.0
+scale = Vector2(2.6879144, 3.0587108)
+text = "random string"
+
+[connection signal="timeout" from="DeleteTimer" to="." method="delete"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
