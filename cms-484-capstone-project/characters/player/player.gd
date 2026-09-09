@@ -55,6 +55,16 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 
 var display_name : String
 
+## The peer that owns this character, resolved once in _enter_tree from the
+## node name. Chat messages carry the sender's peer id, and this is what they
+## get matched against.
+var owner_peer_id: int = 1
+
+## The bubble currently floating over this player, if any. Held so a second
+## message replaces the first instead of stacking another SubViewport on the
+## same marker.
+var _active_bubble: ChatBubble3D = null
+
 
 var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -84,6 +94,8 @@ func _enter_tree() -> void:
 		# scene by hand) - fall back to the local/offline default so the
 		# camera still activates instead of treating itself as remote.
 		peer_id = 1
+
+	owner_peer_id = peer_id
 	set_multiplayer_authority(peer_id)
 
 
@@ -106,9 +118,9 @@ func _ready() -> void:
 
 		sync.synchronized.connect(_on_synchronized)
 	
-	# connect internal signals for chat bubble spawning
-	
-	Chat.message_sent.connect(spawn_chat_bubble)
+	# Every player node on this client hears every message; the handler drops
+	# the ones that did not come from the peer this node represents.
+	Chat.message_recieved.connect(_on_chat_message)
 	
 
 
@@ -185,19 +197,23 @@ func _smooth_remote(delta: float) -> void:
 	# assigning it, so turns read as turns instead of jumps.
 	visual_root.rotation.y = lerp_angle(visual_root.rotation.y, synced_yaw, turn_speed * delta)
 
-func spawn_chat_bubble(message : String):
-	var bubble = CHAT_BUBBLE_3D.instantiate()
+## Fires on every peer for every message. Only the node representing the sender
+## puts up a bubble.
+func _on_chat_message(peer_id: int, _uname: String, _color: Color, message: String) -> void:
+	if peer_id != owner_peer_id:
+		return
+
+	spawn_chat_bubble(message)
+
+
+func spawn_chat_bubble(message: String) -> void:
+	if is_instance_valid(_active_bubble):
+		_active_bubble.queue_free()
+
+	var bubble := CHAT_BUBBLE_3D.instantiate() as ChatBubble3D
+	_active_bubble = bubble
 	bubble_point.add_child(bubble)
-	bubble = $VisualRoot/BubblePoint/ChatBubble3D
-	
-	#await get_tree().process_frame
+
+	# chat_bubble is an @onready on ChatBubble3D, so it is already resolved by
+	# the time add_child returns.
 	bubble.chat_bubble.show_bubble(message)
-	
-	#var vec3to2 = bubble_point.global_position
-	#vec3to2 = Vector2(vec3to2.x, vec3to2.y)
-	
-	#bubble.chat_bubble.center_pos.global_position = vec3to2
-	
-	
-	
-	

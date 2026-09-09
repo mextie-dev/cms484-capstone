@@ -11,7 +11,13 @@ const CHAT_MESSAGE_UI = preload("uid://dbgfsac2pfpto")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Chat.message_recieved.connect(add_to_box)
+	Chat.message_recieved.connect(_on_chat_message)
+
+
+## The signal now carries the sender's peer id so player nodes can filter on
+## it. The panel shows everything, so it just drops the id.
+func _on_chat_message(_peer_id: int, uname: String, color: Color, message: String) -> void:
+	add_to_box(uname, color, message)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -43,4 +49,3 @@ func _on_chat_field_text_submitted(new_text: String) -> void:
 	## send to the chat autoload manager
 	
 	Chat.send_message(new_text)
-	
