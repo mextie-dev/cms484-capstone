@@ -4,6 +4,16 @@
 class_name Player
 extends CharacterBody3D
 
+const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
+
+
+
+
+
+
+
+
+
 ## third person control
 ##
 ## disclaimer: a lot of this is AI-reviewed (netcode is hard) and not implemented
@@ -92,6 +102,11 @@ func _ready() -> void:
 		global_position = synced_position
 
 		sync.synchronized.connect(_on_synchronized)
+	
+	# connect internal signals for chat bubble spawning
+	
+	Chat.message_sent.connect()
+	
 
 
 ## fires on this peer every time a sync packet for this player is accepted
@@ -166,3 +181,7 @@ func _smooth_remote(delta: float) -> void:
 	# Same idea for facing: steer toward the replicated yaw rather than
 	# assigning it, so turns read as turns instead of jumps.
 	visual_root.rotation.y = lerp_angle(visual_root.rotation.y, synced_yaw, turn_speed * delta)
+
+func spawn_chat_bubble(message : String):
+	var bubble = CHAT_BUBBLE_3D.instantiate()
+	$

@@ -2,6 +2,8 @@
 
 extends Node
 
+signal message_sent(message)
+
 signal message_recieved(uname: String, color : Color, message : String)
 
 const MAX_MESSAGE_LENGTH := 150
@@ -19,6 +21,8 @@ func send_message(message: String) -> void:
 		return
 
 	submit_message.rpc_id(1, PlayerData.player_name, PlayerData.player_color, message)
+	
+	message_sent.emit(message)
 
 
 ## this only runs to the server

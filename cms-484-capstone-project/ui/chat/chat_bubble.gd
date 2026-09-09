@@ -9,6 +9,8 @@ extends Control
 
 @onready var delete_timer: Timer = $DeleteTimer
 
+@onready var center_pos: Marker2D = $CenterPos
+
 
 func show_bubble(message : String) -> void:
 	_calculate_size(message)

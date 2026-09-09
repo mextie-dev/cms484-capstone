@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b7mkopsiirqtl"]
+
+[ext_resource type="Script" uid="uid://hmjqnej1i2fb" path="res://ui/chat/chat_bubble_3d.gd" id="1_8ruet"]
+[ext_resource type="PackedScene" uid="uid://32kfv8lywdu1" path="res://ui/chat/chat_bubble.tscn" id="1_jmnf2"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_7d806"]
+viewport_path = NodePath("Sprite3D/SubViewport")
+
+[node name="ChatBubble3D" type="Node3D" unique_id=655999090]
+script = ExtResource("1_8ruet")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=957822794]
+billboard = 1
+texture = SubResource("ViewportTexture_7d806")
+
+[node name="SubViewport" type="SubViewport" parent="Sprite3D" unique_id=2015759830]
+transparent_bg = true
+
+[node name="ChatBubble" parent="Sprite3D/SubViewport" unique_id=418914703 instance=ExtResource("1_jmnf2")]
