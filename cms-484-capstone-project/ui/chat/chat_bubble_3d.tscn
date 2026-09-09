@@ -10,10 +10,15 @@ viewport_path = NodePath("Sprite3D/SubViewport")
 script = ExtResource("1_8ruet")
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=957822794]
+offset = Vector2(0, 128)
 billboard = 1
+no_depth_test = true
+texture_filter = 0
 texture = SubResource("ViewportTexture_7d806")
 
 [node name="SubViewport" type="SubViewport" parent="Sprite3D" unique_id=2015759830]
 transparent_bg = true
+size = Vector2i(320, 256)
+render_target_update_mode = 4
 
 [node name="ChatBubble" parent="Sprite3D/SubViewport" unique_id=418914703 instance=ExtResource("1_jmnf2")]

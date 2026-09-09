@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cl1pauwtyujd4"]
 
 [ext_resource type="Script" uid="uid://db611kr1533e3" path="res://characters/player/player.gd" id="1_508ok"]
-[ext_resource type="PackedScene" uid="uid://b7mkopsiirqtl" path="res://ui/chat/chat_bubble_3d.tscn" id="2_5dc8e"]
 [ext_resource type="Script" uid="uid://c0bhcn175qcus" path="res://characters/player/player_camera.gd" id="2_exd8k"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="3_5dc8e"]
 
@@ -24,26 +23,15 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 properties/2/path = NodePath("VisualRoot/Labels/NameLabel:text")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/replication_mode = 2
 properties/3/path = NodePath("VisualRoot/Labels/NameLabel:modulate")
 properties/3/spawn = true
-properties/3/replication_mode = 1
+properties/3/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=1624817247]
 collision_layer = 8
 collision_mask = 13
 script = ExtResource("1_508ok")
-walk_speed = null
-run_speed = null
-acceleration = null
-friction = null
-air_control = null
-turn_speed = null
-jump_velocity = null
-gravity_multiplier = null
-position_smoothing = null
-extrapolation_limit = null
-teleport_distance = null
 visual_root_path = NodePath("VisualRoot")
 pcam_path = NodePath("PhantomCamera3D")
 
@@ -99,11 +87,8 @@ shift to sprint
 esc to show mouse"
 horizontal_alignment = 2
 
-[node name="Marker3D" type="Marker3D" parent="VisualRoot" unique_id=797740233]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7055132, 0)
-
-[node name="ChatBubble3D" parent="VisualRoot/Marker3D" unique_id=655999090 instance=ExtResource("2_5dc8e")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6321595, 0)
+[node name="BubblePoint" type="Marker3D" parent="VisualRoot" unique_id=797740233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5581806, 0)
 
 [node name="CameraTarget" type="Marker3D" parent="." unique_id=176766320]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

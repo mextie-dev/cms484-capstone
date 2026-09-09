@@ -50,6 +50,9 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 @onready var pcam: PlayerCamera = get_node(pcam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
+@onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
+
+
 var display_name : String
 
 
@@ -105,7 +108,7 @@ func _ready() -> void:
 	
 	# connect internal signals for chat bubble spawning
 	
-	Chat.message_sent.connect()
+	Chat.message_sent.connect(spawn_chat_bubble)
 	
 
 
@@ -184,4 +187,17 @@ func _smooth_remote(delta: float) -> void:
 
 func spawn_chat_bubble(message : String):
 	var bubble = CHAT_BUBBLE_3D.instantiate()
-	$
+	bubble_point.add_child(bubble)
+	bubble = $VisualRoot/BubblePoint/ChatBubble3D
+	
+	#await get_tree().process_frame
+	bubble.chat_bubble.show_bubble(message)
+	
+	#var vec3to2 = bubble_point.global_position
+	#vec3to2 = Vector2(vec3to2.x, vec3to2.y)
+	
+	#bubble.chat_bubble.center_pos.global_position = vec3to2
+	
+	
+	
+	
