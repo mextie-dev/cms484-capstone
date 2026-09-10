@@ -3,17 +3,21 @@
 [ext_resource type="Script" uid="uid://henp0wlgvj18" path="res://maps/multiplayer_test_room.gd" id="1_1pats"]
 [ext_resource type="PackedScene" uid="uid://c8lbpvj6xpa0r" path="res://maps/raw_map_structures/rollins_structure.tscn" id="1_3bp34"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_hrv6u"]
+[ext_resource type="PackedScene" uid="uid://dwq1tituyej7l" path="res://assets/models/green_tree.tscn" id="4_hrv6u"]
+[ext_resource type="AudioStream" uid="uid://bod3a8yrfk6jj" path="res://assets/sounds/music/mus_chill1.ogg" id="5_7gvuh"]
+[ext_resource type="PackedScene" uid="uid://clucjdugbge1g" path="res://assets/models/yellow_tree.tscn" id="6_7gvuh"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jil4q"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1pats"]
+sky_top_color = Color(0.9647059, 0.93333334, 0.8980392, 1)
+sky_horizon_color = Color(0.93186826, 0.8721431, 0.80454326, 1)
 
-[sub_resource type="Sky" id="Sky_u7cgb"]
-sky_material = SubResource("ProceduralSkyMaterial_jil4q")
+[sub_resource type="Sky" id="Sky_3bp34"]
+sky_material = SubResource("ProceduralSkyMaterial_1pats")
 
 [sub_resource type="Environment" id="Environment_2us1a"]
 background_mode = 2
-sky = SubResource("Sky_u7cgb")
+background_color = Color(0.9647059, 0.93333334, 0.8980392, 1)
+sky = SubResource("Sky_3bp34")
 
 [node name="MultiplayerTestRoom" type="Node3D" unique_id=2096257186]
 script = ExtResource("1_1pats")
@@ -42,8 +46,92 @@ process_physics_priority = 300
 script = ExtResource("3_hrv6u")
 metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1247381820]
+stream = ExtResource("5_7gvuh")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
 [node name="Players" type="Node3D" parent="." unique_id=1796374692]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1217922023]
 _spawnable_scenes = PackedStringArray("uid://cl1pauwtyujd4")
 spawn_path = NodePath("../Players")
+
+[node name="green_tree" parent="." unique_id=727103135 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.704693, 0.09788638, -5.796856)
+
+[node name="green_tree7" parent="." unique_id=199043703 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, -5.821504, 0.09788638, -7.378475)
+
+[node name="green_tree8" parent="." unique_id=1646688677 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.5305118, 0, -1.6676502, 0, 1.75, 0, 1.6676502, 0, -0.5305118, 9.0945, -0.116740406, -7.3610973)
+
+[node name="green_tree2" parent="." unique_id=1373637690 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.76452076, 0, -0.64459914, 0, 1, 0, 0.64459914, 0, 0.76452076, -16.139679, 0.09788638, -7.589649)
+
+[node name="green_tree3" parent="." unique_id=951602400 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.9173399, 0, -0.39810464, 0, 1, 0, 0.39810464, 0, 0.9173399, -18.119778, 0.09788638, -9.730297)
+
+[node name="green_tree4" parent="." unique_id=727542201 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.8011061, 0, -0.5985224, 0, 1, 0, 0.5985224, 0, 0.8011061, -20.795588, 0.09788638, -10.800621)
+
+[node name="green_tree5" parent="." unique_id=897432762 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.4495526, 0, -0.8932539, 0, 1, 0, 0.8932539, 0, 0.4495526, -23.230576, 0.09788638, -11.65688)
+
+[node name="green_tree6" parent="." unique_id=1973100539 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.4495526, 0, -0.8932539, 0, 1, 0, 0.8932539, 0, 0.4495526, -26.412455, 0.097886145, -13.431242)
+
+[node name="green_tree9" parent="." unique_id=177682993 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.004401058, 0, -0.99999034, 0, 1, 0, 0.99999034, 0, 0.004401058, -33.024044, 0.09788638, -17.784489)
+
+[node name="green_tree10" parent="." unique_id=2077224805 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.26383287, 0, -0.9645685, 0, 1, 0, 0.9645685, 0, 0.26383287, -35.753372, 0.09788638, -19.095636)
+
+[node name="green_tree11" parent="." unique_id=1436066725 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.17035069, 0, -0.98538357, 0, 1, 0, 0.98538357, 0, -0.17035069, -38.21512, 0.09788638, -20.353266)
+
+[node name="green_tree12" parent="." unique_id=429428824 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.8498626, 0, -0.5270045, 0, 1, 0, 0.5270045, 0, -0.8498626, -40.59659, 0.09788638, -21.610895)
+
+[node name="green_tree13" parent="." unique_id=150579396 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.9984822, 0, -0.055075616, 0, 1, 0, 0.055075616, 0, -0.9984822, -43.03157, 0.09788638, -23.403688)
+
+[node name="green_tree14" parent="." unique_id=2085871469 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.99898064, 0, 0.04514098, 0, 1, 0, -0.04514098, 0, -0.99898064, -51.321148, 0.09788638, -23.373924)
+
+[node name="green_tree15" parent="." unique_id=838669513 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.49956423, 0, -0.8662768, 0, 1, 0, 0.8662768, 0, -0.49956423, -48.534306, 0.09788638, -20.758593)
+
+[node name="green_tree16" parent="." unique_id=892046151 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.78597903, 0, 0.6182531, 0, 1, 0, -0.6182531, 0, 0.78597903, -46.741283, 0.097886145, -18.521805)
+
+[node name="green_tree17" parent="." unique_id=895723297 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.77327156, 0, 0.63407505, 0, 1, 0, -0.63407505, 0, -0.77327156, -44.43001, 0.097886145, -16.894981)
+
+[node name="green_tree18" parent="." unique_id=1179481551 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.408772, 0, 0.91263664, 0, 1, 0, -0.91263664, 0, -0.408772, -41.97086, 0.09788638, -15.351028)
+
+[node name="green_tree19" parent="." unique_id=1739781790 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.408772, 0, 0.91263664, 0, 1, 0, -0.91263664, 0, -0.408772, -39.621758, 0.09788638, -13.784709)
+
+[node name="green_tree20" parent="." unique_id=1394257190 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.9658523, 0, 0.2590938, 0, 1, 0, -0.2590938, 0, -0.9658523, -36.503605, 0.09788638, -11.957188)
+
+[node name="green_tree23" parent="." unique_id=334355845 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(-0.22002237, 0, 0.9754949, 0, 1, 0, -0.9754949, 0, -0.22002237, -29.302046, 0.09788638, -8.28928)
+
+[node name="green_tree24" parent="." unique_id=2060019518 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.21465823, 0, 0.97668934, 0, 1, 0, -0.97668934, 0, 0.21465823, -27.514885, 0.09788638, -7.3443985)
+
+[node name="green_tree25" parent="." unique_id=1021379717 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.8727858, 0, 0.4881036, 0, 1, 0, -0.4881036, 0, 0.8727858, -24.893059, 0.09788638, -5.4482374)
+
+[node name="green_tree26" parent="." unique_id=1216678679 instance=ExtResource("4_hrv6u")]
+transform = Transform3D(0.9999506, 0, 0.009947009, 0, 1, 0, -0.009947009, 0, 0.9999506, -22.415535, 0.097886145, -3.9637375)
+
+[node name="yellow_tree" parent="." unique_id=214027178 instance=ExtResource("6_7gvuh")]
+transform = Transform3D(1.47, 0, 0, 0, 1.47, 0, 0, 0, 1.47, -7.165193, 0.097887814, 19.167475)
+
+[node name="yellow_tree2" parent="." unique_id=476567932 instance=ExtResource("6_7gvuh")]
+transform = Transform3D(0.6057418, 0, -1.3393942, 0, 1.47, 0, 1.3393942, 0, 0.6057418, 8.840673, 0.097887814, 19.235624)
