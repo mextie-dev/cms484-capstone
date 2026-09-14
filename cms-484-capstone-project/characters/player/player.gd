@@ -39,7 +39,7 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 
 @export_group("Nodes")
 @export var visual_root_path: NodePath
-@export var pcam_path: NodePath  
+@export var maincam_path: NodePath  
 
 
 @onready var name_label: Label3D = $VisualRoot/Labels/NameLabel
@@ -47,7 +47,7 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 @onready var tag_label: Label3D = $VisualRoot/Labels/TagLabel
 
 @onready var visual_root: Node3D = get_node(visual_root_path)
-@onready var pcam: PlayerCamera = get_node(pcam_path)
+@onready var maincam: PlayerCamera = get_node(maincam_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 @onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
@@ -101,7 +101,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if is_multiplayer_authority():
-		pcam.activate()
+		maincam.activate()
 		synced_position = global_position
 		
 		name_label.text = PlayerData.player_name
@@ -109,7 +109,7 @@ func _ready() -> void:
 		print(name_label.modulate)
 		
 	else:
-		pcam.deactivate()
+		maincam.deactivate()
 
 		# Seed from the spawn-replicated value so a joining player doesn't
 		# see everyone slide in from the world origin.
@@ -151,7 +151,7 @@ func _simulate_local(delta: float) -> void:
 	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var move_dir := Vector3.ZERO
 	if raw_input.length() > 0.0:
-		var cam_basis := pcam.get_flat_basis()
+		var cam_basis := maincam.get_flat_basis()
 		move_dir = (cam_basis * Vector3(raw_input.x, 0.0, raw_input.y)).normalized()
 
 	var moving := move_dir.length() > 0.01

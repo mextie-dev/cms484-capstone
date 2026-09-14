@@ -31,7 +31,7 @@ mouse_filter = 2
 script = ExtResource("2_script")
 
 [node name="DeleteTimer" type="Timer" parent="." unique_id=1488203116]
-wait_time = 1.5999999999999999
+wait_time = 1.6
 one_shot = true
 
 [node name="BubbleVbox" type="VBoxContainer" parent="." unique_id=1483829485]
@@ -54,7 +54,7 @@ custom_maximum_size = Vector2(200, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.14117648, 0.13725491, 0.09803922, 1)
 theme_override_font_sizes/font_size = 16
-text = "test test test test test test test test"
+text = "hey this is how long it should be"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
