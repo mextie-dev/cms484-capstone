@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ou3ugwhcne3o"]
+
+[ext_resource type="PackedScene" uid="uid://ct8xdqn0168pk" path="res://assets/models/raw/soccer_goal_model.tscn" id="1_tm7s8"]
+
+[node name="SoccerGoal" type="Node3D" unique_id=1958787601]
+
+[node name="soccer_goal_model" parent="." unique_id=601550464 instance=ExtResource("1_tm7s8")]
+
+[node name="ResetTimer" type="Timer" parent="." unique_id=1583035822]
+wait_time = 60.0

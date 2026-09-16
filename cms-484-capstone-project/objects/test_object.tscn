@@ -15,11 +15,6 @@ script = ExtResource("1_q1d28")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5335562, 0)
 mesh = SubResource("BoxMesh_x55pu")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=568952053]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1563146120]
-shape = SubResource("ConcavePolygonShape3D_6iahu")
-
 [node name="Label3D" type="Label3D" parent="." unique_id=1603390367]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.382321, 0)
 text = "TS IS A OBJECT 🥀"
@@ -31,3 +26,5 @@ metadata/_custom_type_script = "uid://dkq0dolox6sag"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=452093148]
 shape = SubResource("ConcavePolygonShape3D_6iahu")
+
+[connection signal="player_interacted" from="HitboxComponent" to="." method="interacted"]

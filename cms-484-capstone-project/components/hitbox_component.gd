@@ -1,3 +1,5 @@
+# Authored by Max Royer
+
 class_name HitboxComponent
 extends Area3D
 
@@ -20,4 +22,4 @@ func _entered_area(body):
 
 
 func player_interacted_area(body):
-	pass
+	player_interacted.emit(body)

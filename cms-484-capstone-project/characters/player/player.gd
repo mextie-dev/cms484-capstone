@@ -40,6 +40,7 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 @export_group("Nodes")
 @export var visual_root_path: NodePath
 @export var maincam_path: NodePath  
+@export var interactcast_path: NodePath  
 
 
 @onready var name_label: Label3D = $VisualRoot/Labels/NameLabel
@@ -48,11 +49,11 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 
 @onready var visual_root: Node3D = get_node(visual_root_path)
 @onready var maincam: PlayerCamera = get_node(maincam_path)
+@onready var interact_cast: RayCast3D = get_node(interactcast_path)
 @onready var sync: MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 @onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
 
-@onready var interact_cast: RayCast3D = $InteractCast
 
 var display_name : String
 
@@ -219,5 +220,21 @@ func spawn_chat_bubble(message: String) -> void:
 	# the time add_child returns.
 	bubble.chat_bubble.show_bubble(message)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if !is_multiplayer_authority():
+		return
+	
+	
+	
+	if event.is_action_pressed("interact"):
+		print("interact pressed, attempting to interact")
+		scan_raycast()
+
+
+
+
 func scan_raycast():
-	pass
+	var current = interact_cast.get_collider()
+	print(current)
+	if current is HitboxComponent:
+		current.player_interacted_area(self)

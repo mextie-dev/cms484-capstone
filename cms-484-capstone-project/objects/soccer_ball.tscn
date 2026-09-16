@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cgyf0t14egj51"]
+
+[ext_resource type="PackedScene" uid="uid://htrgjqrithmw" path="res://assets/models/raw/soccer_ball.glb" id="1_lx3ir"]
+[ext_resource type="Script" uid="uid://drh0iowxibs6n" path="res://objects/soccer_ball.gd" id="1_qp0sn"]
+[ext_resource type="Script" uid="uid://dkq0dolox6sag" path="res://components/hitbox_component.gd" id="2_ww6xw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x55pu"]
+radius = 0.30881166
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qp0sn"]
+height = 2.54
+radius = 0.8
+
+[node name="SoccerBall" type="RigidBody3D" unique_id=772655492]
+collision_layer = 2
+collision_mask = 9
+mass = 0.5
+linear_damp = 0.467
+script = ExtResource("1_qp0sn")
+
+[node name="soccer_ball2" parent="." unique_id=405457240 instance=ExtResource("1_lx3ir")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=303369483]
+shape = SubResource("SphereShape3D_x55pu")
+
+[node name="HitboxComponent" type="Area3D" parent="." unique_id=721878518]
+script = ExtResource("2_ww6xw")
+metadata/_custom_type_script = "uid://dkq0dolox6sag"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=1710772670]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.159334, 0)
+shape = SubResource("CylinderShape3D_qp0sn")
+
+[connection signal="player_interacted" from="HitboxComponent" to="." method="_on_hitbox_component_player_interacted"]

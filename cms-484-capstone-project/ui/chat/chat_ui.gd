@@ -1,4 +1,4 @@
-# Authored by Max Royers
+# Authored by Max Royer
 
 extends Control
 
