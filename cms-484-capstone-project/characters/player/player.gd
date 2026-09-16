@@ -142,22 +142,31 @@ func _physics_process(delta: float) -> void:
 
 ## actual movement and input stuff
 func _simulate_local(delta: float) -> void:
+	# Input is polled straight from the Input singleton, which sees the raw
+	# keyboard no matter what has GUI focus. While a text field is focused,
+	# ignore movement keys but keep simulating, so gravity and friction still
+	# bring the player to a natural stop and position keeps syncing.
+	var typing := _is_typing()
+
 	if not is_on_floor():
 		velocity.y -= _gravity * gravity_multiplier * delta
 	elif velocity.y < 0.0:
 		velocity.y = 0.0
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if not typing and Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
-	var raw_input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var raw_input := Vector2.ZERO
+	if not typing:
+		raw_input = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var move_dir := Vector3.ZERO
 	if raw_input.length() > 0.0:
 		var cam_basis := maincam.get_flat_basis()
 		move_dir = (cam_basis * Vector3(raw_input.x, 0.0, raw_input.y)).normalized()
 
 	var moving := move_dir.length() > 0.01
-	var target_speed := run_speed if Input.is_action_pressed("run") else walk_speed
+	var running := not typing and Input.is_action_pressed("run")
+	var target_speed := run_speed if running else walk_speed
 	var target_velocity := move_dir * target_speed
 	var rate := acceleration if moving else friction
 	if not is_on_floor():
@@ -177,6 +186,14 @@ func _simulate_local(delta: float) -> void:
 	# Publish AFTER move_and_slide so we're sending where we actually ended up,
 	# not where we intended to go before collision resolution.
 	synced_position = global_position
+
+
+## True while a text field (the chat box, or any future LineEdit/TextEdit) has
+## keyboard focus. Checks text fields specifically because Buttons keep focus
+## after being clicked, which would otherwise lock movement.
+func _is_typing() -> bool:
+	var focused := get_viewport().gui_get_focus_owner()
+	return focused is LineEdit or focused is TextEdit
 
 
 func _smooth_remote(delta: float) -> void:
