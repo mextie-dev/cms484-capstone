@@ -10,7 +10,12 @@ size = Vector3(0.8066406, 0.6713867, 4.63)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hpoqo"]
 size = Vector3(1.12, 2.7, 4.27)
 
-[node name="SoccerGoal" type="Node3D" unique_id=1958787601]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_s0pqk"]
+properties/0/path = NodePath("ScoreLabel:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="SoccerGoal" type="Node3D" unique_id=1958787601 groups=["networked"]]
 script = ExtResource("1_s0pqk")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=921640596]
@@ -51,6 +56,9 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3
 billboard = 2
 text = "0"
 font_size = 226
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=964205261]
+replication_config = SubResource("SceneReplicationConfig_s0pqk")
 
 [connection signal="timeout" from="ResetTimer" to="." method="_on_reset_timer_timeout"]
 [connection signal="timeout" from="KickoutTimer" to="." method="_on_kickout_timer_timeout"]

@@ -61,6 +61,7 @@ enabled=PackedStringArray("res://addons/epic-online-services-godot/plugin.cfg", 
 [global_group]
 
 objects=""
+networked="nodes that need to be sent to the host for validation for multiplayer peers"
 
 [input]
 
