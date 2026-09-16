@@ -1,5 +1,6 @@
 # Authored by Max Royer
 
+class_name SoccerBall
 extends RigidBody3D
 
 @onready var hitbox_component: HitboxComponent = $HitboxComponent

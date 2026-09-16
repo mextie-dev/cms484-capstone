@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://clucjdugbge1g" path="res://assets/models/yellow_tree.tscn" id="6_7gvuh"]
 [ext_resource type="PackedScene" uid="uid://05rix3auxybl" path="res://objects/test_object.tscn" id="7_o8pl3"]
 [ext_resource type="PackedScene" uid="uid://cgyf0t14egj51" path="res://objects/soccer_ball.tscn" id="8_ludax"]
+[ext_resource type="PackedScene" uid="uid://ou3ugwhcne3o" path="res://objects/soccer_goal.tscn" id="9_iom1e"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1pats"]
 sky_top_color = Color(0.9647059, 0.93333334, 0.8980392, 1)
@@ -145,3 +146,6 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.1408982, 0.0005054474, -6.1
 [node name="SoccerBall" parent="." unique_id=772655492 instance=ExtResource("8_ludax")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.518381, 0.30050546, -0.48950005)
 mass = 6.176
+
+[node name="SoccerGoal" parent="." unique_id=1958787601 instance=ExtResource("9_iom1e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1764035, 0.062505454, -0.33649695)

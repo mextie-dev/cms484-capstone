@@ -24,6 +24,8 @@ script = ExtResource("1_qp0sn")
 shape = SubResource("SphereShape3D_x55pu")
 
 [node name="HitboxComponent" type="Area3D" parent="." unique_id=721878518]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("2_ww6xw")
 metadata/_custom_type_script = "uid://dkq0dolox6sag"
 

@@ -1,10 +1,57 @@
 [gd_scene format=3 uid="uid://ou3ugwhcne3o"]
 
+[ext_resource type="Script" uid="uid://dwts03mv3n7jo" path="res://objects/soccer_goal.gd" id="1_s0pqk"]
 [ext_resource type="PackedScene" uid="uid://ct8xdqn0168pk" path="res://assets/models/raw/soccer_goal_model.tscn" id="1_tm7s8"]
+[ext_resource type="Script" uid="uid://dkq0dolox6sag" path="res://components/hitbox_component.gd" id="2_647ot"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x55pu"]
+size = Vector3(0.8066406, 0.6713867, 4.63)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hpoqo"]
+size = Vector3(1.12, 2.7, 4.27)
 
 [node name="SoccerGoal" type="Node3D" unique_id=1958787601]
+script = ExtResource("1_s0pqk")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=921640596]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=700339626]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40230173, 1.9540573, 0)
+shape = SubResource("BoxShape3D_x55pu")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" unique_id=1097576840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.284349, 1.1452824, 0)
+shape = SubResource("BoxShape3D_x55pu")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D" unique_id=1891087770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8542752, 0.20400631, 0)
+shape = SubResource("BoxShape3D_x55pu")
 
 [node name="soccer_goal_model" parent="." unique_id=601550464 instance=ExtResource("1_tm7s8")]
 
 [node name="ResetTimer" type="Timer" parent="." unique_id=1583035822]
 wait_time = 60.0
+autostart = true
+
+[node name="KickoutTimer" type="Timer" parent="." unique_id=576709354]
+one_shot = true
+
+[node name="HitboxComponent" type="Area3D" parent="." unique_id=328056637]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5085584, 0.876081, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_647ot")
+metadata/_custom_type_script = "uid://dkq0dolox6sag"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=18154007]
+shape = SubResource("BoxShape3D_hpoqo")
+
+[node name="ScoreLabel" type="Label3D" parent="." unique_id=479026174]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 3.20882, 0)
+billboard = 2
+text = "0"
+font_size = 226
+
+[connection signal="timeout" from="ResetTimer" to="." method="_on_reset_timer_timeout"]
+[connection signal="timeout" from="KickoutTimer" to="." method="_on_kickout_timer_timeout"]
+[connection signal="object_entered" from="HitboxComponent" to="." method="entered_goal"]

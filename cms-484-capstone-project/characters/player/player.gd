@@ -234,6 +234,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func scan_raycast():
+	# input events land between physics ticks, so refresh the ray before reading it
+	interact_cast.force_raycast_update()
 	var current = interact_cast.get_collider()
 	print(current)
 	if current is HitboxComponent:
