@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ct8xdqn0168pk"]
+
+[ext_resource type="PackedScene" uid="uid://1mutsx532ics" path="res://assets/models/raw/soccer_goal.glb" id="1_4ueox"]
+[ext_resource type="Texture2D" uid="uid://drqeejlgln7ei" path="res://assets/textures/fence.png" id="2_ak1sm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_en0aw"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_ak1sm")
+texture_filter = 0
+
+[node name="soccer_goal_model" unique_id=601550464 instance=ExtResource("1_4ueox")]
+
+[node name="mesh" parent="." index="1" unique_id=907503506]
+surface_material_override/0 = SubResource("StandardMaterial3D_en0aw")

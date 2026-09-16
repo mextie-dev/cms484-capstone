@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://dwq1tituyej7l" path="res://assets/models/green_tree.tscn" id="4_hrv6u"]
 [ext_resource type="AudioStream" uid="uid://bod3a8yrfk6jj" path="res://assets/sounds/music/mus_chill1.ogg" id="5_7gvuh"]
 [ext_resource type="PackedScene" uid="uid://clucjdugbge1g" path="res://assets/models/yellow_tree.tscn" id="6_7gvuh"]
+[ext_resource type="PackedScene" uid="uid://05rix3auxybl" path="res://objects/test_object.tscn" id="7_o8pl3"]
+[ext_resource type="PackedScene" uid="uid://cgyf0t14egj51" path="res://objects/soccer_ball.tscn" id="8_ludax"]
+[ext_resource type="PackedScene" uid="uid://ou3ugwhcne3o" path="res://objects/soccer_goal.tscn" id="9_iom1e"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1pats"]
 sky_top_color = Color(0.9647059, 0.93333334, 0.8980392, 1)
@@ -48,6 +51,7 @@ metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1247381820]
 stream = ExtResource("5_7gvuh")
+volume_db = -80.0
 autoplay = true
 bus = &"Music"
 parameters/looping = true
@@ -135,3 +139,13 @@ transform = Transform3D(1.47, 0, 0, 0, 1.47, 0, 0, 0, 1.47, -7.165193, 0.0978878
 
 [node name="yellow_tree2" parent="." unique_id=476567932 instance=ExtResource("6_7gvuh")]
 transform = Transform3D(0.6057418, 0, -1.3393942, 0, 1.47, 0, 1.3393942, 0, 0.6057418, 8.840673, 0.097887814, 19.235624)
+
+[node name="TestObject" parent="." unique_id=1923899054 instance=ExtResource("7_o8pl3")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 1.1408982, 0.0005054474, -6.146478)
+
+[node name="SoccerBall" parent="." unique_id=772655492 instance=ExtResource("8_ludax")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.518381, 0.30050546, -0.48950005)
+mass = 6.176
+
+[node name="SoccerGoal" parent="." unique_id=1958787601 instance=ExtResource("9_iom1e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1764035, 0.062505454, -0.33649695)

@@ -18,6 +18,8 @@ func _ready() -> void:
 func initialize():
 	print("[world] ready. is_server=", multiplayer.is_server(),
 	" unique_id=", multiplayer.get_unique_id())
+	
+	get_tree().call_group("networked", "setup_network")
 
 	if multiplayer.is_server():
 		#multiplayer.peer_disconnected.connect(_despawn_player)
