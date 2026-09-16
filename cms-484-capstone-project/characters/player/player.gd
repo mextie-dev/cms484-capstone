@@ -52,6 +52,7 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 
 @onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
 
+@onready var interact_cast: RayCast3D = $InteractCast
 
 var display_name : String
 
@@ -217,3 +218,6 @@ func spawn_chat_bubble(message: String) -> void:
 	# chat_bubble is an @onready on ChatBubble3D, so it is already resolved by
 	# the time add_child returns.
 	bubble.chat_bubble.show_bubble(message)
+
+func scan_raycast():
+	pass

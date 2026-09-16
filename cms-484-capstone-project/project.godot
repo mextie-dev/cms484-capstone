@@ -58,6 +58,10 @@ project/assembly_name="cms484-capstone-project"
 
 enabled=PackedStringArray("res://addons/epic-online-services-godot/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
 
+[global_group]
+
+objects=""
+
 [input]
 
 ui_focus_next={

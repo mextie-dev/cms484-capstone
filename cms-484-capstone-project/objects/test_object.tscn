@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://05rix3auxybl"]
+
+[ext_resource type="Script" uid="uid://dkq0dolox6sag" path="res://components/hitbox_component.gd" id="1_db117"]
+[ext_resource type="Script" uid="uid://bwvi5iybvi87r" path="res://objects/test_object.gd" id="1_q1d28"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x55pu"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_6iahu"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[node name="TestObject" type="Node3D" unique_id=1923899054]
+script = ExtResource("1_q1d28")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1668098013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5335562, 0)
+mesh = SubResource("BoxMesh_x55pu")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=568952053]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1563146120]
+shape = SubResource("ConcavePolygonShape3D_6iahu")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1603390367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.382321, 0)
+text = "TS IS A OBJECT 🥀"
+
+[node name="HitboxComponent" type="Area3D" parent="." unique_id=1291422678]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.535371, 0)
+script = ExtResource("1_db117")
+metadata/_custom_type_script = "uid://dkq0dolox6sag"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=452093148]
+shape = SubResource("ConcavePolygonShape3D_6iahu")
