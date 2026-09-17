@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://ck13potm022cr"]
+
+[ext_resource type="Script" uid="uid://c1ttueer7yhuk" path="res://objects/phys_object.gd" id="1_phys"]
+[ext_resource type="Script" uid="uid://dkq0dolox6sag" path="res://components/hitbox_component.gd" id="2_hitbox"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_body"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_placeholder"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hitbox"]
+radius = 0.8
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_phys"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="PhysObject" type="RigidBody3D" unique_id=176470167 groups=["networked"]]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_phys")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=346383084]
+shape = SubResource("BoxShape3D_body")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=880357638]
+mesh = SubResource("BoxMesh_placeholder")
+
+[node name="HitboxComponent" type="Area3D" parent="." unique_id=251560284]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("2_hitbox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitboxComponent" unique_id=124788992]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("CylinderShape3D_hitbox")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1928828772]
+replication_config = SubResource("SceneReplicationConfig_phys")
+
+[connection signal="player_interacted" from="HitboxComponent" to="." method="_on_hitbox_component_player_interacted"]

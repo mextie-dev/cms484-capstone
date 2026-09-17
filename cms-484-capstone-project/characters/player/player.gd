@@ -232,9 +232,6 @@ func spawn_chat_bubble(message: String) -> void:
 	var bubble := CHAT_BUBBLE_3D.instantiate() as ChatBubble3D
 	_active_bubble = bubble
 	bubble_point.add_child(bubble)
-
-	# chat_bubble is an @onready on ChatBubble3D, so it is already resolved by
-	# the time add_child returns.
 	bubble.chat_bubble.show_bubble(message)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -252,8 +249,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func scan_raycast():
 	# input events land between physics ticks, so refresh the ray before reading it
-	interact_cast.force_raycast_update()
+	#interact_cast.force_raycast_update()
 	var current = interact_cast.get_collider()
-	print(current)
+	if current == null:
+		return
+	print(current.get_parent())
 	if current is HitboxComponent:
 		current.player_interacted_area(self)
