@@ -56,7 +56,7 @@ project/assembly_name="cms484-capstone-project"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/epic-online-services-godot/plugin.cfg", "res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/epic-online-services-godot/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/yard/plugin.cfg")
 
 [global_group]
 
