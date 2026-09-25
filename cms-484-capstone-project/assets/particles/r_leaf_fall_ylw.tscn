@@ -43,7 +43,7 @@ orientation = 0
 [node name="RLeafFall" type="Node3D" unique_id=1270518521]
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1905305161]
-amount = 25
+amount = 1
 lifetime = 5.0
 speed_scale = 0.5
 randomness = 0.5
