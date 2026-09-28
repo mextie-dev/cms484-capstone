@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dff1yarbx1x03"]
+
+[resource]
+resource_name = "shoecolor"
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0.41772145, 0.41772145, 0.41772145, 1)

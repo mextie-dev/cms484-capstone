@@ -2,18 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djh5adoot72f5"
-path.s3tc="res://.godot/imported/shirt_template.png-c84d692f49f81e476ba7655ad41ceec5.s3tc.ctex"
-path.etc2="res://.godot/imported/shirt_template.png-c84d692f49f81e476ba7655ad41ceec5.etc2.ctex"
+uid="uid://daw4xfpv7c50a"
+path.s3tc="res://.godot/imported/player_model_nomirror_shirt_template.png-82deebe02e5ae2e83afd21ab8bb79155.s3tc.ctex"
+path.etc2="res://.godot/imported/player_model_nomirror_shirt_template.png-82deebe02e5ae2e83afd21ab8bb79155.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "c5497689647775a27fa77f67f87cbbb5"
+}
 
 [deps]
 
-source_file="res://assets/cosmetics/templates/shirt_template.png"
-dest_files=["res://.godot/imported/shirt_template.png-c84d692f49f81e476ba7655ad41ceec5.s3tc.ctex", "res://.godot/imported/shirt_template.png-c84d692f49f81e476ba7655ad41ceec5.etc2.ctex"]
+source_file="res://assets/models/raw/player_model_nomirror_shirt_template.png"
+dest_files=["res://.godot/imported/player_model_nomirror_shirt_template.png-82deebe02e5ae2e83afd21ab8bb79155.s3tc.ctex", "res://.godot/imported/player_model_nomirror_shirt_template.png-82deebe02e5ae2e83afd21ab8bb79155.etc2.ctex"]
 
 [params]
 
