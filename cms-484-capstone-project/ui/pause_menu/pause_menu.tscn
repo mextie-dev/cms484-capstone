@@ -1,20 +1,42 @@
 [gd_scene format=3 uid="uid://bgvm70qltk6pr"]
 
+[ext_resource type="Script" uid="uid://b4ytfinq41hnh" path="res://ui/pause_menu/pause_script_test.gd" id="1_mnjdh"]
+
 [node name="Pause" type="Control" unique_id=1937026412]
+process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_mnjdh")
 
 [node name="Label" type="Label" parent="." unique_id=2122184452]
 layout_mode = 0
-offset_left = 728.0
+offset_left = 710.0
 offset_top = 1.0
-offset_right = 1312.0
+offset_right = 1294.0
 offset_bottom = 298.0
 theme_override_font_sizes/font_size = 80
 text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Button" type="Button" parent="." unique_id=1100742718]
+layout_mode = 0
+offset_left = 735.0
+offset_top = 264.0
+offset_right = 1271.0
+offset_bottom = 449.0
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+
+[node name="Button2" type="Button" parent="." unique_id=1885126038]
+layout_mode = 0
+offset_left = 156.0
+offset_top = 67.0
+offset_right = 470.0
+offset_bottom = 196.0
+theme_override_font_sizes/font_size = 40
+text = "Close"

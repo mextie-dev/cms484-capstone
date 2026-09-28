@@ -224,8 +224,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
 	
-	
-	
 	if event.is_action_pressed("interact"):
 		print("interact pressed, attempting to interact")
 		scan_raycast()
