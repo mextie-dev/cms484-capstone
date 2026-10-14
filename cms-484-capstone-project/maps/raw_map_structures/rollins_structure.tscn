@@ -5,13 +5,55 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_g8m1y"]
 size = Vector3(5, 0.001, 3.235294)
 
+[sub_resource type="BoxMesh" id="BoxMesh_2g0cy"]
+size = Vector3(1.5492859, 1, 4.2313232)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eu64u"]
+
 [node name="rollins_map" unique_id=1872796310 instance=ExtResource("1_g8m1y")]
 
-[node name="Cylinder" parent="." index="2" unique_id=65467340]
+[node name="Carnegie_placeholder" parent="." index="0" unique_id=936232092]
+transform = Transform3D(1, 0, 0, 0, 5.54, 0, 0, 0, 1, 86.413, -0.021348, -36.423325)
+
+[node name="Text_001" parent="Carnegie_placeholder" index="0" unique_id=1413564619]
+transform = Transform3D(0.7649999, 0, 0, 0, 0.005, 0, 0, 0, 0.7649999, -4.596451, 4.0591497, 8.120392)
+
+[node name="Chapel_placeholder" parent="." index="1" unique_id=1912761340]
+transform = Transform3D(1, 0, 0, 0, 5.545, 0, 0, 0, 1, -86.03655, 7.6696925, 29.521355)
+
+[node name="Text" parent="Chapel_placeholder" index="0" unique_id=1621201597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.059822083, 0.039701104, 23.943047)
+
+[node name="Cylinder" parent="." index="2" unique_id=1284689456]
 visible = false
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Floor" parent_id_path=PackedInt32Array(1429692293) index="0" unique_id=1752527015]
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" parent_id_path=PackedInt32Array(461675554) index="0" unique_id=1752527015]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60715246, 5.476837e-06, 0.5297674)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" index="0" unique_id=522814387]
 shape = SubResource("BoxShape3D_g8m1y")
+
+[node name="Plane" parent="." index="4" unique_id=1244883148]
+transform = Transform3D(1, 0, 0, 0, 5.54, 0, 0, 0, 1, 0, 33.37478, 0)
+
+[node name="Text_002" parent="." index="5" unique_id=803653040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.042784, 24.247486, -146.30746)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="6" unique_id=292170077]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 18.957024, 0.44763088, 0)
+mesh = SubResource("BoxMesh_2g0cy")
+
+[node name="WarrenAdmin_placeholder" type="CSGBox3D" parent="." index="7" unique_id=563651265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.64068, 0.48579544, 64.106094)
+size = Vector3(21.879578, 1, 13.418823)
+material = SubResource("StandardMaterial3D_eu64u")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="WarrenAdmin_placeholder" index="0" unique_id=2093139752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2985916, -0.041930735, 30.10025)
+size = Vector3(22.478207, 1, 26.5653)
+material = SubResource("StandardMaterial3D_eu64u")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="WarrenAdmin_placeholder" index="1" unique_id=1421552365]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5941925, 0.03527391, 11.595276)
+size = Vector3(18.154922, 1, 10.594467)
+material = SubResource("StandardMaterial3D_eu64u")
