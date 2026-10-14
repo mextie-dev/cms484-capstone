@@ -55,6 +55,9 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 @onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
 
 
+
+
+
 var display_name : String
 
 ## The peer that owns this character, resolved once in _enter_tree from the

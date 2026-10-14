@@ -29,6 +29,116 @@ properties/3/path = NodePath("VisualRoot/Labels/NameLabel:modulate")
 properties/3/spawn = true
 properties/3/replication_mode = 2
 
+[sub_resource type="Animation" id="Animation_5dc8e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_r:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.0429438e-08, 1.2624483e-09, 0.2409216)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_l:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.0429438e-08, 1.2624483e-09, 0.2409216)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_l/lower_arm_l:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(6.037273e-09, 4.1895976e-10, 0.13856204)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_r/lower_arm_r:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(6.037273e-09, 4.1895976e-10, 0.13856204)]
+}
+
+[sub_resource type="Animation" id="Animation_ixbpm"]
+resource_name = "idle"
+length = 2.3000000000000003
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_r:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 1.95, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-4.3631063e-09, 2.1829523e-10, -0.09998267), Vector3(1.0429438e-08, 1.2624483e-09, 0.2409216), Vector3(-4.10182e-09, 2.3673852e-10, -0.093961135), Vector3(-4.3631063e-09, 2.1829523e-10, -0.09998267)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_l:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 1.95, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-4.3631063e-09, 2.1829523e-10, -0.09998267), Vector3(1.0429438e-08, 1.2624483e-09, 0.2409216), Vector3(-4.10182e-09, 2.3673852e-10, -0.093961135), Vector3(-4.3631063e-09, 2.1829523e-10, -0.09998267)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_l/lower_arm_l:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.73333335, 1.01, 1.3333334, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(5.5959326e-09, 3.8833267e-10, 0.1284328), Vector3(6.037273e-09, 4.1895976e-10, 0.13856204), Vector3(5.5098957e-09, 3.8236214e-10, 0.12645814), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VisualRoot/player_model_nomirror/torso/upper_arm_r/lower_arm_r:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.73333335, 1.01, 1.3333334, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(5.5959326e-09, 3.8833267e-10, 0.1284328), Vector3(6.037273e-09, 4.1895976e-10, 0.13856204), Vector3(5.5098957e-09, 3.8236214e-10, 0.12645814), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c6leb"]
+_data = {
+&"RESET": SubResource("Animation_5dc8e"),
+&"idle": SubResource("Animation_ixbpm")
+}
+
 [node name="Player" type="CharacterBody3D" unique_id=1624817247]
 collision_layer = 8
 collision_mask = 13
@@ -45,6 +155,18 @@ shape = SubResource("CapsuleShape3D_x55pu")
 
 [node name="player_model_nomirror" parent="VisualRoot" unique_id=2094472439 instance=ExtResource("2_5dc8e")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="upper_arm_l" parent="VisualRoot/player_model_nomirror/torso" parent_id_path=PackedInt32Array(2094472439, 698355591) index="3" unique_id=1039216685]
+transform = Transform3D(0.97111875, -0.23859777, 1.2624483e-09, 0.23859777, 0.97111875, -1.0429438e-08, 1.2624534e-09, 1.04294395e-08, 1, -0.05036691, 0.9368155, -0.7035495)
+
+[node name="lower_arm_l" parent="VisualRoot/player_model_nomirror/torso/upper_arm_l" index="0" unique_id=1526510742]
+transform = Transform3D(0.99041563, -0.13811907, 4.1895973e-10, 0.13811907, 0.99041563, -6.0372725e-09, 4.1891823e-10, 6.0372756e-09, 0.99999994, -0.02003771, -0.65170884, -0.3139714)
+
+[node name="upper_arm_r" parent="VisualRoot/player_model_nomirror/torso" parent_id_path=PackedInt32Array(2094472439, 698355591) index="4" unique_id=1683344945]
+transform = Transform3D(0.97111875, -0.23859777, 1.2624483e-09, 0.23859777, 0.97111875, -1.0429438e-08, 1.2624534e-09, 1.04294395e-08, 1, -0.058650702, 0.94154024, 0.70352364)
+
+[node name="lower_arm_r" parent="VisualRoot/player_model_nomirror/torso/upper_arm_r" index="0" unique_id=1127947775]
+transform = Transform3D(0.99041563, -0.13811907, 4.1895973e-10, 0.13811907, 0.99041563, -6.0372725e-09, 4.1891823e-10, 6.0372756e-09, 0.99999994, -0.01113981, -0.6628201, 0.2996527)
 
 [node name="Labels" type="Node3D" parent="VisualRoot" unique_id=1232030490]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.17738742, 0)
@@ -117,3 +239,8 @@ metadata/_custom_type_script = "uid://csjccrhj5wnx7"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=570114306]
 replication_config = SubResource("SceneReplicationConfig_c6leb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=632855938]
+libraries/ = SubResource("AnimationLibrary_c6leb")
+
+[editable path="VisualRoot/player_model_nomirror"]
