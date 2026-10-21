@@ -27,3 +27,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif vis_check == true:
 			self.hide()
 			vis_check = false
+
+
+# Quit to Desktop button.
+# When the button is pressed, kills the tree.
+func _on_button_3_pressed() -> void:
+	get_tree().quit()
