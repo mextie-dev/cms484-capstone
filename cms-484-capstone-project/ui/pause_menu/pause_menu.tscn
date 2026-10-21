@@ -50,4 +50,5 @@ offset_bottom = 840.0
 theme_override_font_sizes/font_size = 50
 text = "Quit to Desktop"
 
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]

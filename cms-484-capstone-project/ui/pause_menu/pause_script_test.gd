@@ -1,5 +1,6 @@
 extends Control
 var vis_check: bool = false
+# var settings_check
 
 # Called when the node enters the scene tree for the first time.
 # Makes it so that the menu is hidden by default.
@@ -33,3 +34,8 @@ func _unhandled_input(event: InputEvent) -> void:
 # When the button is pressed, kills the tree.
 func _on_button_3_pressed() -> void:
 	get_tree().quit()
+
+# Settings Button
+# When the button is pressed, leads to the settings sub-menu.
+func _on_button_pressed() -> void:
+	pass # Replace with function body.
