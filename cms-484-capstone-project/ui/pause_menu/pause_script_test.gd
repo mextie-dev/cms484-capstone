@@ -1,5 +1,8 @@
 extends Control
 var vis_check: bool = false
+
+signal exit_button_pressed
+
 # var settings_check
 
 # Called when the node enters the scene tree for the first time.
@@ -38,4 +41,10 @@ func _on_button_3_pressed() -> void:
 # Settings Button
 # When the button is pressed, leads to the settings sub-menu.
 func _on_button_pressed() -> void:
-	pass # Replace with function body.
+	self.hide()
+	# $Settings.show()
+
+# Return to Title
+func _on_button_2_pressed() -> void:
+	pass
+	# exit_button_pressed.emit()

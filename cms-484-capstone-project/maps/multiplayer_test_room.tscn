@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://henp0wlgvj18" path="res://maps/multiplayer_test_room.gd" id="1_1pats"]
 [ext_resource type="PackedScene" uid="uid://c8lbpvj6xpa0r" path="res://maps/raw_map_structures/rollins_structure.tscn" id="1_3bp34"]
+[ext_resource type="PackedScene" uid="uid://bgvm70qltk6pr" path="res://ui/pause_menu/pause_menu.tscn" id="2_4wjd6"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_hrv6u"]
 [ext_resource type="PackedScene" uid="uid://dwq1tituyej7l" path="res://assets/models/green_tree.tscn" id="4_hrv6u"]
 [ext_resource type="AudioStream" uid="uid://bod3a8yrfk6jj" path="res://assets/sounds/music/mus_chill1.ogg" id="5_7gvuh"]
@@ -24,6 +25,8 @@ sky = SubResource("Sky_3bp34")
 
 [node name="MultiplayerTestRoom" type="Node3D" unique_id=2096257186]
 script = ExtResource("1_1pats")
+
+[node name="Pause" parent="." unique_id=1937026412 instance=ExtResource("2_4wjd6")]
 
 [node name="Environment" type="Node3D" parent="." unique_id=163760154]
 

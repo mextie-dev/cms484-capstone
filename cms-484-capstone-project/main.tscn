@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bgvm70qltk6pr" path="res://ui/pause_menu/pause_menu.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://xqndkj2cy3y2" path="res://ui/pause_menu/settings.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node" unique_id=260151164]
 script = ExtResource("1_0xm2m")
@@ -25,6 +26,9 @@ process_mode = 4
 visible = false
 
 [node name="Pause" parent="." unique_id=1937026412 instance=ExtResource("4_1bvp3")]
+visible = false
+
+[node name="Settings" parent="." unique_id=309985639 instance=ExtResource("5_lquwl")]
 visible = false
 
 [connection signal="server_started" from="LoginLayer/Login" to="." method="_on_login_server_started"]
