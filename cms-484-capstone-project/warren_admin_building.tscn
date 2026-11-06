@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cwwglm25ok4wr"]
+
+[ext_resource type="Texture2D" uid="uid://6072tak8alin" path="res://maps/raw_map_models/warrenAdminBuilding.png" id="1_wqe4u"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qepkk"]
+_surfaces = [{
+"2d": true,
+"aabb": AABB(-38, -74, 0, 76, 148, 0),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 98, 193, 62, 202, 107, 168, 62, 223, 215, 196, 62, 202, 107, 168, 62, 213, 150, 235, 62, 0, 0, 0, 0, 244, 208, 241, 62, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0),
+"format": 34393296913,
+"index_count": 18,
+"index_data": PackedByteArray(0, 0, 7, 0, 6, 0, 6, 0, 5, 0, 4, 0, 2, 0, 1, 0, 0, 0, 6, 0, 4, 0, 3, 0, 2, 0, 0, 0, 6, 0, 6, 0, 3, 0, 2, 0),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray(0, 0, 24, 194, 0, 0, 148, 194, 0, 0, 24, 194, 204, 204, 144, 193, 0, 0, 80, 193, 204, 204, 136, 193, 0, 0, 80, 193, 208, 204, 188, 192, 0, 0, 24, 194, 48, 51, 131, 192, 0, 0, 24, 194, 0, 0, 148, 66, 0, 0, 24, 66, 0, 0, 148, 66, 0, 0, 24, 66, 0, 0, 148, 194)
+}]
+
+[node name="WarrenAdminBuilding" type="MeshInstance2D" unique_id=795440526]
+mesh = SubResource("ArrayMesh_qepkk")
+texture = ExtResource("1_wqe4u")

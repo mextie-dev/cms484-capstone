@@ -1,14 +1,22 @@
 [gd_scene format=3 uid="uid://c8lbpvj6xpa0r"]
 
 [ext_resource type="PackedScene" uid="uid://bknqn33eqhe86" path="res://maps/raw_map_models/rollins_map.glb" id="1_g8m1y"]
+[ext_resource type="PackedScene" uid="uid://j2sf5kykqa7t" path="res://assets/models/raw/buildings/alfond_sportscenter.tscn" id="2_2g0cy"]
+[ext_resource type="PackedScene" uid="uid://c8nue3k3qb4xb" path="res://assets/models/raw/buildings/alfond_swimming_poolrooms.tscn" id="3_ciqie"]
+[ext_resource type="PackedScene" uid="uid://cjjegsqqdm3ja" path="res://assets/models/raw/buildings/annie_russell_theatre.tscn" id="4_2wh72"]
+[ext_resource type="PackedScene" uid="uid://do7xeebufip5t" path="res://assets/models/raw/buildings/barker_house.tscn" id="5_2wh72"]
+[ext_resource type="PackedScene" uid="uid://b1j2v04ny7e1k" path="res://assets/models/raw/buildings/bush_science_center.tscn" id="6_fsgrh"]
+[ext_resource type="PackedScene" uid="uid://cwcohfxc25fwi" path="res://assets/models/raw/buildings/cornell_campus_center.tscn" id="7_8qi7n"]
+[ext_resource type="PackedScene" uid="uid://bphn1ir8mvexj" path="res://assets/models/raw/buildings/cornell_fine_arts_center.tscn" id="8_nfq8u"]
+[ext_resource type="PackedScene" uid="uid://cxg4nv6s684wc" path="res://assets/models/raw/buildings/cornell_hall_social_sciences.tscn" id="9_3cv02"]
+[ext_resource type="PackedScene" uid="uid://imcmww1cw07g" path="res://assets/models/raw/buildings/crummer_hall.tscn" id="10_3cv02"]
+[ext_resource type="PackedScene" uid="uid://651gaqm4drni" path="res://assets/models/raw/buildings/east_end_neighborhood_h.tscn" id="11_gvgh8"]
+[ext_resource type="PackedScene" uid="uid://8d1u1xjldi4x" path="res://assets/models/raw/buildings/east_end_low_i.tscn" id="12_3qkvu"]
+[ext_resource type="PackedScene" uid="uid://denku1a7ymvrn" path="res://assets/models/raw/buildings/east_end_neighborhood_uppercase_l.tscn" id="13_4jyf2"]
+[ext_resource type="PackedScene" uid="uid://ditqdyekmiusk" path="res://assets/models/raw/buildings/hooker_hall.tscn" id="14_rs8ps"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g8m1y"]
 size = Vector3(5, 0.001, 3.235294)
-
-[sub_resource type="BoxMesh" id="BoxMesh_2g0cy"]
-size = Vector3(1.5492859, 1, 4.2313232)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eu64u"]
 
 [node name="rollins_map" unique_id=1872796310 instance=ExtResource("1_g8m1y")]
 
@@ -39,21 +47,41 @@ transform = Transform3D(1, 0, 0, 0, 5.54, 0, 0, 0, 1, 0, 33.37478, 0)
 [node name="Text_002" parent="." index="5" unique_id=803653040]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.042784, 24.247486, -146.30746)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." index="6" unique_id=292170077]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 18.957024, 0.44763088, 0)
-mesh = SubResource("BoxMesh_2g0cy")
+[node name="alfond_sportscenter" parent="." index="6" unique_id=2042377787 instance=ExtResource("2_2g0cy")]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, -261.3202, 5.0005035, 136.02939)
 
-[node name="WarrenAdmin_placeholder" type="CSGBox3D" parent="." index="7" unique_id=563651265]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.64068, 0.48579544, 64.106094)
-size = Vector3(21.879578, 1, 13.418823)
-material = SubResource("StandardMaterial3D_eu64u")
+[node name="alfond_swimming_poolrooms" parent="." index="7" unique_id=1642971099 instance=ExtResource("3_ciqie")]
+transform = Transform3D(0.2, 0, 0, 0, 1.5, 0, 0, 0, 0.2, -46.39485, 1.2117643, -307.55487)
 
-[node name="CSGBox3D" type="CSGBox3D" parent="WarrenAdmin_placeholder" index="0" unique_id=2093139752]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2985916, -0.041930735, 30.10025)
-size = Vector3(22.478207, 1, 26.5653)
-material = SubResource("StandardMaterial3D_eu64u")
+[node name="annie_russell_theatre" parent="." index="8" unique_id=270166934 instance=ExtResource("4_2wh72")]
+transform = Transform3D(0.645, 0, 0, 0, 0.835, 0, 0, 0, 0.645, -75.021996, 3.900937, 121.392006)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="WarrenAdmin_placeholder" index="1" unique_id=1421552365]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5941925, 0.03527391, 11.595276)
-size = Vector3(18.154922, 1, 10.594467)
-material = SubResource("StandardMaterial3D_eu64u")
+[node name="barker_house" parent="." index="9" unique_id=920476368 instance=ExtResource("5_2wh72")]
+transform = Transform3D(0.54, 0, 0, 0, 1.79, 0, 0, 0, 0.54, -549.7687, 2.0119262, 384.955)
+
+[node name="bush_science_center" parent="." index="10" unique_id=899844815 instance=ExtResource("6_fsgrh")]
+transform = Transform3D(1, 0, 0, 0, 4.5, 0, 0, 0, 1, 64.01815, 4.7978287, 169.1401)
+
+[node name="cornell_campus_center" parent="." index="11" unique_id=997280779 instance=ExtResource("7_8qi7n")]
+transform = Transform3D(0.785, 0, 0, 0, 2, 0, 0, 0, 0.785, -10.854813, 5, -234.52705)
+
+[node name="cornell_fine_arts_center" parent="." index="12" unique_id=109078267 instance=ExtResource("8_nfq8u")]
+transform = Transform3D(0.74, 0, 0, 0, 1.225, 0, 0, 0, 0.74, -279.3723, 5.0005035, -82.69922)
+
+[node name="cornell_hall_social_sciences" parent="." index="13" unique_id=1488755754 instance=ExtResource("9_3cv02")]
+transform = Transform3D(0.6, 0, 0, 0, 2.305, 0, 0, 0, 0.6, -88.03783, 4.4702377, 225.65958)
+
+[node name="crummer_hall" parent="." index="14" unique_id=622101305 instance=ExtResource("10_3cv02")]
+transform = Transform3D(0.5, 0, 0, 0, 1.945, 0, 0, 0, 0.5, -28.299213, 3.3881474, 223.34985)
+
+[node name="east_end_neighborhood_H" parent="." index="15" unique_id=1451239379 instance=ExtResource("11_gvgh8")]
+transform = Transform3D(1, 0, 0, 0, 5.96, 0, 0, 0, 1, -255.85463, 5.0005035, 277.1185)
+
+[node name="east_end_lowI" parent="." index="16" unique_id=1338360441 instance=ExtResource("12_3qkvu")]
+transform = Transform3D(0.5, 0, 0, 0, 5.625, 0, 0, 0, 0.5, -336.457, 2.5, 240.958)
+
+[node name="east_end_highL" parent="." index="17" unique_id=677216683 instance=ExtResource("13_4jyf2")]
+transform = Transform3D(0.7985756, 0, -0.043543883, 0, 4.1720004, 0, 0.047719315, 0, 0.72870016, -298.10452, 2.5, 215.01442)
+
+[node name="hooker_hall" parent="." index="18" unique_id=1043415870 instance=ExtResource("14_rs8ps")]
+transform = Transform3D(0.3, 0, 0, 0, 2, 0, 0, 0, 0.3, -135.99933, 5, -35.832314)
