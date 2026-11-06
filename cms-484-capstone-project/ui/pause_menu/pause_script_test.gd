@@ -1,8 +1,6 @@
 extends Control
 var vis_check: bool = false
 
-signal exit_button_pressed
-
 # var settings_check
 
 # Called when the node enters the scene tree for the first time.
@@ -38,13 +36,13 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_button_3_pressed() -> void:
 	get_tree().quit()
 
-# Settings Button
+# Settings Butto"/root/Settings"
 # When the button is pressed, leads to the settings sub-menu.
 func _on_button_pressed() -> void:
 	self.hide()
-	# $Settings.show()
+	$"../Settings".show()
 
 # Return to Title
 func _on_button_2_pressed() -> void:
 	pass
-	# exit_button_pressed.emit()
+	
