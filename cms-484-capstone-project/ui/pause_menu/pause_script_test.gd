@@ -36,7 +36,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_button_3_pressed() -> void:
 	get_tree().quit()
 
-# Settings Butto"/root/Settings"
+# Settings Button 
 # When the button is pressed, leads to the settings sub-menu.
 func _on_button_pressed() -> void:
 	self.hide()

@@ -13,11 +13,18 @@ script = ExtResource("1_mh368")
 
 [node name="Label" type="Label" parent="." unique_id=1850791136]
 layout_mode = 0
-offset_left = 645.0
-offset_top = 3.0
-offset_right = 1245.0
-offset_bottom = 303.0
+offset_left = 700.0
+offset_top = 1.0
+offset_right = 1300.0
+offset_bottom = 301.0
 theme_override_font_sizes/font_size = 80
 text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="." unique_id=754306294]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 230.0
+offset_right = 1323.0
+offset_bottom = 376.0
