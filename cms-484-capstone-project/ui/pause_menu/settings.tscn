@@ -14,9 +14,9 @@ script = ExtResource("1_mh368")
 [node name="Label" type="Label" parent="." unique_id=1850791136]
 layout_mode = 0
 offset_left = 700.0
-offset_top = 1.0
+offset_top = 18.0
 offset_right = 1300.0
-offset_bottom = 301.0
+offset_bottom = 318.0
 theme_override_font_sizes/font_size = 80
 text = "Settings"
 horizontal_alignment = 1
