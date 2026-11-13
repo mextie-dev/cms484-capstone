@@ -55,9 +55,6 @@ const CHAT_BUBBLE_3D = preload("uid://b7mkopsiirqtl")
 @onready var bubble_point: Marker3D = $VisualRoot/BubblePoint
 
 
-
-
-
 var display_name : String
 
 ## The peer that owns this character, resolved once in _enter_tree from the
@@ -237,15 +234,25 @@ func spawn_chat_bubble(message: String) -> void:
 	bubble_point.add_child(bubble)
 	bubble.chat_bubble.show_bubble(message)
 
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if !is_multiplayer_authority():
+	if not is_multiplayer_authority():
 		return
-	
 	if event.is_action_pressed("interact"):
-		print("interact pressed, attempting to interact")
-		scan_raycast()
+		try_interact()
 
+func try_interact() -> void:
+	if interact_cast.is_colliding():
+		var target = interact_cast.get_collider()
+		if target.has_method("interact"):
+			request_npc_interaction.rpc_id(1, target.npc_id)
 
+@rpc("any_peer", "call_remote", "reliable")
+func request_npc_interaction(npc_id: String) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_id = multiplayer.get_remote_sender_id()
 
 
 func scan_raycast():

@@ -1,0 +1,30 @@
+[wait_input]
+the_fox: Hey!
+the_fox: You look new here! What's your name stranger?
+[text_input text="Please enter your Name:" var="player_name_intro" placeholder="name"]
+player_name: Uhhh...hi? I'm {player_name_intro}
+player_name: But where an I? Who are you?
+the_fox: I'm the Rollins Fox of course!
+the_fox: And YOU {player_name_intro} are at Rollins College!
+the_fox: Hey! Since your new you need an R-Card to get around.
+the_fox: Why don't you head over to Campus Security to get your R-Card?
+jump first quest/
+[wait_input]
+label return_to_fox
+the_fox: Hey {player_name_intro}! Did you get that card yet?
+- Yeah I have it right here!
+	jump after_card
+- Not yet
+	the_fox: Keep looking! You can't get around without it!
+	[end_timeline]
+label after_card
+the_fox: Great! Now that you have your card head over to the dorms to see your room and meet some new people!
+jump second_quest/
+[wait_input]
+label after room
+the_fox: Hey! You got your room nice!
+the_fox: Why don't you take a look around and explore some of the building on campus.
+the_fox: Not only would this be a great way fo you to get familiar with the campus, but you would also be able to explore options for your major!
+the_fox: Go to the Bush Science Center first there you can learn about the Science and Math majors and minors we offer.
+jump third_quest/
+[wait_input]

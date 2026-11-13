@@ -1,0 +1,19 @@
+[wait_input]
+if {player_name_intro} == "":
+	security_person: Make sure you introduce yourself to The Fox first before I give you your R-Card
+	[end_timeline]
+player_name: Hello, is this Campus Security?
+security_person: This is indeed Campus Security!
+security_person: And you must be here for your R-Card right?
+- Yes, I am!
+	jump continue story
+- No sorry i'm looking for something else.
+	security_person: Ok, I hope you find what your looking for!
+	[end_timeline]
+label continue story
+security_person: Great! I just need to know your R-Number before I give you your card.
+[text_input text="Enter your R-Number:" var="first_quest.r_number" placeholder="number"]
+player_name: Of course! It's {first_quest.r_number}
+security_person: Fantastic, here is your card! I hope you have a wonderful time at Rollins!
+security_person: Make sure you go talk to The Fox again and let them know you got your R-Card.
+jump intro/return_to_fox
