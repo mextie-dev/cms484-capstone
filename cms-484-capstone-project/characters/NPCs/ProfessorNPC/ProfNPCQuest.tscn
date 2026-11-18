@@ -2,6 +2,10 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6xfvc"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dp6k7"]
+radius = 0.8720703
+height = 2.197754
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_axdrs"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_27cie"]
@@ -29,6 +33,14 @@ debug_color = Color(0, 0.6, 0.69803923, 1)
 [node name="NPC Name" type="Label3D" parent="." unique_id=306956508]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1368003, 0)
 text = "Professor NPC"
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=2068509860]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=2138846832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0083889365, 1.0201557, 0.013304591)
+shape = SubResource("CapsuleShape3D_dp6k7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1706612689]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

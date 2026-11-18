@@ -92,7 +92,7 @@ horizontal_alignment = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5581806, 0)
 
 [node name="InteractCast" type="RayCast3D" parent="VisualRoot" unique_id=1720831896]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.038330317, 1.3820009, -0.15343523)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.6076043, -0.038330317, 1.3820009, -0.15343523)
 target_position = Vector3(0, 0, 1.49)
 collision_mask = 4
 collide_with_areas = true

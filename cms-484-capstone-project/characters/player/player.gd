@@ -139,7 +139,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		_smooth_remote(delta)
 
-
 ## actual movement and input stuff
 func _simulate_local(delta: float) -> void:
 	# Input is polled straight from the Input singleton, which sees the raw
