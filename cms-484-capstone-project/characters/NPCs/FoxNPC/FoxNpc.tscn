@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bb7iywmg8ag62"]
+
+[ext_resource type="Script" uid="uid://nyptv7oh5xw8" path="res://characters/NPCs/Interactiable.gd" id="1_8qnsj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6xfvc"]
+
+[sub_resource type="GDScript" id="GDScript_sqsfk"]
+script/source = "extends Interactiable
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vhns4"]
+radius = 0.8720703
+height = 2.197754
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_axdrs"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_27cie"]
+
+[sub_resource type="Animation" id="Animation_powtp"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_hl1e3"]
+resource_name = "Typewriter"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kxjf4"]
+_data = {
+&"RESET": SubResource("Animation_powtp"),
+&"Typewriter": SubResource("Animation_hl1e3")
+}
+
+[node name="NpcQuest1" type="CharacterBody3D" unique_id=1617698611]
+process_mode = 3
+script = ExtResource("1_8qnsj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1608719317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0151782, 0.0033584833)
+shape = SubResource("CapsuleShape3D_6xfvc")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="NPC Name" type="Label3D" parent="." unique_id=306956508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1368003, 0)
+text = "Fox NPC"
+
+[node name="InteractionArea" type="Area3D" parent="." unique_id=1585511229]
+collision_layer = 5
+collision_mask = 5
+script = SubResource("GDScript_sqsfk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=694035620]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0083889365, 1.0201557, 0.013304591)
+shape = SubResource("CapsuleShape3D_vhns4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1706612689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 5
+mesh = SubResource("CapsuleMesh_axdrs")
+
+[node name="Face" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1209617570]
+transform = Transform3D(0.99996537, 0.008318791, 0, -0.008318791, 0.99996537, 0, 0, 0, 1, 0.0010573864, 0.3065269, 0.11940241)
+layers = 5
+mesh = SubResource("SphereMesh_27cie")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2094804687]
+libraries/ = SubResource("AnimationLibrary_kxjf4")
+
+[node name="Interact" type="RayCast3D" parent="." unique_id=625879370]
+transform = Transform3D(-0.9996535, 0, -0.026320906, 0, 1, 0, 0.026320906, 0, -0.9996535, 0, 1.4205226, 0)
+target_position = Vector3(0, 0, -3)
+collision_mask = 4
+collide_with_areas = true

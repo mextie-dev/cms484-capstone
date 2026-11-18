@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cigyemq2d7bea"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6xfvc"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_axdrs"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_27cie"]
+
+[sub_resource type="Animation" id="Animation_powtp"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_hl1e3"]
+resource_name = "Typewriter"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kxjf4"]
+_data = {
+&"RESET": SubResource("Animation_powtp"),
+&"Typewriter": SubResource("Animation_hl1e3")
+}
+
+[node name="NpcQuest3" type="CharacterBody3D" unique_id=1617698611]
+process_mode = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1608719317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0151782, 0.0033584833)
+shape = SubResource("CapsuleShape3D_6xfvc")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="NPC Name" type="Label3D" parent="." unique_id=306956508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1368003, 0)
+text = "Student NPC"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1706612689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 5
+mesh = SubResource("CapsuleMesh_axdrs")
+
+[node name="Face" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1209617570]
+transform = Transform3D(0.99996537, 0.008318791, 0, -0.008318791, 0.99996537, 0, 0, 0, 1, 0.0010573864, 0.3065269, 0.11940241)
+layers = 5
+mesh = SubResource("SphereMesh_27cie")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2094804687]
+libraries/ = SubResource("AnimationLibrary_kxjf4")
+
+[node name="Interact" type="RayCast3D" parent="." unique_id=625879370]
+transform = Transform3D(-0.9999569, 0, 0.009282782, 0, 1, 0, -0.009282782, 0, -0.9999569, 0, 1.4205226, 0)
+target_position = Vector3(0, 0, -3)
+collision_mask = 4
+collide_with_areas = true

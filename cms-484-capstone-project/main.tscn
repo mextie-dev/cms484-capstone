@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://by4s02ex7sbrg" path="res://ui/opening_cutscene.tscn" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://dwohthfw8o2hg" path="res://ui/opening_cutscene.gd" id="3_272bh"]
 [ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://bgvm70qltk6pr" path="res://ui/pause_menu/pause_menu.tscn" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://xqndkj2cy3y2" path="res://ui/pause_menu/settings.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node" unique_id=260151164]
 script = ExtResource("1_0xm2m")
@@ -42,6 +40,7 @@ visible = false
 process_mode = 4
 visible = false
 
+<<<<<<< HEAD
 [node name="Pause" parent="." unique_id=1937026412 instance=ExtResource("4_1bvp3")]
 visible = false
 
@@ -51,6 +50,8 @@ visible = false
 [connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_started"]
 [connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="LoginLayer/OpeningCutscene" method="_on_login_server_started"]
 [connection signal="server_stopped" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_stopped"]
+=======
+>>>>>>> c85e0bc1e5e5f2a6fe9e19ba2f05f889e98af25d
 [connection signal="server_started" from="LoginLayer/Login" to="." method="_on_login_server_started"]
 [connection signal="server_stopped" from="LoginLayer/Login" to="." method="_on_login_server_stopped"]
 

@@ -1,0 +1,26 @@
+[wait_input]
+\dorm_npc: Hey, are you here to see your dorm too?
+- Yeah! I can't wait to see what room I get!
+	\dorm_npc: I know right! I hope I get a good one!
+	jump continue quest
+- No, I was just looking around.
+	\dorm_npc: Oh, ok! I hope to see you around sometime.
+	[end_timeline]
+label continue quest
+\dorm_npc: I think their handing out room assignments over there.
+\dorm_npc: Hopefully I see you around!
+player_name: See you around!
+[wait_input]
+student_npc: Hello, Name and R-Number please.
+if {player_name_intro} == "":
+	student_npc: Make sure you go talk to The Fox first before I give you your room.
+	[end_timeline]
+elif {first_quest.r_number} == "":
+	student_npc: Make sure you go talk to Security first before I give you your room.
+	[end_timeline]
+player_name: My name is {player_name_intro} and my R-Number is {first_quest.r_number}
+set {second_quest.random_building} = ["Ward Hall", "Elizabeth Hall").pick_random()
+set {second_quest.random_room_number} = randi_range (1, 80)
+student_npc: Perfect! Yor room assignment is {second_quest.random_building} {second_quest.randon_room_number}, I hope you have a great time at rollins!
+quest_guide: Make sure you go talk to The Fox again and let them know you got your Room Assignment.
+jump intro/after room

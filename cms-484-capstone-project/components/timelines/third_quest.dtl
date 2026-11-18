@@ -1,0 +1,18 @@
+[wait_input]
+if {player_name_intro} == "":
+	quest_guide: You should go talk to The Fox first
+	[end_timeline]
+if {first_quest.r_number} == "":
+	quest_guide: You should go talk to Security first
+	[end_timeline]
+if {second_quest.random_building} == "":
+	quest_guide: You should go to the dorm first
+	[end_timeline]
+if {second_quest.random_room_number} == "":
+	quest_guide: You should go to the dorm first
+	[end_timeline]
+player_name: Excuse me, is this the Bush Science Center?
+proffesor_npc: Yes this is! what can I help you with?
+- 
+- 
+-
