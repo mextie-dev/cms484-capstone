@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://by4s02ex7sbrg"]
+
+[ext_resource type="Shader" uid="uid://bixur64rycwa" path="res://ui/opening_cutscene.gdshader" id="1_qxgwg"]
+[ext_resource type="Texture2D" uid="uid://dmykn0dh0fbb7" path="res://assets/textures/title_bg.png" id="1_s0o2a"]
+[ext_resource type="Texture2D" uid="uid://cotkkeln0w6j8" path="res://assets/textures/sxse_f2.png" id="2_qxgwg"]
+[ext_resource type="Texture2D" uid="uid://2qptgoqha8gq" path="res://assets/textures/sxse_f3.png" id="3_rt8i6"]
+[ext_resource type="Texture2D" uid="uid://s4fpea3da3lv" path="res://assets/textures/sxse_fr1.png" id="4_ry0qe"]
+[ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="6_rt8i6"]
+[ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="7_ry0qe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ts7x6"]
+shader = ExtResource("1_qxgwg")
+shader_parameter/use_sprite_alpha = true
+shader_parameter/use_transition_texture = false
+shader_parameter/transition_type = 0
+shader_parameter/position = Vector2(0.5, 0.5)
+shader_parameter/invert = false
+shader_parameter/grid_size = Vector2(5, 5)
+shader_parameter/rotation_angle = 0.0
+shader_parameter/global_x_mirror = false
+shader_parameter/global_y_mirror = false
+shader_parameter/local_x_mirror = false
+shader_parameter/local_y_mirror = false
+shader_parameter/stagger = Vector2(1, 1)
+shader_parameter/cumulative_stagger_flip = false
+shader_parameter/cumulative_stagger = Vector2(0, 0)
+shader_parameter/stagger_frequency = Vector2i(2, 2)
+shader_parameter/flip_frequency = Vector2i(1, 1)
+shader_parameter/basic_feather = 0.0
+shader_parameter/use_mask_size = false
+shader_parameter/mask_size = Vector2(100, 100)
+shader_parameter/edges = 6
+shader_parameter/shape_feather = 0.1
+shader_parameter/sectors = 1
+shader_parameter/clock_feather = 0.0
+shader_parameter/progress = 0.0
+shader_parameter/progress_bias = Vector2(0, 0)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7d806"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qxgwg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rt8i6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ry0qe")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_s2fuw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SXSELogo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BG:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_7mtmq"]
+resource_name = "intro"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SXSELogo:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.43333334, 1.9666667, 3.1, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SXSELogo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(5.9666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BG:material:shader_parameter/progress")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(5.733333, 6.5333333),
+"transitions": PackedFloat32Array(0.3922923, 0.3922923),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vexah"]
+_data = {
+&"RESET": SubResource("Animation_s2fuw"),
+&"intro": SubResource("Animation_7mtmq")
+}
+
+[node name="OpeningCutscene" type="Node2D" unique_id=1805559102]
+
+[node name="BG" type="TextureRect" parent="." unique_id=921431975]
+visible = false
+material = SubResource("ShaderMaterial_ts7x6")
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(4, 4)
+texture = ExtResource("1_s0o2a")
+
+[node name="SXSELogo" type="AnimatedSprite2D" parent="." unique_id=1093382194]
+visible = false
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+position = Vector2(962, 542)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_7d806")
+autoplay = "default"
+frame_progress = 0.45187905
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1950371109]
+libraries/ = SubResource("AnimationLibrary_vexah")
+autoplay = &"intro"
+
+[node name="3dSpace" type="Node3D" parent="." unique_id=2000501314]
+
+[node name="Camera3D" type="Camera3D" parent="3dSpace" unique_id=279844092]
+transform = Transform3D(0.73446894, 0, 0.67864233, 0, 1, 0, -0.67864233, 0, 0.73446894, 4.424658, 1.7532377, 4.381489)
+
+[node name="MultiplayerTestRoom" parent="3dSpace" unique_id=2096257186 instance=ExtResource("6_rt8i6")]
+
+[node name="TitleScreen" type="Node2D" parent="3dSpace" unique_id=1761328639]
+
+[node name="Login" parent="3dSpace/TitleScreen" unique_id=1241531983 instance=ExtResource("7_ry0qe")]

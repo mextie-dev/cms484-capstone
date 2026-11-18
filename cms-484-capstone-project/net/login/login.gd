@@ -14,7 +14,10 @@ signal server_stopped
 
 #func _on_eos_log_msg(msg: EOS.Logging.LogMessage) -> void:
 	#print("EOS SDK [%s] | %s" % [msg.category, msg.message])
+@onready var select_hint: LineEdit = $ServerSetup/JoinButton/SelectHint
 
+
+#func change_hint(index)
 
 ## EOSG's convenience anonymous-login helper deletes/recreates the Device ID.
 ## This version preserves an existing Device ID so the anonymous identity

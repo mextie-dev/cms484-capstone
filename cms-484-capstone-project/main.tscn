@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://rs8wlnui5oie" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://by4s02ex7sbrg" path="res://ui/opening_cutscene.tscn" id="2_7mycd"]
+[ext_resource type="Script" uid="uid://dwohthfw8o2hg" path="res://ui/opening_cutscene.gd" id="3_272bh"]
 [ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bgvm70qltk6pr" path="res://ui/pause_menu/pause_menu.tscn" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://xqndkj2cy3y2" path="res://ui/pause_menu/settings.tscn" id="5_lquwl"]
@@ -11,7 +13,21 @@ script = ExtResource("1_0xm2m")
 
 [node name="LoginLayer" type="CanvasLayer" parent="." unique_id=1183182588]
 
+[node name="OpeningCutscene" parent="LoginLayer" unique_id=1805559102 instance=ExtResource("2_7mycd")]
+script = ExtResource("3_272bh")
+
+[node name="BG" parent="LoginLayer/OpeningCutscene" index="0" unique_id=921431975]
+visible = true
+
+[node name="SXSELogo" parent="LoginLayer/OpeningCutscene" index="1" unique_id=1093382194]
+visible = true
+
+[node name="TitleScreen" parent="LoginLayer/OpeningCutscene/3dSpace" parent_id_path=PackedInt32Array(1805559102, 2000501314) index="2" unique_id=1761328639]
+z_index = -1
+position = Vector2(979, 601)
+
 [node name="ColorRect" type="ColorRect" parent="LoginLayer" unique_id=384951660]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,6 +36,7 @@ grow_vertical = 2
 color = Color(0.2053298, 0.1905733, 0.30956337, 1)
 
 [node name="Login" parent="LoginLayer" unique_id=1241531983 instance=ExtResource("1_ig7tw")]
+visible = false
 
 [node name="MultiplayerTestRoom" parent="." unique_id=2096257186 instance=ExtResource("3_h2yge")]
 process_mode = 4
@@ -31,5 +48,10 @@ visible = false
 [node name="Settings" parent="." unique_id=309985639 instance=ExtResource("5_lquwl")]
 visible = false
 
+[connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_started"]
+[connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="LoginLayer/OpeningCutscene" method="_on_login_server_started"]
+[connection signal="server_stopped" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_stopped"]
 [connection signal="server_started" from="LoginLayer/Login" to="." method="_on_login_server_started"]
 [connection signal="server_stopped" from="LoginLayer/Login" to="." method="_on_login_server_stopped"]
+
+[editable path="LoginLayer/OpeningCutscene"]

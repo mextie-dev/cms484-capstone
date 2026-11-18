@@ -23,7 +23,7 @@ func _on_chat_message(_peer_id: int, uname: String, color: Color, message: Strin
 func _process(delta: float) -> void:
 	pass
 
-func add_to_box(mname, color, message, mcolor := Color.WHITE):
+func add_to_box(mname, color, message, mcolor := Color.hex(242319)):
 	var chat_message : ChatMessageUI = CHAT_MESSAGE_UI.instantiate()
 	chat_message.create_message(mname, color, message, mcolor)
 	#add_child(chat_message)
