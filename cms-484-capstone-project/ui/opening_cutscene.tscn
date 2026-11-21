@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://2qptgoqha8gq" path="res://assets/textures/sxse_f3.png" id="3_rt8i6"]
 [ext_resource type="Texture2D" uid="uid://s4fpea3da3lv" path="res://assets/textures/sxse_fr1.png" id="4_ry0qe"]
 [ext_resource type="PackedScene" uid="uid://ddbpmf5vs0cyu" path="res://maps/multiplayer_test_room.tscn" id="6_rt8i6"]
-[ext_resource type="PackedScene" uid="uid://cnrms1p860xym" path="res://net/login/login.tscn" id="7_ry0qe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ts7x6"]
 shader = ExtResource("1_qxgwg")
@@ -160,5 +159,3 @@ transform = Transform3D(0.73446894, 0, 0.67864233, 0, 1, 0, -0.67864233, 0, 0.73
 [node name="MultiplayerTestRoom" parent="3dSpace" unique_id=2096257186 instance=ExtResource("6_rt8i6")]
 
 [node name="TitleScreen" type="Node2D" parent="3dSpace" unique_id=1761328639]
-
-[node name="Login" parent="3dSpace/TitleScreen" unique_id=1241531983 instance=ExtResource("7_ry0qe")]

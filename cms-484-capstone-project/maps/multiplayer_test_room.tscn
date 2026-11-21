@@ -36,12 +36,6 @@ fog_depth_end = 447.0
 [node name="MultiplayerTestRoom" type="Node3D" unique_id=2096257186]
 script = ExtResource("1_1pats")
 
-<<<<<<< HEAD
-[node name="Pause" parent="." unique_id=1937026412 instance=ExtResource("2_4wjd6")]
-visible = false
-
-=======
->>>>>>> c85e0bc1e5e5f2a6fe9e19ba2f05f889e98af25d
 [node name="Environment" type="Node3D" parent="." unique_id=163760154]
 
 [node name="rollins_map" parent="Environment" unique_id=1872796310 instance=ExtResource("1_3bp34")]

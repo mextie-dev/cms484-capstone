@@ -24,6 +24,12 @@ visible = true
 z_index = -1
 position = Vector2(979, 601)
 
+[node name="Login" parent="LoginLayer/OpeningCutscene/3dSpace/TitleScreen" index="0" unique_id=1241531983 instance=ExtResource("1_ig7tw")]
+offset_left = -979.0
+offset_top = -601.0
+offset_right = -979.0
+offset_bottom = -601.0
+
 [node name="ColorRect" type="ColorRect" parent="LoginLayer" unique_id=384951660]
 visible = false
 anchors_preset = 15
@@ -33,26 +39,12 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.2053298, 0.1905733, 0.30956337, 1)
 
-[node name="Login" parent="LoginLayer" unique_id=1241531983 instance=ExtResource("1_ig7tw")]
-visible = false
-
 [node name="MultiplayerTestRoom" parent="." unique_id=2096257186 instance=ExtResource("3_h2yge")]
 process_mode = 4
-visible = false
-
-<<<<<<< HEAD
-[node name="Pause" parent="." unique_id=1937026412 instance=ExtResource("4_1bvp3")]
-visible = false
-
-[node name="Settings" parent="." unique_id=309985639 instance=ExtResource("5_lquwl")]
 visible = false
 
 [connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_started"]
 [connection signal="server_started" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="LoginLayer/OpeningCutscene" method="_on_login_server_started"]
 [connection signal="server_stopped" from="LoginLayer/OpeningCutscene/3dSpace/TitleScreen/Login" to="." method="_on_login_server_stopped"]
-=======
->>>>>>> c85e0bc1e5e5f2a6fe9e19ba2f05f889e98af25d
-[connection signal="server_started" from="LoginLayer/Login" to="." method="_on_login_server_started"]
-[connection signal="server_stopped" from="LoginLayer/Login" to="." method="_on_login_server_stopped"]
 
 [editable path="LoginLayer/OpeningCutscene"]
