@@ -2,6 +2,31 @@
 
 [ext_resource type="PackedScene" uid="uid://bknqn33eqhe86" path="res://maps/raw_map_models/rollins_map.glb" id="1_g8m1y"]
 
+[ext_resource type="PackedScene" uid="uid://j2sf5kykqa7t" path="res://assets/models/raw/buildings/alfond_sportscenter.tscn" id="2_2g0cy"]
+[ext_resource type="PackedScene" uid="uid://c8nue3k3qb4xb" path="res://assets/models/raw/buildings/alfond_swimming_poolrooms.tscn" id="3_ciqie"]
+[ext_resource type="PackedScene" uid="uid://cjjegsqqdm3ja" path="res://assets/models/raw/buildings/annie_russell_theatre.tscn" id="4_2wh72"]
+[ext_resource type="PackedScene" uid="uid://do7xeebufip5t" path="res://assets/models/raw/buildings/barker_house.tscn" id="5_2wh72"]
+[ext_resource type="PackedScene" uid="uid://b1j2v04ny7e1k" path="res://assets/models/raw/buildings/bush_science_center.tscn" id="6_fsgrh"]
+[ext_resource type="PackedScene" uid="uid://cwcohfxc25fwi" path="res://assets/models/raw/buildings/cornell_campus_center.tscn" id="7_8qi7n"]
+[ext_resource type="PackedScene" uid="uid://bphn1ir8mvexj" path="res://assets/models/raw/buildings/cornell_fine_arts_center.tscn" id="8_nfq8u"]
+[ext_resource type="PackedScene" uid="uid://cxg4nv6s684wc" path="res://assets/models/raw/buildings/cornell_hall_social_sciences.tscn" id="9_3cv02"]
+[ext_resource type="PackedScene" uid="uid://imcmww1cw07g" path="res://assets/models/raw/buildings/crummer_hall.tscn" id="10_3cv02"]
+[ext_resource type="PackedScene" uid="uid://651gaqm4drni" path="res://assets/models/raw/buildings/east_end_neighborhood_h.tscn" id="11_gvgh8"]
+[ext_resource type="PackedScene" uid="uid://8d1u1xjldi4x" path="res://assets/models/raw/buildings/east_end_low_i.tscn" id="12_3qkvu"]
+[ext_resource type="PackedScene" uid="uid://denku1a7ymvrn" path="res://assets/models/raw/buildings/east_end_neighborhood_uppercase_l.tscn" id="13_4jyf2"]
+[ext_resource type="PackedScene" uid="uid://ditqdyekmiusk" path="res://assets/models/raw/buildings/hooker_hall.tscn" id="14_rs8ps"]
+[ext_resource type="PackedScene" uid="uid://buxqv0ybwiy6h" path="res://assets/models/raw/buildings/lakeside_neighborhood.tscn" id="15_agi11"]
+[ext_resource type="PackedScene" uid="uid://dvv0u4w1lme7e" path="res://assets/models/raw/buildings/lyman_gale_hall.tscn" id="16_mbekp"]
+[ext_resource type="PackedScene" uid="uid://bn1bi1f8fpd3g" path="res://assets/models/raw/buildings/mckean_tall.tscn" id="17_pdjui"]
+[ext_resource type="PackedScene" uid="uid://bbt63tb8bvjny" path="res://assets/models/raw/buildings/pinehurst_cottage.tscn" id="18_tv0kp"]
+[ext_resource type="PackedScene" uid="uid://bsj7ti5287ryp" path="res://assets/models/raw/buildings/rex_beach_hall_main.tscn" id="19_ssbg1"]
+[ext_resource type="PackedScene" uid="uid://dt7dymrht7apr" path="res://assets/models/raw/buildings/rex_beach_hall_one.tscn" id="20_ar4xb"]
+[ext_resource type="PackedScene" uid="uid://dghvbns5ayjw2" path="res://assets/models/raw/buildings/rollins_museum_art.tscn" id="21_qitsm"]
+[ext_resource type="PackedScene" uid="uid://dr7vifxcqtrr4" path="res://assets/models/raw/buildings/sutton_place_apartments.tscn" id="22_g420x"]
+[ext_resource type="PackedScene" uid="uid://b0e0rwqxrp101" path="res://assets/models/raw/buildings/tiedtke_concert_hall_keene.tscn" id="23_2yn6w"]
+[ext_resource type="PackedScene" uid="uid://dhi4dsdcjnita" path="res://assets/models/raw/buildings/tiedtke_theatre.tscn" id="24_1atbf"]
+[ext_resource type="PackedScene" uid="uid://c4qv70qyv8c5t" path="res://assets/models/raw/buildings/warren_admin.tscn" id="25_0x16e"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_g8m1y"]
 size = Vector3(5, 0.001, 3.235294)
 
@@ -15,3 +40,81 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.60715246, 5.476837e-06, 0.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" index="0" unique_id=522814387]
 shape = SubResource("BoxShape3D_g8m1y")
+
+[node name="Plane" parent="." index="4" unique_id=1244883148]
+transform = Transform3D(1, 0, 0, 0, 5.54, 0, 0, 0, 1, 0, 33.37478, 0)
+
+[node name="Text_002" parent="." index="5" unique_id=803653040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.042784, 24.247486, -146.30746)
+
+[node name="alfond_sportscenter" parent="." index="6" unique_id=2042377787 instance=ExtResource("2_2g0cy")]
+transform = Transform3D(1, 0, 0, 0, 5, 0, 0, 0, 1, -261.3202, 5.0005035, 136.02939)
+
+[node name="alfond_swimming_poolrooms" parent="." index="7" unique_id=1642971099 instance=ExtResource("3_ciqie")]
+transform = Transform3D(0.2, 0, 0, 0, 1.5, 0, 0, 0, 0.2, -46.39485, 1.2117643, -307.55487)
+
+[node name="annie_russell_theatre" parent="." index="8" unique_id=270166934 instance=ExtResource("4_2wh72")]
+transform = Transform3D(0.645, 0, 0, 0, 0.835, 0, 0, 0, 0.645, -75.021996, 3.900937, 121.392006)
+
+[node name="barker_house" parent="." index="9" unique_id=920476368 instance=ExtResource("5_2wh72")]
+transform = Transform3D(0.54, 0, 0, 0, 1.79, 0, 0, 0, 0.54, -549.7687, 2.0119262, 384.955)
+
+[node name="bush_science_center" parent="." index="10" unique_id=899844815 instance=ExtResource("6_fsgrh")]
+transform = Transform3D(1, 0, 0, 0, 4.5, 0, 0, 0, 1, 64.01815, 4.7978287, 169.1401)
+
+[node name="cornell_campus_center" parent="." index="11" unique_id=997280779 instance=ExtResource("7_8qi7n")]
+transform = Transform3D(0.785, 0, 0, 0, 2, 0, 0, 0, 0.785, -10.854813, 5, -234.52705)
+
+[node name="cornell_fine_arts_center" parent="." index="12" unique_id=109078267 instance=ExtResource("8_nfq8u")]
+transform = Transform3D(0.74, 0, 0, 0, 1.225, 0, 0, 0, 0.74, -279.3723, 5.0005035, -82.69922)
+
+[node name="cornell_hall_social_sciences" parent="." index="13" unique_id=1488755754 instance=ExtResource("9_3cv02")]
+transform = Transform3D(0.6, 0, 0, 0, 2.305, 0, 0, 0, 0.6, -88.03783, 4.4702377, 225.65958)
+
+[node name="crummer_hall" parent="." index="14" unique_id=622101305 instance=ExtResource("10_3cv02")]
+transform = Transform3D(0.5, 0, 0, 0, 1.945, 0, 0, 0, 0.5, -28.299213, 3.3881474, 223.34985)
+
+[node name="east_end_neighborhood_H" parent="." index="15" unique_id=1451239379 instance=ExtResource("11_gvgh8")]
+transform = Transform3D(1, 0, 0, 0, 5.96, 0, 0, 0, 1, -255.85463, 5.0005035, 277.1185)
+
+[node name="east_end_lowI" parent="." index="16" unique_id=1338360441 instance=ExtResource("12_3qkvu")]
+transform = Transform3D(0.5, 0, 0, 0, 5.625, 0, 0, 0, 0.5, -336.457, 2.5, 240.958)
+
+[node name="east_end_highL" parent="." index="17" unique_id=677216683 instance=ExtResource("13_4jyf2")]
+transform = Transform3D(0.7985756, 0, -0.043543883, 0, 4.1720004, 0, 0.047719315, 0, 0.72870016, -298.10452, 2.5, 215.01442)
+
+[node name="hooker_hall" parent="." index="18" unique_id=1043415870 instance=ExtResource("14_rs8ps")]
+transform = Transform3D(0.3, 0, 0, 0, 2, 0, 0, 0, 0.3, -135.99933, 5, -35.832314)
+
+[node name="lakeside_neighborhood2" parent="." index="19" unique_id=1208918468 instance=ExtResource("15_agi11")]
+transform = Transform3D(1.6995591, 0, -0.03871656, 0, 7.491, 0, 0.03871656, 0, 1.6995591, -180.01546, 11.575581, -136.81406)
+
+[node name="lyman_gale_hall" parent="." index="20" unique_id=1514312478 instance=ExtResource("16_mbekp")]
+transform = Transform3D(0.4, 0, 0, 0, 2, 0, 0, 0, 0.4, -87.72776, 7.625451, -41.759834)
+
+[node name="mckean_tall" parent="." index="21" unique_id=505570648 instance=ExtResource("17_pdjui")]
+transform = Transform3D(-0.5, 6.039832e-07, 0, -7.54979e-08, -4, 0, 0, 0, 0.5, -80.11012, 5.5037174, -212.73488)
+
+[node name="pinehurst_cottage" parent="." index="22" unique_id=2017367810 instance=ExtResource("18_tv0kp")]
+transform = Transform3D(-0.33, 1.3113416e-07, 0, -2.8849517e-08, -1.5, 0, 0, 0, 0.33, -89.06051, 3.7701788, -101.38803)
+
+[node name="rex_beach_hall_main" parent="." index="23" unique_id=1113515870 instance=ExtResource("19_ssbg1")]
+transform = Transform3D(0.6, 0, 0, 0, 1.5, 0, 0, 0, 0.6, -236.48831, 4.708519, 58.757202)
+
+[node name="rex_beach_hall_one" parent="." index="24" unique_id=686362499 instance=ExtResource("20_ar4xb")]
+transform = Transform3D(0.16, 0, 0, 0, 1, 0, 0, 0, 0.15, -214.6631, 4.4555845, 30.851738)
+
+[node name="rollins_museum_art" parent="." index="25" unique_id=1885995390 instance=ExtResource("21_qitsm")]
+transform = Transform3D(0.6, 0, 0, 0, 1, 0, 0, 0, 0.6, -290.2416, 4.180073, -21.008707)
+
+[node name="sutton_place_apartments" parent="." index="26" unique_id=1945291765 instance=ExtResource("22_g420x")]
+transform = Transform3D(1.1975282, 0, -0.0769814, 0, 3, 0, 0.0769814, 0, 1.1975282, -445.2128, 12.464348, 421.02023)
+
+[node name="tiedtke_concert_hall_keene" parent="." index="27" unique_id=1310229011 instance=ExtResource("23_2yn6w")]
+transform = Transform3D(-0.7, 1.7484555e-07, 0, -6.119594e-08, -2, 0, 0, 0, 0.7, -165.10489, 4.0614853, 49.56253)
+
+[node name="tiedtke_theatre" parent="." index="28" unique_id=1317554238 instance=ExtResource("24_1atbf")]
+transform = Transform3D(0.66, 0, 0, 0, 2, 0, 0, 0, 0.66, -163.58449, 8.454105, 116.34593)
+
+[node name="warren_admin" parent="." index="29" unique_id=16774698 instance=ExtResource("25_0x16e")]
+transform = Transform3D(0.25, 0, 0, 0, 2, 0, 0, 0, 0.25, 88.755745, 5.0005035, 85.50327)
