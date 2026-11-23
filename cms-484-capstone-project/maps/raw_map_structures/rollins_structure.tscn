@@ -14,6 +14,17 @@
 [ext_resource type="PackedScene" uid="uid://8d1u1xjldi4x" path="res://assets/models/raw/buildings/east_end_low_i.tscn" id="12_3qkvu"]
 [ext_resource type="PackedScene" uid="uid://denku1a7ymvrn" path="res://assets/models/raw/buildings/east_end_neighborhood_uppercase_l.tscn" id="13_4jyf2"]
 [ext_resource type="PackedScene" uid="uid://ditqdyekmiusk" path="res://assets/models/raw/buildings/hooker_hall.tscn" id="14_rs8ps"]
+[ext_resource type="PackedScene" uid="uid://buxqv0ybwiy6h" path="res://assets/models/raw/buildings/lakeside_neighborhood.tscn" id="15_agi11"]
+[ext_resource type="PackedScene" uid="uid://dvv0u4w1lme7e" path="res://assets/models/raw/buildings/lyman_gale_hall.tscn" id="16_mbekp"]
+[ext_resource type="PackedScene" uid="uid://bn1bi1f8fpd3g" path="res://assets/models/raw/buildings/mckean_tall.tscn" id="17_pdjui"]
+[ext_resource type="PackedScene" uid="uid://bbt63tb8bvjny" path="res://assets/models/raw/buildings/pinehurst_cottage.tscn" id="18_tv0kp"]
+[ext_resource type="PackedScene" uid="uid://bsj7ti5287ryp" path="res://assets/models/raw/buildings/rex_beach_hall_main.tscn" id="19_ssbg1"]
+[ext_resource type="PackedScene" uid="uid://dt7dymrht7apr" path="res://assets/models/raw/buildings/rex_beach_hall_one.tscn" id="20_ar4xb"]
+[ext_resource type="PackedScene" uid="uid://dghvbns5ayjw2" path="res://assets/models/raw/buildings/rollins_museum_art.tscn" id="21_qitsm"]
+[ext_resource type="PackedScene" uid="uid://dr7vifxcqtrr4" path="res://assets/models/raw/buildings/sutton_place_apartments.tscn" id="22_g420x"]
+[ext_resource type="PackedScene" uid="uid://b0e0rwqxrp101" path="res://assets/models/raw/buildings/tiedtke_concert_hall_keene.tscn" id="23_2yn6w"]
+[ext_resource type="PackedScene" uid="uid://dhi4dsdcjnita" path="res://assets/models/raw/buildings/tiedtke_theatre.tscn" id="24_1atbf"]
+[ext_resource type="PackedScene" uid="uid://c4qv70qyv8c5t" path="res://assets/models/raw/buildings/warren_admin.tscn" id="25_0x16e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g8m1y"]
 size = Vector3(5, 0.001, 3.235294)
@@ -85,3 +96,36 @@ transform = Transform3D(0.7985756, 0, -0.043543883, 0, 4.1720004, 0, 0.047719315
 
 [node name="hooker_hall" parent="." index="18" unique_id=1043415870 instance=ExtResource("14_rs8ps")]
 transform = Transform3D(0.3, 0, 0, 0, 2, 0, 0, 0, 0.3, -135.99933, 5, -35.832314)
+
+[node name="lakeside_neighborhood2" parent="." index="19" unique_id=1208918468 instance=ExtResource("15_agi11")]
+transform = Transform3D(1.6995591, 0, -0.03871656, 0, 7.491, 0, 0.03871656, 0, 1.6995591, -180.01546, 11.575581, -136.81406)
+
+[node name="lyman_gale_hall" parent="." index="20" unique_id=1514312478 instance=ExtResource("16_mbekp")]
+transform = Transform3D(0.4, 0, 0, 0, 2, 0, 0, 0, 0.4, -87.72776, 7.625451, -41.759834)
+
+[node name="mckean_tall" parent="." index="21" unique_id=505570648 instance=ExtResource("17_pdjui")]
+transform = Transform3D(-0.5, 6.039832e-07, 0, -7.54979e-08, -4, 0, 0, 0, 0.5, -80.11012, 5.5037174, -212.73488)
+
+[node name="pinehurst_cottage" parent="." index="22" unique_id=2017367810 instance=ExtResource("18_tv0kp")]
+transform = Transform3D(-0.33, 1.3113416e-07, 0, -2.8849517e-08, -1.5, 0, 0, 0, 0.33, -89.06051, 3.7701788, -101.38803)
+
+[node name="rex_beach_hall_main" parent="." index="23" unique_id=1113515870 instance=ExtResource("19_ssbg1")]
+transform = Transform3D(0.6, 0, 0, 0, 1.5, 0, 0, 0, 0.6, -236.48831, 4.708519, 58.757202)
+
+[node name="rex_beach_hall_one" parent="." index="24" unique_id=686362499 instance=ExtResource("20_ar4xb")]
+transform = Transform3D(0.16, 0, 0, 0, 1, 0, 0, 0, 0.15, -214.6631, 4.4555845, 30.851738)
+
+[node name="rollins_museum_art" parent="." index="25" unique_id=1885995390 instance=ExtResource("21_qitsm")]
+transform = Transform3D(0.6, 0, 0, 0, 1, 0, 0, 0, 0.6, -290.2416, 4.180073, -21.008707)
+
+[node name="sutton_place_apartments" parent="." index="26" unique_id=1945291765 instance=ExtResource("22_g420x")]
+transform = Transform3D(1.1975282, 0, -0.0769814, 0, 3, 0, 0.0769814, 0, 1.1975282, -445.2128, 12.464348, 421.02023)
+
+[node name="tiedtke_concert_hall_keene" parent="." index="27" unique_id=1310229011 instance=ExtResource("23_2yn6w")]
+transform = Transform3D(-0.7, 1.7484555e-07, 0, -6.119594e-08, -2, 0, 0, 0, 0.7, -165.10489, 4.0614853, 49.56253)
+
+[node name="tiedtke_theatre" parent="." index="28" unique_id=1317554238 instance=ExtResource("24_1atbf")]
+transform = Transform3D(0.66, 0, 0, 0, 2, 0, 0, 0, 0.66, -163.58449, 8.454105, 116.34593)
+
+[node name="warren_admin" parent="." index="29" unique_id=16774698 instance=ExtResource("25_0x16e")]
+transform = Transform3D(0.25, 0, 0, 0, 2, 0, 0, 0, 0.25, 88.755745, 5.0005035, 85.50327)
